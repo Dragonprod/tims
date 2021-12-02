@@ -63,13 +63,35 @@ export default function ShowCasePage() {
           createdTime={'02.12.2021'}
         />
       </div>
-      <Typography>Page: {page}</Typography>
-      <Pagination
-        className={styles.projectCardsGrid}
-        count={10}
-        page={page}
-        onChange={handlePageChange}
-      />
+      <div className={styles.projectCardsPagination}>
+        <div className={styles.projectCardsPaginationTextContainer}>
+          <span className={styles.projectCardsAmount}>29 результатов</span>
+          <div className={styles.selectProjectCardsAmountContainer}>
+            <span>Показать:</span>
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+              <Select
+                value={age}
+                onChange={handleChange}
+                displayEmpty
+                inputProps={{ 'aria-label': 'Without label' }}>
+                <MenuItem value=''>
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+        </div>
+
+        <Pagination
+          className={styles.muiPagination}
+          count={10}
+          page={page}
+          onChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 }
