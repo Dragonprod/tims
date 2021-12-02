@@ -12,6 +12,14 @@ import ThemeProjectTag from '../ThemeProjectTag/ThemeProjectTag';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 export default function ProjectCard(props) {
+  const name = props.name
+  const description = props.description
+  const reviewCount = props.reviewCount
+  const avgMark = props.avgMark
+  const createdTime = props.createdTime
+  const statusTags = props.statusTags
+  const themeTags = props.themeTags
+
   return (
     <Card className={styles.card} variant='outlined'>
       <div className={styles.tagsContainer}>
@@ -23,27 +31,24 @@ export default function ProjectCard(props) {
         </div>
       </div>
       <h1 className={styles.cardHeader}>
-        Программное обеспечение для анализа транспортных потоков по видео
+        {name}
       </h1>
       <p className={styles.cardText}>
-        Технология мониторинга может применяться как для учёта транспортных
-        потоков, так и для адаптивного регулирования перекрёстков. Система
-        способна определять ДТП, занятость парковочных мест, контролировать
-        соблюдение правил дорожного движения.
+        {description}
       </p>
       <div className={styles.cardFooter}>
         <div className={styles.projectStatsContainer}>
           <div className={styles.projectComments}>
             <ChatBubbleOutlineIcon className={styles.iconComment} />
-            <span className={styles.statsAmount}>10</span>
+            <span className={styles.statsAmount}>{reviewCount}</span>
           </div>
           <div className={styles.projectRate}>
             <StarBorderIcon className={styles.iconStar} />
-            <span className={styles.statsAmount}>5.8/10</span>
+            <span className={styles.statsAmount}>{avgMark}/10</span>
           </div>
           <div className={styles.projectDate}>
             <CalendarTodayIcon />
-            <span className={styles.statsAmount}>10.11.2021</span>
+            <span className={styles.statsAmount}>{createdTime}</span>
           </div>
         </div>
         <div className={styles.projectButtonsContainer}>

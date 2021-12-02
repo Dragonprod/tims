@@ -47,7 +47,13 @@ export default function ShowCasePage() {
       </FormControl>
       <AsideMenu />
       <div className={styles.projectCardsGrid}>
-        <ProjectCard />
+        <ProjectCard
+          name='Программное обеспечение для анализа транспортных потоков по видео'
+          description='Технология мониторинга может применяться как для учёта транспортных потоков, так и для адаптивного регулирования перекрёстков. Система способна определять ДТП, занятость парковочных мест, контролировать соблюдение правил дорожного движения.'
+          reviewCount={11}
+          avgMark={5.6}
+          createdTime={"02.12.2021"}
+        />
       </div>
     </div>
   );
