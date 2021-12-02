@@ -1,0 +1,62 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: MoscowSans, Roboto, sans-serif;
+}
+@font-face {
+  font-family: 'MoscowSans';
+  src: url('./assets/fonts/MoscowSans.ttc');
+}
+body {
+  color: var(--text-and-icons-clr-primary);
+  background: var(--bg-clr-lvl-1);
+  font-family: MoscowSans, Roboto, sans-serif;
+}
+ul {
+  list-style: none;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+:root {
+  --accent-clr: #009a96;
+  --bg-clr-lvl-1: #f6f7fa;
+  --bg-clr-lvl-2: #ffffff;
+  --text-and-icons-clr-primary: #25222c;
+  --text-and-icons-clr-secondary: #25222c80;
+  --text-and-icons-clr-tertiary: #25222c4d;
+  --global-clr-white-primary: #ffffff;
+  --global-clr-white-secondary: #ffffff99;
+  --global-clr-black-primary: #25222c;
+  --global-clr-black-secondary: #25222c80;
+  --system-clr-error: #ff3b30;
+  --system-clr-warning: #ff9500;
+  --system-clr-success: #34c759;
+  --system-clr-info: #007aff;
+
+  --rounding-lvl-1: 16px;
+  --rounding-lvl-2: 12px;
+
+  --font-size-headline: 56px;
+  --font-weight-headline: 800;
+  --font-size-body: 20px;
+  --font-weight-body-300: 300;
+  --font-weight-body-800: 800;
+  --font-size-footnote: 16px;
+  --font-weight-footnote-300: 300;
+  --font-weight-footnote-800: 800;
+  /* font-size: clamp(16px, calc(12px + 0.5vw), 18px); */
+  font-size: 18px;
+  scroll-behavior: smooth;
+}
+/* =====Scrollbar===== */
+::-webkit-scrollbar {
+  width: 6px;
+  background: none;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent-clr);
+  border-radius: 6px;
+}

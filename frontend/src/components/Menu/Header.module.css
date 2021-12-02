@@ -1,0 +1,58 @@
+/* ===== Header ===== */
+.upperMenuHeader {
+  position: fixed;
+  top: 0;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  width: 100%;
+  padding: 0.5em 2em;
+  background: var(--bg-clr-lvl-2);
+  align-items: center;
+}
+
+/* ===== Menu Logo ===== */
+.upperMenuLogo {
+  grid-column: 1 / 2;
+}
+
+/* ===== Search Bar ===== */
+.searchContainer {
+  display: flex;
+  grid-column: 5 / 9;
+  background: var(--bg-clr-lvl-1);
+  align-items: center;
+  border-radius: var(--rounding-lvl-2);
+  width: 338px;
+  height: 40px;
+  padding: 0 0.5em;
+}
+.muiSearchIcon {
+  color: rgba(37, 34, 44, 0.5);
+}
+.muiAutocomplete {
+  width: 100%;
+}
+.muiAutocomplete fieldset {
+  border: none;
+}
+
+/* ===== User Corner ===== */
+.userContainer {
+  display: flex;
+  height: min-content;
+  grid-column: 10 / 13;
+  align-items: center;
+  justify-self: end;
+}
+.muiAddButton {
+  text-transform: initial !important;
+  background: var(--accent-clr) !important;
+  border-radius: var(--rounding-lvl-2) !important;
+  font-family: MoscowSans, Roboto, sans-serif !important;
+}
+.muiBellButton {
+  margin: 0 0.5em !important;
+}
+.muiBellIcon {
+  color: rgba(37, 34, 44, 0.5);
+}

@@ -1,0 +1,13 @@
+.mainHeader {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+  align-self: center;
+  color: var(--text-and-icons-clr-primary);
+  font-weight: var(--font-weight-headline);
+}
+.mainGrid {
+  display: grid;
+  grid-template-columns: 2em repeat(10, 1fr) 2em;
+  grid-template-rows: 74px 100px auto;
+  height: 100vh;
+}
