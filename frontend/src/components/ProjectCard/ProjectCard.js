@@ -63,7 +63,7 @@ export default function ProjectCard(props) {
             variant='text'
             onClick={handleFavourite}
             startIcon={(isFavourite == true) ? <FavoriteIcon /> : <FavoriteBorderIcon />}>
-            В избранное
+            {(isFavourite == true) ? "В избранном" : "В избранное"}
           </Button>
           <Button className={styles.muiReadMoreButton} variant='contained'>
             Подробнее
