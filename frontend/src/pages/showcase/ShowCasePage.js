@@ -1,6 +1,7 @@
 import React from 'react';
 import AsideMenu from '../../components/AsideMenu/AsideMenu';
 import Header from '../../components/Menu/Header';
+import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import styles from './ShowCasePage.module.css';
 
 import MenuItem from '@mui/material/MenuItem';
@@ -47,6 +48,10 @@ export default function ShowCasePage() {
       </FormControl>
 
       <AsideMenu />
+
+      <div className={styles.projectCardsGrid}>
+        <ProjectCard />
+      </div>
     </div>
   );
 }

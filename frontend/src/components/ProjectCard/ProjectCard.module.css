@@ -1,0 +1,36 @@
+/* ===== Card ===== */
+.card {
+  height: fit-content;
+  border: none !important;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  border-radius: var(--rounding-lvl-1) !important;
+}
+
+/* ===== Tags Container ===== */
+.tagsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* ===== Card Header ===== */
+.cardHeader {
+}
+
+/* ===== Card Text ===== */
+.cardText {
+}
+
+/* ===== Buttons ===== */
+.muiReadMoreButton {
+  display: block;
+  text-transform: initial !important;
+  font-family: MoscowSans, Roboto, sans-serif !important;
+  border-radius: 16px 0px !important;
+}
+.muiReadMoreButton {
+  background: var(--accent-clr) !important;
+}
+.muiLikeButton {
+  color: var(--accent-clr) !important;
+}
