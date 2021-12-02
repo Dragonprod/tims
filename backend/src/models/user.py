@@ -22,3 +22,23 @@ class UserInCreate(UserInLogin):
 
 class UserInResponse(BaseModel):
     token: str
+
+
+class UserDetailModel(BaseModel):
+    user_id: int = None
+    first_name: str = None
+    second_name: str = None
+    patronymic: str = None
+    phone: str = None
+    position: str = None
+    company_id: int = None
+
+    class Config:
+        orm_mode = True
+
+
+class UserResponse(UserBase):
+    detail: UserDetailModel
+
+    class Config:
+        orm_mode = True

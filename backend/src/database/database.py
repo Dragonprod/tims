@@ -1,16 +1,16 @@
-import os
 import typing
 import aiohttp
 from requests.exceptions import HTTPError
-
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.orm import backref, sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, Date, ForeignKey, Float, Boolean, Table
+from sqlalchemy.util.langhelpers import public_factory
 from src.core.config import DATABASE_HOST, DATABASE_PORT, DATABASE_USER, DATABASE_NAME, DATABASE_PASSWORD, PRODUCTION, ELASTIC_HOST, ELASTIC_PORT
 import os
 
-engine_postrgesql = create_engine(f'postgresql+psycopg2://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_NAME}')
+engine_postrgesql = create_engine(
+    f'postgresql+psycopg2://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_NAME}')
 Session = sessionmaker(bind=engine_postrgesql)
 Base = declarative_base(bind=engine_postrgesql)
 
@@ -30,9 +30,9 @@ secondary_role = Table('user_roles', Base.metadata,
                        )
 
 seconadary_status = Table("statuses_startups", Base.metadata,
-                        Column('status_id', ForeignKey('status.id')),
-                        Column('startup_id', ForeignKey('startup.id'))
-                        )
+                          Column('status_id', ForeignKey('status.id')),
+                          Column('startup_id', ForeignKey('startup.id'))
+                          )
 
 
 class User(Base):
@@ -41,14 +41,55 @@ class User(Base):
     email = Column(String(128))
     password = Column(String(256))
     is_admin = Column(Boolean)
+    telegram_id = Column(Integer(32))
+    activationLink = Column(String(128))
     roles = relationship("Role",
                          secondary=secondary_role, lazy='joined')
+    detail = relationship(
+        "UserDetail", back_populates="user_info", lazy='joined', uselist=False)
+
+
+class UserDetail(Base):
+    __tablename__ = "user_detail"
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    first_name = Column(String(128))
+    second_name = Column(String(128))
+    patronymic = Column(String(128))
+    phone = Column(String(32))
+    position = Column(String(64), nullable=True)
+    company_id = Column(Integer, ForeignKey('company.id'), nullable=True)
+    user_info = relationship("User", back_populates="detail")
+    company = relationship("Company", backref="workers")
+
+    def __init__(self, pydantic_model) -> None:
+        self.user_id = pydantic_model.user_id
+        self.first_name = pydantic_model.first_name
+        self.second_name = pydantic_model.second_name
+        self.patronymic = pydantic_model.patronymic
+        self.phone = pydantic_model.phone
+        self.position = pydantic_model.position
+        self.company_id = pydantic_model.company_id
+
+
+class Company(Base):
+    __tablename__ = "company"
+    id = Column(Integer, primary_key=True)
+    name = Column(String(128))
+    inn = Column(String(64))
+
+    def __init__(self, pydantic_model) -> None:
+        self.name = pydantic_model.name
+        self.inn = pydantic_model.inn
 
 
 class Role(Base):
     __tablename__ = "role"
     id = Column(Integer, primary_key=True)
     role = Column(String(32))
+
+    def __init__(self, pydantic_model) -> None:
+        self.role = pydantic_model.role
 
 
 class Status(Base):
@@ -66,13 +107,25 @@ class Startup(Base):
     name = Column(String(256))
     description = Column(String(1024))
     author = Column(Integer, ForeignKey('user.id'))
+    sertificate = Column(Boolean)
     statuses = relationship("Status",
-                        secondary=seconadary_status, lazy='joined')
+                            secondary=seconadary_status, lazy='joined')
+    sphere_id = Column(Integer, ForeignKey('startup_spheres.id'))
+    sphere = relationship("StartupSpheres", lazy='joined')
 
     def __init__(self, pydantic_model) -> None:
         self.description = pydantic_model.description
         self.name = pydantic_model.name
         self.author = pydantic_model.author
+
+
+class StartupSpheres(Base):
+    __tablename__ = "startup_spheres"
+    id = Column(Integer, primary_key=True)
+    name = Column(String(256))
+
+    def __init__(self, pydantic_model) -> None:
+        self.name = pydantic_model.name
 
 
 Base.metadata.create_all(engine_postrgesql)

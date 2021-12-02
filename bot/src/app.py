@@ -27,31 +27,62 @@ class Bot():
         self.projectsData = []
 
     def startHandler(self, update: Update, context: CallbackContext) -> None:
-        message = '{0} <b>Здравствуйте {1}!</b>\nМеня зовут Иван, я бот помощник, разработанный командой Null Safety в рамках хакатона Цифровой прорыв(финал)'.format(u"\U0001f44b", update.message.chat.first_name)
+        message = '{0} <b>Здравствуйте {1}!</b>\nМеня зовут Иван, я бот помощник, разработанный командой Null Safety в рамках хакатона Цифровой прорыв(финал)'.format(
+            u"\U0001f44b", update.message.chat.first_name)
         update.message.reply_html(message)
         createLog(update)
 
     def startHandlerConnect(self, update: Update, context: CallbackContext) -> None:
-        message = '{0} <b>Здравствуйте {1}!</b>\nВы успешно привязали свой Telegram. Пожалуйста, вернитесь в личный кабинет и обновите страницу.'.format(u"\U0001f44b", update.message.chat.first_name)
+        message = '{0} <b>Здравствуйте {1}!</b>\nВы успешно привязали свой Telegram. Пожалуйста, вернитесь в личный кабинет и обновите страницу.'.format(
+            u"\U0001f44b", update.message.chat.first_name)
         update.message.reply_html(message)
         createLog(update)
 
     def projectsHandler(self, update: Update, context: CallbackContext) -> None:
         pass
-    
+
     def addHandler(self, update: Update, context: CallbackContext) -> None:
-        pass
+        if len(context.args) > 0:
+            searchRequest = ' '.join(context.args)
+            message = f"<b>Вы успешно подписались на новые проекты по запросу:</b> {searchRequest}\n"
+            update.message.reply_html(message)
+
+        elif len(context.args) > 1:
+            update.message.reply_html(
+                'Ошибка, неверное использование команды. Введите /help <code>add</code> для просмотра информации о команде')
+        createLog(update)
 
     def deleteHandler(self, update: Update, context: CallbackContext) -> None:
         pass
 
     def helpHandler(self, update: Update, context: CallbackContext) -> None:
         if len(context.args) == 0:
-            update.message.reply_html("Список моих команд")
+            message = "{0} <b>Список моих команд:</b>\n".format(
+                u'\U0001f575\ufe0f')
+            message += '/start - <b>запустить бота</b>\n'
+            message += '/help - <b>посмотреть список всех команд</b>\n'
+            message += '/help <code>команда</code> - <b>посмотреть информация по команде</b>\n'
+            message += '/add <code>запрос</code> - <b>подписаться на уведомления по проектам</b>\n'
+            message += '/delete <code>id</code> - <b>отписаться от уведомлений по проектам</b>\n'
+            message += '/projects - <b>посмотреть список доступных проектов</b>\n'
+            update.message.reply_html(message)
+
         elif len(context.args) == 1:
-            pass
+
+            helpDict = {
+
+                'start':    '<b>Команда:</b> <code>start</code>\n\n<b>Параметры:</b> <code>нет</code>\n<b>Описание:</b> <b>запустить бота</b>',
+                'help':     '<b>Команда:</b> <code>help</code>\n\n<b>Параметры:</b> <code>команда(не обязательно)</code>\n<b>Описание:</b> <b>посмотреть список всех команд или получить помощь по конкретной команде</b>',
+                'add':      '<b>Команда:</b> <code>add</code>\n\n<b>Параметры:</b> <code>запрос</code>\n<b>Описание:</b> <b>добавить в подписки тему и получать уведомления при добавлении проектов</b>',
+                'delete':   '<b>Команда:</b> <code>delete</code>\n\n<b>Параметры:</b> <code>id</code>\n<b>Описание:</b> <b>удалить тему из подписок</b>',
+                'projects': '<b>Команда:</b> <code>projects</code>\n\n<b>Параметры:</b> <code>нет</code>\n<b>Описание:</b> <b>посмотреть список всех проектов на платформе</b>',
+            }
+
+            update.message.reply_html(helpDict[context.args[0]])
+
         elif len(context.args) > 1:
-            update.message.reply_html('Ошибка, неверное использование команды. Введите /help <code>help</code> для просмотра информации о команде')
+            update.message.reply_html(
+                'Ошибка, неверное использование команды. Введите /help <code>help</code> для просмотра информации о команде')
         createLog(update)
 
     def logsHandler(self, update: Update, context: CallbackContext) -> None:
@@ -98,17 +129,22 @@ class Bot():
 
     def run(self):
         updater = Updater(token=TELEGRAM_BOT_TOKEN, use_context=True)
-        updater.job_queue.run_repeating(self.checkUpdatesJobCallback, interval=3, context=None)
+        updater.job_queue.run_repeating(
+            self.checkUpdatesJobCallback, interval=3, context=None)
 
         dispatcher = updater.dispatcher
 
         dispatcher.add_handler(CommandHandler('start', self.startHandler))
-        dispatcher.add_handler(CommandHandler("start", self.startHandlerConnect, Filters.regex(ADD_TELEGRAM_REGEXP)))
+        dispatcher.add_handler(CommandHandler(
+            "start", self.startHandlerConnect, Filters.regex(ADD_TELEGRAM_REGEXP)))
         dispatcher.add_handler(CommandHandler('help', self.helpHandler))
-        dispatcher.add_handler(CommandHandler('projects', self.projectsHandler))
+        dispatcher.add_handler(CommandHandler(
+            'projects', self.projectsHandler))
+        dispatcher.add_handler(CommandHandler('add', self.addHandler))
 
         dispatcher.add_handler(CommandHandler('logs', self.logsHandler))
-        dispatcher.add_handler(CallbackQueryHandler(self.logsPageCallback, pattern='^logs#'))
+        dispatcher.add_handler(CallbackQueryHandler(
+            self.logsPageCallback, pattern='^logs#'))
 
         updater.start_polling()
         updater.idle()

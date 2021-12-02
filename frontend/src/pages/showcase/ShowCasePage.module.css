@@ -1,10 +1,66 @@
-.mainHeader {
-  grid-column: 2 / 3;
-  grid-row: 2 / 3;
+.boldHeader {
   align-self: center;
   color: var(--text-and-icons-clr-primary);
   font-weight: var(--font-weight-headline);
+  font-size: var(--font-size-headline);
+  display: inline;
 }
+.categoryHeader {
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
+}
+.solutionsHeader {
+  grid-column: 5 / 7;
+  grid-row: 2 / 3;
+  position: relative;
+  width: max-content;
+}
+.lightCounter {
+  position: absolute;
+  top: 0;
+  right: -50px;
+  font-size: 14px;
+  color: var(--system-clr-info);
+  background: var(--bg-clr-lvl-2);
+  padding: 2px 10px;
+  border-radius: 10px;
+}
+.favouritesHeader {
+  grid-column: 7 / 9;
+  grid-row: 2 / 3;
+  position: relative;
+  width: max-content;
+}
+.selectHeader {
+  grid-column: 9 / 11;
+  grid-row: 2 / 3;
+}
+.selectHeader div {
+  width: 80%;
+  border-radius: var(--rounding-lvl-2);
+  padding: 6px 12px;
+}
+.selectHeader div:hover fieldset {
+  border-color: var(--accent-clr) !important;
+}
+.selectHeader div > div {
+  padding: 0;
+}
+.selectHeader div svg {
+  z-index: 1;
+}
+.selectHeader fieldset {
+  border: 1px solid #e5eaee;
+  background: var(--bg-clr-lvl-2);
+  z-index: -1;
+}
+.selectHeader fieldset:focus {
+  border: 1px solid red !important;
+}
+.selectHeader fieldset legend {
+  display: none;
+}
+
 .mainGrid {
   display: grid;
   grid-template-columns: 2em repeat(10, 1fr) 2em;

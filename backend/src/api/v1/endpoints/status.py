@@ -18,18 +18,18 @@ router = APIRouter()
     response_model=StatusBase,
     response_class=ORJSONResponse,
 )
-async def register_user(tag: StatusCrateorUpdate = Body(...), db: Session = Depends(get_db)):
+async def status_create(tag: StatusCrateorUpdate = Body(...), db: Session = Depends(get_db)):
     tag = await create_tag(tag=tag, db=db)
     return StatusBase.from_orm(tag)
 
 
 @router.get(
     "/status/{id}",
-    tags=["Tag"],
+    tags=["Status"],
     status_code=HTTP_200_OK,
     response_class=ORJSONResponse,
 )
-async def register_user(id: int, db: Session = Depends(get_db)):
+async def status_get(id: int, db: Session = Depends(get_db)):
     tag = await get_tag(tag_id=id, db=db)
     if tag is None:
         return HTTPException(HTTP_404_NOT_FOUND)
