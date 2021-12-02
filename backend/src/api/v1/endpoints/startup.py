@@ -3,8 +3,9 @@ from fastapi import APIRouter, Body, Depends
 
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
-from ....crud.startup import create_startup, get_startup, get_startups, search_startup
+from ....crud.startup import create_startup, get_startup, get_startups, like_startup, search_startup
 from ....models.startup import StartupBase, StartupCrateorUpdate, StartupList
+from ....models.message import MessageBase
 from fastapi.responses import ORJSONResponse
 
 router = APIRouter()
@@ -41,7 +42,7 @@ async def startup_get(id: int, db: Session = Depends(get_db)):
     response_model=StartupList,
     response_class=ORJSONResponse,
 )
-async def register_user(offset: int = 20, db: Session = Depends(get_db)):
+async def get_startups(offset: int = 20, db: Session = Depends(get_db)):
     startups = await get_startups(offset=offset, db=db)
     return StartupList(startups=startups)
 
@@ -53,6 +54,20 @@ async def register_user(offset: int = 20, db: Session = Depends(get_db)):
     response_model=StartupList,
     response_class=ORJSONResponse,
 )
-async def register_user(search: str, db: Session = Depends(get_db)):
+async def get_startup(search: str, db: Session = Depends(get_db)):
     startups = await search_startup(name=search, db=db)
     return StartupList(startups=startups)
+
+
+@router.post(
+    "/startup/{search}/like",
+    tags=["Startup"],
+    status_code=HTTP_200_OK,
+    response_class=ORJSONResponse,
+)
+async def startup_like(id: int, db: Session = Depends(get_db)):
+    startup = await like_startup(startup_id=id, db=db)
+    if startup is None:
+        return HTTPException(HTTP_404_NOT_FOUND)
+    else:
+        return MessageBase(message=f"{startup.likes}")

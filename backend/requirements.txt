@@ -12,3 +12,5 @@ passlib
 orjson
 overpy
 aiohttp
+python-dotenv
+pdfkit

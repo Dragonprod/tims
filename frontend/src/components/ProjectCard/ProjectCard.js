@@ -30,10 +30,12 @@ export default function ProjectCard(props) {
     <Card className={styles.card} variant='outlined'>
       <div className={styles.tagsContainer}>
         <div className={styles.statusProjectTagContainer}>
-          <StatusProjectTag status={1} />
+          {/* <StatusProjectTag status={1} /> */}
+          {statusTags}
         </div>
         <div className={styles.themeProjectTagContainer}>
-          <ThemeProjectTag theme={1} />
+          {/* <ThemeProjectTag theme={1} /> */}
+          {themeTags}
         </div>
       </div>
       <h1 className={styles.cardHeader}>
@@ -63,7 +65,7 @@ export default function ProjectCard(props) {
             variant='text'
             onClick={handleFavourite}
             startIcon={(isFavourite == true) ? <FavoriteIcon /> : <FavoriteBorderIcon />}>
-            В избранное
+            {(isFavourite == true) ? "В избранном" : "В избранное"}
           </Button>
           <Button className={styles.muiReadMoreButton} variant='contained'>
             Подробнее

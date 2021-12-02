@@ -116,8 +116,10 @@ class Startup(Base):
     date = Column(Date)
     description = Column(String(1024))
     author = Column(Integer, ForeignKey('user.id'))
+    likes = Column(Integer, default=0)
     company_id = Column(Integer, ForeignKey('company.id'))
     sertificate = Column(String(128))
+    images = relationship("Image", lazy='joined')
     statuses = relationship("Status",
                             secondary=seconadary_status, lazy='joined')
     categories = relationship(
@@ -131,6 +133,13 @@ class Startup(Base):
         self.author = pydantic_model.author
         self.company_id = pydantic_model.company_id
         self.sertificate = pydantic_model.sertificate
+
+
+class Image(Base):
+    __tablename__ = "image"
+    id = Column(Integer, primary_key=True)
+    name = Column(String(256))
+    startup_id = Column(Integer, ForeignKey('startup.id'))
 
 
 class Category(Base):
