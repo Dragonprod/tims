@@ -1,5 +1,6 @@
 from enum import Enum
 from typing import List, Optional
+from datetime import date
 from pydantic import BaseModel
 from src.models.status import StatusBase
 from src.models.category import CategoryBase
@@ -11,6 +12,8 @@ class StartupBase(BaseModel):
     name: str
     description: str
     author: int
+    date: date
+    company_id: int
     statuses: List[StatusBase]
     sertificate: str = None
     categories: List[CategoryBase]

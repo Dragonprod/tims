@@ -8,6 +8,7 @@ from sqlalchemy import Column, String, Integer, Date, ForeignKey, Float, Boolean
 from sqlalchemy.util.langhelpers import public_factory
 from src.core.config import DATABASE_HOST, DATABASE_PORT, DATABASE_USER, DATABASE_NAME, DATABASE_PASSWORD, PRODUCTION, ELASTIC_HOST, ELASTIC_PORT
 import os
+import datetime
 
 engine_postrgesql = create_engine(
     f'postgresql+psycopg2://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_NAME}')
@@ -66,7 +67,6 @@ class UserDetail(Base):
     position = Column(String(64), nullable=True)
     company_id = Column(Integer, ForeignKey('company.id'), nullable=True)
     user_info = relationship("User")
-    company = relationship("Company", backref="workers")
 
     def __init__(self, pydantic_model) -> None:
         self.user_id = pydantic_model.user_id
@@ -83,10 +83,12 @@ class Company(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(128))
     inn = Column(String(64))
+    count_workers = Column(Integer)
 
     def __init__(self, pydantic_model) -> None:
         self.name = pydantic_model.name
         self.inn = pydantic_model.inn
+        self.count_workers = pydantic_model.count_workers
 
 
 class Role(Base):
@@ -111,6 +113,7 @@ class Startup(Base):
     __tablename__ = "startup"
     id = Column(Integer, primary_key=True)
     name = Column(String(256))
+    date = Column(Date)
     description = Column(String(1024))
     author = Column(Integer, ForeignKey('user.id'))
     company_id = Column(Integer, ForeignKey('company.id'))
@@ -126,6 +129,8 @@ class Startup(Base):
         self.description = pydantic_model.description
         self.name = pydantic_model.name
         self.author = pydantic_model.author
+        self.company_id = pydantic_model.company_id
+        self.sertificate = pydantic_model.sertificate
 
 
 class Category(Base):

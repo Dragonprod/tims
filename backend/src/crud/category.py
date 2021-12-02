@@ -7,10 +7,8 @@ from fastapi import Depends, Body, Depends
 
 async def create_category(category, db: Session):
     dbcategory = Category(category)
-    print(dbcategory)
     children_categories = [ChildrenCategory(
         name=name) for name in category.children]
-    print(children_categories)
     db.add(dbcategory)
     dbcategory.children.extend(children_categories)
     db.commit()
