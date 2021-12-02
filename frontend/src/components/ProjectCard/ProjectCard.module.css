@@ -31,7 +31,7 @@
 .cardText {
   font-size: 14px;
   margin-bottom: 1em;
-  padding-left: 1em;
+  padding-left: 1rem;
   max-width: 75%;
 }
 
@@ -40,7 +40,7 @@
   font-size: 14px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  padding-left: 1em;
+  padding-left: 1rem;
 }
 .projectStatsContainer {
   display: grid;
