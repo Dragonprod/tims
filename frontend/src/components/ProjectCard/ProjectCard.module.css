@@ -79,6 +79,7 @@
   background: var(--accent-clr) !important;
   padding: 16px !important;
   border-radius: 16px 0px !important;
+  box-shadow: none !important;
 }
 .muiLikeButton {
   color: var(--accent-clr) !important;

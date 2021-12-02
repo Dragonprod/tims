@@ -50,6 +50,7 @@
   background: var(--accent-clr) !important;
   border-radius: var(--rounding-lvl-2) !important;
   font-family: MoscowSans, Roboto, sans-serif !important;
+  box-shadow: none !important;
 }
 .muiBellButton {
   margin: 0 0.5em !important;
