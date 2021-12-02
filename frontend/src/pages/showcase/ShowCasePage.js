@@ -14,13 +14,14 @@ import API from "../../api/api";
 
 export default function ShowCasePage() {
   const [startupsCount, setstartupsCount] = useState(0)
+  const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0)
   const [searchValue, setsearchValue] = useState(0)
   const [page, setPage] = useState(1);
 
   // useEffect(() => {
   //   const getStartupsData = async () => {
   //     const startupsResponse = await API.get("/startup");
-  //     startupsCount(startupsResponse.startups.length);
+  //     setstartupsCount(startupsResponse.data.startups.length);
   //   };
 
   //   getStartupsData();
@@ -46,7 +47,7 @@ export default function ShowCasePage() {
       </div>
       <div className={`${styles.boldHeader} ${styles.favouritesHeader}`}>
         <h2 className={styles.boldHeader}>Избранное</h2>
-        <span className={styles.lightCounter}>12</span>
+        <span className={styles.lightCounter}>{favouritesStartupsCount}</span>
       </div>
       <FormControl
         className={`${styles.boldHeader} ${styles.selectHeader}`}
