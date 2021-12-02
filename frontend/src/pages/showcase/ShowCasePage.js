@@ -10,12 +10,12 @@ import Select from '@mui/material/Select';
 
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
-import API from "../../api/api";
+import API from '../../api/api';
 
 export default function ShowCasePage() {
-  const [startupsCount, setstartupsCount] = useState(0)
-  const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0)
-  const [searchValue, setsearchValue] = useState(0)
+  const [startupsCount, setstartupsCount] = useState(0);
+  const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0);
+  const [searchValue, setsearchValue] = useState(0);
   const [page, setPage] = useState(1);
 
   // useEffect(() => {
@@ -25,13 +25,13 @@ export default function ShowCasePage() {
   //   };
 
   //   getStartupsData();
-  // }, []); 
+  // }, []);
 
   const handleChange = event => {
     setsearchValue(event.target.value);
   };
 
-  const handlePageChange = (value) => {
+  const handlePageChange = value => {
     setPage(value);
   };
 
@@ -78,13 +78,35 @@ export default function ShowCasePage() {
           createdTime={'02.12.2021'}
         />
       </div>
-      <Typography>Page: {page}</Typography>
-      <Pagination
-        className={styles.projectCardsGrid}
-        count={10}
-        page={page}
-        onChange={handlePageChange}
-      />
+      <div className={styles.projectCardsPagination}>
+        <div className={styles.projectCardsPaginationTextContainer}>
+          <span className={styles.projectCardsAmount}>29 результатов</span>
+          <div className={styles.selectProjectCardsAmountContainer}>
+            <span>Показать:</span>
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+              <Select
+                value={1}
+                onChange={handleChange}
+                displayEmpty
+                inputProps={{ 'aria-label': 'Without label' }}>
+                <MenuItem value=''>
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+        </div>
+
+        <Pagination
+          className={styles.muiPagination}
+          count={10}
+          page={page}
+          onChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 }
