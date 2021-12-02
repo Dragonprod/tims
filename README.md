@@ -57,7 +57,6 @@ ADMIN_DEFAULT_EMAIL=АДМИНПОЧТА_АДМИНКИ_БД
 ADMIN_DEFAULT_PASSWORD=АДМИНПАРОЛЬ_АДМИНКИ_БД
 
 JWT_SECRET=КЛЮЧ_JWT
-JWT_ACCESS_TOKEN_EXPIRE_MINUTES=60*24*7
 
 TELEGRAM_BOT_TOKEN=ТОКЕН_ТЕЛЕГРАМ_БОТА
 ADMINS_CHAT_IDS=0,0,0 АЙДИ_АДМИНИСТРАЦИИ_БОТА_ЧЕРЕЗ_ЗАПЯТУЮ
@@ -127,10 +126,10 @@ sudo systemctl status docker
 **Frontend part** - [http://localhost:3000/](http://localhost:3000/)\
 **Backend part** - [http://localhost:8080/](http://localhost:8080/)\
 **Backend docs part** - [http://localhost:8080/docs](http://localhost:8080/)\
-**Database admin part** - [http://localhost:5050/](http://localhost:5050/)\
+**Database admin part** - [http://localhost:5050/](http://localhost:5050/)
 
 ## Разработчики:
 
 **Васечкин Артём FullStack** - [@DragonProd](https://t.me/DragonProd)\
 **Шевченко Артём Backend** - [@Shmyaks](https://t.me/Shmyaks)\
-**Коробов Артём Frontend** - [@maxcore25](https://t.me/maxcore25)\
+**Коробов Артём Frontend** - [@maxcore25](https://t.me/maxcore25)
