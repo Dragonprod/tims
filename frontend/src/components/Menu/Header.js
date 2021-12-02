@@ -68,7 +68,7 @@ export default function Header() {
           aria-label='upload picture'
           onClick={handleClick}
           component='span'>
-          <Avatar sx={{ bgcolor: deepPurple[500] }}>A</Avatar>
+          <Avatar src="/assets/images/default_avatar.png"/>
         </IconButton>
 
         <Menu
