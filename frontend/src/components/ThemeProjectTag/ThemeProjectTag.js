@@ -13,7 +13,7 @@ const projectThemes = {
   5: 'Скоростной режим',
 };
 export default function ThemeProjectTag(props) {
-  const themeId = props.status;
+  const themeId = props.theme;
   const themeText = projectThemes[themeId];
   return <span className={styles.themeProjectTag}>{themeText}</span>;
 }

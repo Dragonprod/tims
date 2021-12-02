@@ -16,10 +16,10 @@ export default function ProjectCard(props) {
     <Card className={styles.card} variant='outlined'>
       <div className={styles.tagsContainer}>
         <div className={styles.statusProjectTagContainer}>
-          <StatusProjectTag />
+          <StatusProjectTag status={1} />
         </div>
         <div className={styles.themeProjectTagContainer}>
-          <ThemeProjectTag />
+          <ThemeProjectTag theme={1} />
         </div>
       </div>
       <h1 className={styles.cardHeader}>
