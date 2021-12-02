@@ -13,13 +13,13 @@ import Pagination from '@mui/material/Pagination';
 
 export default function ShowCasePage() {
   const [searchValue, setsearchValue] = useState(0)
+  const [page, setPage] = useState(1);
 
   const handleChange = event => {
     setsearchValue(event.target.value);
   };
 
-  const [page, setPage] = React.useState(1);
-  const handlePageChange = (event, value) => {
+  const handlePageChange = (value) => {
     setPage(value);
   };
 
