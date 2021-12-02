@@ -5,6 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, Date, ForeignKey, Float, Boolean, Table
+from sqlalchemy.util.langhelpers import public_factory
 from src.core.config import DATABASE_HOST, DATABASE_PORT, DATABASE_USER, DATABASE_NAME, DATABASE_PASSWORD, PRODUCTION, ELASTIC_HOST, ELASTIC_PORT
 import os
 
@@ -42,7 +43,8 @@ class User(Base):
     is_admin = Column(Boolean)
     roles = relationship("Role",
                          secondary=secondary_role, lazy='joined')
-    detail = relationship("UserDetail", uselist=False)
+    detail = relationship("UserDetail", uselist=False,
+                          back_populates="user", lazy='joined')
 
 
 class UserDetail(Base):
@@ -56,6 +58,15 @@ class UserDetail(Base):
     position = Column(String(64), nullable=True)
     company_id = Column(Integer, ForeignKey('company.id'), nullable=True)
 
+    def __init__(self, pydantic_model) -> None:
+        self.user_id = pydantic_model.user_id
+        self.first_name = pydantic_model.first_name
+        self.second_name = pydantic_model.second_name
+        self.patronymic = pydantic_model.patronymic
+        self.phone = pydantic_model.phone
+        self.position = pydantic_model.position
+        self.company_id = pydantic_model.company_id
+
 
 class Company(Base):
     __tablename__ = "company"
@@ -64,11 +75,18 @@ class Company(Base):
     inn = Column(String(64))
     workers = relationship("UserDetail")
 
+    def __init__(self, pydantic_model) -> None:
+        self.name = pydantic_model.name
+        self.inn = pydantic_model.inn
+
 
 class Role(Base):
     __tablename__ = "role"
     id = Column(Integer, primary_key=True)
     role = Column(String(32))
+
+    def __init__(self, pydantic_model) -> None:
+        self.role = pydantic_model.role
 
 
 class Status(Base):
@@ -102,6 +120,9 @@ class StartupSpheres(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(256))
     startups = relationship("Status", lazy='dynamic')
+
+    def __init__(self, pydantic_model) -> None:
+        self.name = pydantic_model.name
 
 
 Base.metadata.create_all(engine_postrgesql)

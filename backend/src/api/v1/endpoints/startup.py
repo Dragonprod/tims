@@ -14,10 +14,10 @@ router = APIRouter()
     "/startup/create",
     tags=["Startup"],
     status_code=HTTP_201_CREATED,
-    response_model=StartupBase,   
+    response_model=StartupBase,
     response_class=ORJSONResponse,
 )
-async def register_user(startup: StartupCrateorUpdate = Body(...), db: Session = Depends(get_db)):
+async def startup_create(startup: StartupCrateorUpdate = Body(...), db: Session = Depends(get_db)):
     return await create_startup(startup=startup, db=db)
 
 
@@ -27,7 +27,7 @@ async def register_user(startup: StartupCrateorUpdate = Body(...), db: Session =
     status_code=HTTP_200_OK,
     response_class=ORJSONResponse,
 )
-async def register_user(id: int, db: Session = Depends(get_db)):
+async def startup_get(id: int, db: Session = Depends(get_db)):
     startup = await get_startup(startup_id=id, db=db)
     if startup is None:
         return HTTPException(HTTP_404_NOT_FOUND)
@@ -53,7 +53,7 @@ async def register_user(offset: int = 20, db: Session = Depends(get_db)):
     response_model=StartupList,
     response_class=ORJSONResponse,
 )
-async def register_user(search:str, db: Session = Depends(get_db)):
+async def register_user(search: str, db: Session = Depends(get_db)):
     print(search)
     startups = await search_startup(name=search, db=db)
     print(startups)
