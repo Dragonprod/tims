@@ -16,8 +16,12 @@ export default function ThemeProjectTag(props) {
   const themeId = props.status;
   const themeText = projectThemes[themeId];
   return (
-    <div>
+    <>
+      <span className={styles.themeProjectTag}>ffffffasda</span>
+      <span className={styles.themeProjectTag}>ffffffasda</span>
+      {/* <div>
       <h1>{themeText}</h1>
-    </div>
+    </div> */}
+    </>
   );
 }

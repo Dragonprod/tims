@@ -1,0 +1,7 @@
+.themeProjectTag {
+  padding: 2px 8px;
+  margin: 0 8px;
+  border-radius: 10px;
+  color: var(--text-and-icons-clr-tertiary);
+  background: var(--bg-clr-lvl-1);
+}
