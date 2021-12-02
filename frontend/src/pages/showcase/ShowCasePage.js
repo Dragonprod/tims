@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AsideMenu from '../../components/AsideMenu/AsideMenu';
 import Header from '../../components/Menu/Header';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
@@ -10,10 +10,21 @@ import Select from '@mui/material/Select';
 
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
+import API from "../../api/api";
 
 export default function ShowCasePage() {
+  const [startupsCount, setstartupsCount] = useState(0)
   const [searchValue, setsearchValue] = useState(0)
   const [page, setPage] = useState(1);
+
+  // useEffect(() => {
+  //   const getStartupsData = async () => {
+  //     const startupsResponse = await API.get("/startup");
+  //     startupsCount(startupsResponse.startups.length);
+  //   };
+
+  //   getStartupsData();
+  // }, []); 
 
   const handleChange = event => {
     setsearchValue(event.target.value);
@@ -31,7 +42,7 @@ export default function ShowCasePage() {
       </h2>
       <div className={`${styles.boldHeader} ${styles.solutionsHeader}`}>
         <h2 className={styles.boldHeader}>Все решения</h2>
-        <span className={styles.lightCounter}>250</span>
+        <span className={styles.lightCounter}>{startupsCount}</span>
       </div>
       <div className={`${styles.boldHeader} ${styles.favouritesHeader}`}>
         <h2 className={styles.boldHeader}>Избранное</h2>
