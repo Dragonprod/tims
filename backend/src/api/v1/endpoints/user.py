@@ -46,4 +46,4 @@ async def get_code(id: int, db: Session = Depends(get_db)):
 )
 async def add_telegram(telegram: UserTelegramCreate = Body(...), db: Session = Depends(get_db)):
     telegram = await set_user_telegram_id(telegram=telegram, db=db)
-    return set_user_telegram_id(id=id, db=db)
+    return telegram
