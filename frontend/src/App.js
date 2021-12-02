@@ -13,7 +13,7 @@ function App() {
         <Route exact path="/" element={<LandingPage/>} />
         <Route exact path="/showcases" element={<ShowCasePage/>} />
         <Route exact path="/auth" element={<AuthPage/>} />
-        <Route exact path="/debug" element={<StatusProjectTag status={6}/>} />
+        <Route exact path="/debug" element={<StatusProjectTag status={6} type="closed"/>} />
         <Route path="*" element={<ErrorPage/>} />
       </Routes>
     </BrowserRouter>

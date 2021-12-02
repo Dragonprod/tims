@@ -15,17 +15,23 @@ const projectStatuses = {
   7: 'Отменён',
   8: 'Закрыт',
 };
+
+const stylesStauses = {
+  "new": styles.new,
+  "default": styles.default,
+  "ready": styles.ready,
+  "stopped": styles.stopped,
+  "canceled": styles.canceled,
+  "closed": styles.closed
+};
+
 export default function StatusProjectTag(props) {
   const statusId = props.status;
+  const type = props.type;
   const statusText = projectStatuses[statusId];
   return (
-    <span className={`${styles.statusProjectTag} ${styles.new}`}>
+    <span className={`${styles.statusProjectTag} ${stylesStauses[type]}`}>
       {statusText}
     </span>
-    // <div className={`${styles.statusProjectTagContainer} ${styles.default}`}>
-    //   <p className={`${styles.statusProjectTagText} ${styles.default}`}>
-    //     {statusText}
-    //   </p>
-    // </div>
   );
 }
