@@ -8,11 +8,19 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
+import Typography from '@mui/material/Typography';
+import Pagination from '@mui/material/Pagination';
+
 export default function ShowCasePage() {
   const [searchValue, setsearchValue] = useState(0)
 
   const handleChange = event => {
     setsearchValue(event.target.value);
+  };
+
+  const [page, setPage] = React.useState(1);
+  const handlePageChange = (event, value) => {
+    setPage(value);
   };
 
   return (
@@ -55,9 +63,16 @@ export default function ShowCasePage() {
           description='Технология мониторинга может применяться как для учёта транспортных потоков, так и для адаптивного регулирования перекрёстков. Система способна определять ДТП, занятость парковочных мест, контролировать соблюдение правил дорожного движения.'
           reviewCount={11}
           avgMark={5.6}
-          createdTime={"02.12.2021"}
+          createdTime={'02.12.2021'}
         />
       </div>
+      <Typography>Page: {page}</Typography>
+      <Pagination
+        className={styles.projectCardsGrid}
+        count={10}
+        page={page}
+        onChange={handlePageChange}
+      />
     </div>
   );
 }
