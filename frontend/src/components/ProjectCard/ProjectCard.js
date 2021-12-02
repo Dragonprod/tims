@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StatusProjectTag from '../StatusProjectTag/StatusProjectTag';
 import ThemeProjectTag from '../ThemeProjectTag/ThemeProjectTag';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 export default function ProjectCard(props) {
   return (
@@ -41,6 +42,7 @@ export default function ProjectCard(props) {
             <span className={styles.statsAmount}>5.8/10</span>
           </div>
           <div className={styles.projectDate}>
+            <CalendarTodayIcon />
             <span className={styles.statsAmount}>10.11.2021</span>
           </div>
         </div>

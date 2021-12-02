@@ -5,25 +5,29 @@
   box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
     0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
   border-radius: var(--rounding-lvl-1) !important;
-  padding: 1em;
 }
 
 /* ===== Tags Container ===== */
 .tagsContainer {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  padding: 1em 1em 12px;
 }
 
 /* ===== Card Header ===== */
 .cardHeader {
   font-size: 18px;
   margin-bottom: 1.5em;
+  padding-left: 1em;
+  max-width: 75%;
 }
 
 /* ===== Card Text ===== */
 .cardText {
   font-size: 14px;
-  margin-bottom: 2em;
+  margin-bottom: 1em;
+  padding-left: 1em;
+  max-width: 75%;
 }
 
 /* ===== Card Footer ===== */
@@ -31,27 +35,48 @@
   font-size: 14px;
   display: grid;
   grid-template-columns: 1fr 1fr;
+  padding-left: 1em;
 }
 .projectStatsContainer {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, auto);
   align-items: center;
+  max-width: 350px;
 }
 .projectButtonsContainer {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 0.5fr;
+  justify-items: end;
+  align-items: center;
+}
+.projectComments,
+.projectRate,
+.projectDate {
+  display: flex;
+  align-items: center;
+}
+.projectStatsContainer svg {
+  width: 20px;
+  height: 20px;
+  margin-right: 14px;
+  color: var(--text-and-icons-clr-tertiary);
 }
 
 /* ===== Buttons ===== */
-.muiReadMoreButton {
+.muiReadMoreButton,
+.muiLikeButton {
   display: block;
   text-transform: initial !important;
   font-family: MoscowSans, Roboto, sans-serif !important;
-  border-radius: 16px 0px !important;
+  width: fit-content;
 }
 .muiReadMoreButton {
   background: var(--accent-clr) !important;
+  padding: 16px !important;
+  border-radius: 16px 0px !important;
 }
 .muiLikeButton {
   color: var(--accent-clr) !important;
+  height: fit-content;
+  border-radius: 12px !important;
 }
