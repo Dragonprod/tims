@@ -38,17 +38,16 @@ export default function AsideMenu() {
       default:
         break;
     }
-
   };
 
   return (
     <div className={styles.asideMenuContainer}>
       <List
         className={styles.muiAsideMenu}
-        sx={{ width: '100%', maxWidth: 360, bgcolor: 'white' }}
+        sx={{ width: '100%', maxWidth: 500, bgcolor: 'transparent' }}
         component='nav'
         aria-labelledby='nested-list-subheader'>
-        <ListItemButton key='0' onClick={(event) => handleClick(event, 0)}>
+        <ListItemButton key='0' onClick={event => handleClick(event, 0)}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Городской транспорт'
@@ -72,7 +71,7 @@ export default function AsideMenu() {
             </ListItemButton>
           </List>
         </Collapse>
-        <ListItemButton onClick={(event) => handleClick(event, 1)}>
+        <ListItemButton onClick={event => handleClick(event, 1)}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Новые виды мобильности'
@@ -87,7 +86,7 @@ export default function AsideMenu() {
             </ListItemButton>
           </List>
         </Collapse>
-        <ListItemButton onClick={(event) => handleClick(event, 2)}>
+        <ListItemButton onClick={event => handleClick(event, 2)}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Безопасность дорожного движения'
@@ -102,7 +101,7 @@ export default function AsideMenu() {
             </ListItemButton>
           </List>
         </Collapse>
-        <ListItemButton onClick={(event) => handleClick(event, 3)}>
+        <ListItemButton onClick={event => handleClick(event, 3)}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Здоровые улицы и экология'
@@ -117,7 +116,7 @@ export default function AsideMenu() {
             </ListItemButton>
           </List>
         </Collapse>
-        <ListItemButton onClick={(event) => handleClick(event, 4)}>
+        <ListItemButton onClick={event => handleClick(event, 4)}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Цифровые технологии в транспорте'

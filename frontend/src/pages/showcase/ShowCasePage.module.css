@@ -1,3 +1,12 @@
+/* ===== Main Grid ===== */
+.mainGrid {
+  display: grid;
+  grid-template-columns: 2em repeat(10, 1fr) 2em;
+  grid-template-rows: 74px 100px auto;
+  height: 100vh;
+}
+
+/* ===== Headers ===== */
 .boldHeader {
   align-self: center;
   color: var(--text-and-icons-clr-primary);
@@ -31,6 +40,8 @@
   position: relative;
   width: max-content;
 }
+
+/* ===== Select ===== */
 .selectHeader {
   grid-column: 9 / 11;
   grid-row: 2 / 3;
@@ -61,9 +72,9 @@
   display: none;
 }
 
-.mainGrid {
+/* ===== Project Cards Grid ===== */
+.projectCardsGrid {
   display: grid;
-  grid-template-columns: 2em repeat(10, 1fr) 2em;
-  grid-template-rows: 74px 100px auto;
-  height: 100vh;
+  grid-column: 5 / 11;
+  grid-row: 3;
 }
