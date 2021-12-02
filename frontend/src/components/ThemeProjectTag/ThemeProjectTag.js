@@ -15,9 +15,5 @@ const projectThemes = {
 export default function ThemeProjectTag(props) {
   const themeId = props.status;
   const themeText = projectThemes[themeId];
-  return (
-    <div>
-      <h1>{themeText}</h1>
-    </div>
-  );
+  return <span className={styles.themeProjectTag}>{themeText}</span>;
 }

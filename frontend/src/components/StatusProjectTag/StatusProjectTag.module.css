@@ -1,6 +1,7 @@
 .statusProjectTag {
   padding: 2px 8px;
   border-radius: 10px;
+  margin: 0 8px;
 }
 
 .statusProjectTag.new {
