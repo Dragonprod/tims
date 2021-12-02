@@ -5,7 +5,7 @@ from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandle
 from telegram_bot_pagination import InlineKeyboardPaginator
 
 from src.core.config import TELEGRAM_BOT_TOKEN, ADD_TELEGRAM_REGEXP
-# from src.core.keyboards import BASE_KEYBOARD
+from src.core.keyboards import MENU_KEYBOARD_CLIENT, MENU_KEYBOARD_STARTUP
 
 from src.crud.logs import createLog, getLogs, getLogsById
 
@@ -29,7 +29,7 @@ class Bot():
     def startHandler(self, update: Update, context: CallbackContext) -> None:
         message = '{0} <b>Здравствуйте {1}!</b>\nМеня зовут Иван, я бот помощник, разработанный командой Null Safety в рамках хакатона Цифровой прорыв(финал)'.format(
             u"\U0001f44b", update.message.chat.first_name)
-        update.message.reply_html(message)
+        update.message.reply_html(message, reply_markup=ReplyKeyboardMarkup(MENU_KEYBOARD_CLIENT, resize_keyboard=True, one_time_keyboard=False))
         createLog(update)
 
     def startHandlerConnect(self, update: Update, context: CallbackContext) -> None:
@@ -44,7 +44,7 @@ class Bot():
     
     def categoriesHandler(self, update: Update, context: CallbackContext) -> None:
         pass
-
+    
     def addHandler(self, update: Update, context: CallbackContext) -> None:
         if len(context.args) > 0:
             searchRequest = ' '.join(context.args)
