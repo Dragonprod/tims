@@ -33,6 +33,7 @@ class Bot():
         createLog(update)
 
     def startHandlerConnect(self, update: Update, context: CallbackContext) -> None:
+        result = self.api.connectAccount(context.args[0], update.message.chat.id)
         message = '{0} <b>Здравствуйте {1}!</b>\nВы успешно привязали свой Telegram. Пожалуйста, вернитесь в личный кабинет и обновите страницу.'.format(
             u"\U0001f44b", update.message.chat.first_name)
         update.message.reply_html(message)
@@ -43,7 +44,7 @@ class Bot():
     
     def categoriesHandler(self, update: Update, context: CallbackContext) -> None:
         pass
-    
+
     def addHandler(self, update: Update, context: CallbackContext) -> None:
         if len(context.args) > 0:
             searchRequest = ' '.join(context.args)
@@ -136,10 +137,9 @@ class Bot():
             self.checkUpdatesJobCallback, interval=3, context=None)
 
         dispatcher = updater.dispatcher
-
-        dispatcher.add_handler(CommandHandler('start', self.startHandler))
         dispatcher.add_handler(CommandHandler(
             "start", self.startHandlerConnect, Filters.regex(ADD_TELEGRAM_REGEXP)))
+        dispatcher.add_handler(CommandHandler('start', self.startHandler))
         dispatcher.add_handler(CommandHandler('help', self.helpHandler))
         dispatcher.add_handler(CommandHandler(
             'projects', self.projectsHandler))
