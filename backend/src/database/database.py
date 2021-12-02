@@ -41,6 +41,8 @@ class User(Base):
     email = Column(String(128))
     password = Column(String(256))
     is_admin = Column(Boolean)
+    telegram_id = Column(Integer(32))
+    activationLink = Column(String(128))
     roles = relationship("Role",
                          secondary=secondary_role, lazy='joined')
     detail = relationship(

@@ -25,7 +25,7 @@ async def status_create(tag: StatusCrateorUpdate = Body(...), db: Session = Depe
 
 @router.get(
     "/status/{id}",
-    tags=["Tag"],
+    tags=["Status"],
     status_code=HTTP_200_OK,
     response_class=ORJSONResponse,
 )
