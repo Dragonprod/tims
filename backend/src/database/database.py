@@ -35,7 +35,8 @@ seconadary_status = Table("statuses_startups", Base.metadata,
                           )
 
 seconadary_startup = Table("categories_startup", Base.metadata,
-                           Column('startup_id', ForeignKey('status.id')),
+                           Column('category_id', ForeignKey(
+                               'category.id')),
                            Column('startup_id', ForeignKey('startup.id'))
                            )
 
@@ -115,9 +116,8 @@ class Startup(Base):
     sertificate = Column(String(128))
     statuses = relationship("Status",
                             secondary=seconadary_status, lazy='joined')
-    sphere_id = Column(Integer, ForeignKey('startup_spheres.id'))
     categories = relationship(
-        "Categories", secondary=seconadary_startup, lazy='joined')
+        "Category", secondary=seconadary_startup, lazy='joined')
 
     def __init__(self, pydantic_model) -> None:
         self.description = pydantic_model.description
@@ -126,7 +126,7 @@ class Startup(Base):
 
 
 class Category(Base):
-    __tablename__ = "startup_spheres"
+    __tablename__ = "category"
     id = Column(Integer, primary_key=True)
     name = Column(String(256))
 

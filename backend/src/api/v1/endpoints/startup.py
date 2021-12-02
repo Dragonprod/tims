@@ -54,7 +54,5 @@ async def register_user(offset: int = 20, db: Session = Depends(get_db)):
     response_class=ORJSONResponse,
 )
 async def register_user(search: str, db: Session = Depends(get_db)):
-    print(search)
     startups = await search_startup(name=search, db=db)
-    print(startups)
     return StartupList(startups=startups)
