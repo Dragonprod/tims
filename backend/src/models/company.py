@@ -9,7 +9,7 @@ class CompanyBase(BaseModel):
     id: int
     name: str
     inn: str
-    workers: List[UserDetailModel] = None
+    count_workers: int
 
     class Config:
         orm_mode = True
@@ -18,6 +18,7 @@ class CompanyBase(BaseModel):
 class CompanyCrateorUpdate(BaseModel):
     inn: str
     name: str
+    count_workers: int
 
     class Config:
         orm_mode = True

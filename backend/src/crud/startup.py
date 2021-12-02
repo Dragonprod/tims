@@ -1,16 +1,21 @@
+import random
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_404_NOT_FOUND
 from ..models.startup import StartupBase, StartupList
 from ..database.database import Category, Elastic, Startup, Status, User, get_db, Session
 from ..helpers.exceptions import EntityDoesNotExist
 from fastapi import Depends, Body, Depends
+from datetime import date
 
 
 async def create_startup(startup, db: Session):
+    random_date = [date(2015, 9, 10), date(2018, 9, 11), date(
+        2005, 9, 12), date(2016, 9, 13), date(2017, 9, 14), date(2020, 9, 15)]
     tags = db.query(Status).filter(Status.id.in_(startup.statuses)).all()
     categories = db.query(Category).filter(
         Category.id.in_(startup.statuses)).all()
     dbstarup = Startup(startup)
+    dbstarup.date = random_date[random.randint(0, len(random_date)-1)]
     db.add(dbstarup)
     # response = await Elastic.create(dbstarup.id, body_params={
     #     'name': dbstarup.name, 'description': dbstarup.description})
