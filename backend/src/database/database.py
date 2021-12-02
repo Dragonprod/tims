@@ -117,7 +117,7 @@ class Startup(Base):
                             secondary=seconadary_status, lazy='joined')
     sphere_id = Column(Integer, ForeignKey('startup_spheres.id'))
     categories = relationship(
-        "Categories", secondary=seconadary_startup, lazy='joined')
+        "Category", secondary=seconadary_startup, lazy='joined')
 
     def __init__(self, pydantic_model) -> None:
         self.description = pydantic_model.description
