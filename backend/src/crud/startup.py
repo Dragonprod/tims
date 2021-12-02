@@ -1,14 +1,15 @@
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_404_NOT_FOUND
 from ..models.startup import StartupBase, StartupList
-from ..database.database import Elastic, Startup, Status, User, get_db, Session
+from ..database.database import Category, Elastic, Startup, Status, User, get_db, Session
 from ..helpers.exceptions import EntityDoesNotExist
 from fastapi import Depends, Body, Depends
 
 
 async def create_startup(startup, db: Session):
     tags = db.query(Status).filter(Status.id.in_(startup.statuses)).all()
-
+    categories = db.query(Category).filter(
+        Category.id.in_(startup.statuses)).all()
     dbstarup = Startup(startup)
     db.add(dbstarup)
     print(dbstarup)
@@ -16,6 +17,7 @@ async def create_startup(startup, db: Session):
         'name': dbstarup.name, 'description': dbstarup.description})
     if response is not None:
         dbstarup.statuses.extend(tags)
+        dbstarup.categories.extend(categories)
         db.commit()
     else:
         db.rollback()

@@ -1,0 +1,31 @@
+.statusProjectTag {
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.statusProjectTag.new {
+  color: var(--global-clr-white-primary);
+  background: var(--system-clr-info);
+}
+.statusProjectTag.default {
+  color: var(--system-clr-info);
+  background: var(--bg-clr-lvl-1);
+}
+.statusProjectTag.ready {
+  color: var(--global-clr-white-primary);
+  background: var(--system-clr-success);
+}
+.statusProjectTag.stopped {
+  color: var(--bg-clr-lvl-1);
+  background: var(--text-and-icons-clr-tertiary);
+}
+.statusProjectTag.canceled {
+  color: var(--global-clr-white-primary);
+  background: var(--system-clr-error);
+}
+.statusProjectTag.closed {
+  color: var(--global-clr-white-primary);
+  background: var(--text-and-icons-clr-primary);
+}

@@ -8,15 +8,29 @@ logger = logging.getLogger(__name__)
 class API():
     def __init__(self) -> None:
         pass
+    
+    def connectAccount(self, activationLink, chatId):
 
-    def checkUpdates():
+        connectData = {
+            "activationLink": activationLink,
+            "telegram_id": int(chatId)
+        }
+        
+        request = requests.post(f'{API_BASE_URL}/user/telegram/add', json = connectData)
+
+        if request.status_code == 200:
+            return True
+        else:
+            return False
+
+    def checkUpdates(self):
         pass
 
-    def getProjects():
+    def getProjects(self):
         pass
 
-    def addProjectToWatchList():
+    def addProjectToWatchList(self):
         pass
 
-    def deleteProjectFromWatchList():
+    def deleteProjectFromWatchList(self):
         pass

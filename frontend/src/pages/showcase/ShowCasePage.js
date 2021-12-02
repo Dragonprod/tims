@@ -1,6 +1,7 @@
 import React from 'react';
 import AsideMenu from '../../components/AsideMenu/AsideMenu';
 import Header from '../../components/Menu/Header';
+import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import styles from './ShowCasePage.module.css';
 
 import MenuItem from '@mui/material/MenuItem';
@@ -17,8 +18,8 @@ export default function ShowCasePage() {
   return (
     <div className={styles.mainGrid}>
       <Header />
-      <h2 className={`${styles.boldHeader} ${styles.categoryHeader}`}>
-        Категория:
+      <h2 className={`${styles.boldHeader} ${styles.filtersHeader}`}>
+        Фильтры:
       </h2>
       <div className={`${styles.boldHeader} ${styles.solutionsHeader}`}>
         <h2 className={styles.boldHeader}>Все решения</h2>
@@ -28,7 +29,6 @@ export default function ShowCasePage() {
         <h2 className={styles.boldHeader}>Избранное</h2>
         <span className={styles.lightCounter}>12</span>
       </div>
-
       <FormControl
         className={`${styles.boldHeader} ${styles.selectHeader}`}
         sx={{ m: 1, minWidth: 80 }}>
@@ -45,8 +45,16 @@ export default function ShowCasePage() {
           <MenuItem value={22}>Сначала популярные</MenuItem>
         </Select>
       </FormControl>
-
       <AsideMenu />
+      <div className={styles.projectCardsGrid}>
+        <ProjectCard
+          name='Программное обеспечение для анализа транспортных потоков по видео'
+          description='Технология мониторинга может применяться как для учёта транспортных потоков, так и для адаптивного регулирования перекрёстков. Система способна определять ДТП, занятость парковочных мест, контролировать соблюдение правил дорожного движения.'
+          reviewCount={11}
+          avgMark={5.6}
+          createdTime={"02.12.2021"}
+        />
+      </div>
     </div>
   );
 }

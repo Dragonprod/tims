@@ -34,6 +34,12 @@ seconadary_status = Table("statuses_startups", Base.metadata,
                           Column('startup_id', ForeignKey('startup.id'))
                           )
 
+seconadary_startup = Table("categories_startup", Base.metadata,
+                           Column('category_id', ForeignKey(
+                               'category.id')),
+                           Column('startup_id', ForeignKey('startup.id'))
+                           )
+
 
 class User(Base):
     __tablename__ = "user"
@@ -41,7 +47,7 @@ class User(Base):
     email = Column(String(128))
     password = Column(String(256))
     is_admin = Column(Boolean)
-    telegram_id = Column(Integer(32))
+    telegram_id = Column(Integer)
     activationLink = Column(String(128))
     roles = relationship("Role",
                          secondary=secondary_role, lazy='joined')
@@ -107,11 +113,11 @@ class Startup(Base):
     name = Column(String(256))
     description = Column(String(1024))
     author = Column(Integer, ForeignKey('user.id'))
-    sertificate = Column(Boolean)
+    sertificate = Column(String(128))
     statuses = relationship("Status",
                             secondary=seconadary_status, lazy='joined')
-    sphere_id = Column(Integer, ForeignKey('startup_spheres.id'))
-    sphere = relationship("StartupSpheres", lazy='joined')
+    categories = relationship(
+        "Category", secondary=seconadary_startup, lazy='joined')
 
     def __init__(self, pydantic_model) -> None:
         self.description = pydantic_model.description
@@ -119,8 +125,8 @@ class Startup(Base):
         self.author = pydantic_model.author
 
 
-class StartupSpheres(Base):
-    __tablename__ = "startup_spheres"
+class Category(Base):
+    __tablename__ = "category"
     id = Column(Integer, primary_key=True)
     name = Column(String(256))
 

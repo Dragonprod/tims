@@ -37,6 +37,26 @@ class UserDetailModel(BaseModel):
         orm_mode = True
 
 
+class UserActivationCodeModel(BaseModel):
+    activationLink: str = None
+
+    class Config:
+        orm_mode = True
+
+
+class UserTelegramCreate(BaseModel):
+    activationLink: str = None
+    telegram_id: int = None
+
+    class Config:
+        orm_mode = True
+
+class UserTelegramResponse(BaseModel):
+    telegram_id: int = None
+
+    class Config:
+        orm_mode = True
+
 class UserResponse(UserBase):
     detail: UserDetailModel
 

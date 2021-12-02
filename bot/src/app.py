@@ -5,7 +5,7 @@ from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandle
 from telegram_bot_pagination import InlineKeyboardPaginator
 
 from src.core.config import TELEGRAM_BOT_TOKEN, ADD_TELEGRAM_REGEXP
-# from src.core.keyboards import BASE_KEYBOARD
+from src.core.keyboards import MENU_KEYBOARD_CLIENT, MENU_KEYBOARD_STARTUP
 
 from src.crud.logs import createLog, getLogs, getLogsById
 
@@ -29,10 +29,11 @@ class Bot():
     def startHandler(self, update: Update, context: CallbackContext) -> None:
         message = '{0} <b>Здравствуйте {1}!</b>\nМеня зовут Иван, я бот помощник, разработанный командой Null Safety в рамках хакатона Цифровой прорыв(финал)'.format(
             u"\U0001f44b", update.message.chat.first_name)
-        update.message.reply_html(message)
+        update.message.reply_html(message, reply_markup=ReplyKeyboardMarkup(MENU_KEYBOARD_CLIENT, resize_keyboard=True, one_time_keyboard=False))
         createLog(update)
 
     def startHandlerConnect(self, update: Update, context: CallbackContext) -> None:
+        result = self.api.connectAccount(context.args[0], update.message.chat.id)
         message = '{0} <b>Здравствуйте {1}!</b>\nВы успешно привязали свой Telegram. Пожалуйста, вернитесь в личный кабинет и обновите страницу.'.format(
             u"\U0001f44b", update.message.chat.first_name)
         update.message.reply_html(message)
@@ -40,7 +41,10 @@ class Bot():
 
     def projectsHandler(self, update: Update, context: CallbackContext) -> None:
         pass
-
+    
+    def categoriesHandler(self, update: Update, context: CallbackContext) -> None:
+        pass
+    
     def addHandler(self, update: Update, context: CallbackContext) -> None:
         if len(context.args) > 0:
             searchRequest = ' '.join(context.args)
@@ -133,10 +137,9 @@ class Bot():
             self.checkUpdatesJobCallback, interval=3, context=None)
 
         dispatcher = updater.dispatcher
-
-        dispatcher.add_handler(CommandHandler('start', self.startHandler))
         dispatcher.add_handler(CommandHandler(
             "start", self.startHandlerConnect, Filters.regex(ADD_TELEGRAM_REGEXP)))
+        dispatcher.add_handler(CommandHandler('start', self.startHandler))
         dispatcher.add_handler(CommandHandler('help', self.helpHandler))
         dispatcher.add_handler(CommandHandler(
             'projects', self.projectsHandler))
