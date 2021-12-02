@@ -48,7 +48,7 @@ export default function ShowCasePage() {
     setsearchValue(event.target.value);
   };
 
-  const handlePageChange = value => {
+  const handlePageChange = (event, value) => {
     setPage(value);
   };
 
@@ -126,9 +126,9 @@ export default function ShowCasePage() {
                 autoWidth
                 label='SearchValue'
                 inputProps={{ 'aria-label': 'Without label' }}>
-                <MenuItem value={0}>10</MenuItem>
-                <MenuItem value={1}>20</MenuItem>
-                <MenuItem value={2}>30</MenuItem>
+                <MenuItem value={0}>5</MenuItem>
+                <MenuItem value={1}>10</MenuItem>
+                <MenuItem value={2}>15</MenuItem>
               </Select>
             </FormControl>
           </div>
