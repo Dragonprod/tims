@@ -13,6 +13,10 @@
   grid-template-columns: 1fr 1fr;
   padding: 1em 1em 12px;
 }
+.themeProjectTagContainer {
+  display: flex;
+  justify-content: end;
+}
 
 /* ===== Card Header ===== */
 .cardHeader {

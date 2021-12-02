@@ -18,8 +18,8 @@ export default function ShowCasePage() {
   return (
     <div className={styles.mainGrid}>
       <Header />
-      <h2 className={`${styles.boldHeader} ${styles.categoryHeader}`}>
-        Категория:
+      <h2 className={`${styles.boldHeader} ${styles.filtersHeader}`}>
+        Фильтры:
       </h2>
       <div className={`${styles.boldHeader} ${styles.solutionsHeader}`}>
         <h2 className={styles.boldHeader}>Все решения</h2>
@@ -29,7 +29,6 @@ export default function ShowCasePage() {
         <h2 className={styles.boldHeader}>Избранное</h2>
         <span className={styles.lightCounter}>12</span>
       </div>
-
       <FormControl
         className={`${styles.boldHeader} ${styles.selectHeader}`}
         sx={{ m: 1, minWidth: 80 }}>
@@ -46,9 +45,7 @@ export default function ShowCasePage() {
           <MenuItem value={22}>Сначала популярные</MenuItem>
         </Select>
       </FormControl>
-
       <AsideMenu />
-
       <div className={styles.projectCardsGrid}>
         <ProjectCard />
       </div>

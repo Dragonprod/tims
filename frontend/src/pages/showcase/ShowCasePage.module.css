@@ -14,7 +14,7 @@
   font-size: var(--font-size-headline);
   display: inline;
 }
-.categoryHeader {
+.filtersHeader {
   grid-column: 2 / 3;
   grid-row: 2 / 3;
 }
