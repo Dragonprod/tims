@@ -1,5 +1,5 @@
 from ..core.security import get_password_hash
-from ..models.user import UserDetailModel, UserInCreate, UserInLogin, UserBase
+from ..models.user import UserDetailModel, UserInCreate, UserInLogin, UserBase, UserResponse
 from ..database.database import User, UserDetail, get_db, Session
 from ..helpers.exceptions import EntityDoesNotExist
 from fastapi import Depends
@@ -18,7 +18,8 @@ async def create_user(user, db: Session):
 
 
 async def update_user(user, db: Session):
-    dbuser = db.query(UserDetail).filter(UserDetail.id == user.user_id).first()
+    dbuser = db.query(UserDetail).filter(
+        UserDetail.user_id == user.user_id).first()
     if dbuser is None:
         db.add(UserDetail(user))
     else:
@@ -29,6 +30,7 @@ async def update_user(user, db: Session):
 
 async def get_user(id: int, db: Session):
     dbuser = db.query(User).filter(User.id == id).first()
+    print(dbuser.detail)
     if dbuser is not None:
-        return UserDetailModel.from_orm(dbuser)
+        return UserResponse.from_orm(dbuser)
     return None

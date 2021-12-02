@@ -24,12 +24,12 @@ class UserInResponse(BaseModel):
     token: str
 
 
-class UserDetailModel(UserBase):
-    user_id: int
-    first_name: str
-    second_name: str
+class UserDetailModel(BaseModel):
+    user_id: int = None
+    first_name: str = None
+    second_name: str = None
     patronymic: str = None
-    phone: str
+    phone: str = None
     position: str = None
     company_id: int = None
 

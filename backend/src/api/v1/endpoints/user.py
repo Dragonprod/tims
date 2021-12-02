@@ -4,7 +4,7 @@ from fastapi import APIRouter, Body, Depends
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_202_ACCEPTED
 from ....crud.user import get_user, update_user
-from ....models.user import UserDetailModel, UserDetailPut
+from ....models.user import UserDetailModel
 from fastapi.responses import ORJSONResponse
 
 router = APIRouter()
@@ -12,19 +12,19 @@ router = APIRouter()
 
 @router.put(
     "/user",
-    tags=["dasd"],
+    tags=["User"],
     status_code=HTTP_202_ACCEPTED,
     response_class=ORJSONResponse,
 )
-async def updasate(startup: UserDetailModel = Body(...), db: Session = Depends(get_db)):
-    return await update_user(startup=startup, db=db)
+async def update(user: UserDetailModel = Body(...), db: Session = Depends(get_db)):
+    return await update_user(user=user, db=db)
 
 
 @router.get(
     "/user/{id}",
-    tags=["dasd"],
+    tags=["User"],
     status_code=HTTP_200_OK,
     response_class=ORJSONResponse,
 )
-async def geast(id: int, db: Session = Depends(get_db)):
+async def get(id: int, db: Session = Depends(get_db)):
     return await get_user(id=id, db=db)

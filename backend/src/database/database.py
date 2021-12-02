@@ -2,7 +2,7 @@ import typing
 import aiohttp
 from requests.exceptions import HTTPError
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.orm import backref, sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, Integer, Date, ForeignKey, Float, Boolean, Table
 from sqlalchemy.util.langhelpers import public_factory
@@ -43,8 +43,8 @@ class User(Base):
     is_admin = Column(Boolean)
     roles = relationship("Role",
                          secondary=secondary_role, lazy='joined')
-    detail = relationship("UserDetail", uselist=False,
-                          back_populates="user", lazy='joined')
+    detail = relationship(
+        "UserDetail", back_populates="user_info", lazy='joined', uselist=False)
 
 
 class UserDetail(Base):
@@ -57,6 +57,8 @@ class UserDetail(Base):
     phone = Column(String(32))
     position = Column(String(64), nullable=True)
     company_id = Column(Integer, ForeignKey('company.id'), nullable=True)
+    user_info = relationship("User", back_populates="detail")
+    company = relationship("Company", backref="workers")
 
     def __init__(self, pydantic_model) -> None:
         self.user_id = pydantic_model.user_id
@@ -73,7 +75,6 @@ class Company(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(128))
     inn = Column(String(64))
-    workers = relationship("UserDetail")
 
     def __init__(self, pydantic_model) -> None:
         self.name = pydantic_model.name
@@ -108,6 +109,7 @@ class Startup(Base):
     statuses = relationship("Status",
                             secondary=seconadary_status, lazy='joined')
     sphere_id = Column(Integer, ForeignKey('startup_spheres.id'))
+    sphere = relationship("StartupSpheres", lazy='joined')
 
     def __init__(self, pydantic_model) -> None:
         self.description = pydantic_model.description
@@ -119,7 +121,6 @@ class StartupSpheres(Base):
     __tablename__ = "startup_spheres"
     id = Column(Integer, primary_key=True)
     name = Column(String(256))
-    startups = relationship("Status", lazy='dynamic')
 
     def __init__(self, pydantic_model) -> None:
         self.name = pydantic_model.name
