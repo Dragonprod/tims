@@ -5,7 +5,7 @@ load_dotenv(os.path.abspath(__file__ + "/../../../../.env"))
 
 PRODUCTION = os.environ.get('PRODUCTION', False)
 
-API_BASE_URL = "http://localhost:8080/api"
+API_BASE_URL = "http://localhost:8080/api/v1"
 TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
 ADMINS_CHAT_IDS = os.environ.get('ADMINS_CHAT_IDS').split(',')
 

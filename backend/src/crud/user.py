@@ -1,5 +1,6 @@
+from src.helpers.codeGenerator import create_activation_code
 from ..core.security import get_password_hash
-from ..models.user import UserDetailModel, UserInCreate, UserInLogin, UserBase, UserResponse
+from ..models.user import UserDetailModel, UserActivationCodeModel, UserInCreate, UserInLogin, UserTelegramResponse, UserBase, UserResponse
 from ..database.database import User, UserDetail, get_db, Session
 from ..helpers.exceptions import EntityDoesNotExist
 from fastapi import Depends
@@ -34,3 +35,18 @@ async def get_user(id: int, db: Session):
     if dbuser is not None:
         return UserResponse.from_orm(dbuser)
     return None
+
+
+async def get_user_activation_code(id: int, db: Session):
+    dbuser = db.query(User).filter(User.id == id).first()
+    dbuser.activationLink = create_activation_code()
+    db.commit()
+    return UserActivationCodeModel.from_orm(dbuser)
+
+
+async def set_user_telegram_id(telegram, db: Session):
+    dbuser = db.query(User).filter(User.activationLink ==
+                                   telegram.activationLink).first()
+    dbuser.telegram_id = telegram.telegram_id
+    db.commit()
+    return UserTelegramResponse.from_orm(dbuser)
