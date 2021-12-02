@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './AsideMenu.module.css';
 
 import Button from '@mui/material/Button';
@@ -10,10 +10,34 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
 export default function AsideMenu() {
-  const [open, setOpen] = React.useState(true);
+  const [open0, setOpen0] = useState(false);
+  const [open1, setOpen1] = useState(false);
+  const [open2, setOpen2] = useState(false);
+  const [open3, setOpen3] = useState(false);
+  const [open4, setOpen4] = useState(false);
 
-  const handleClick = () => {
-    setOpen(!open);
+  const handleClick = (event, value) => {
+    switch (value) {
+      case 0:
+        setOpen0(!open0);
+        break;
+      case 1:
+        setOpen1(!open1);
+        break;
+      case 2:
+        setOpen2(!open2);
+        break;
+      case 3:
+        setOpen3(!open3);
+        break;
+      case 4:
+        setOpen4(!open4);
+        break;
+
+      default:
+        break;
+    }
+
   };
 
   return (
@@ -23,14 +47,14 @@ export default function AsideMenu() {
         sx={{ width: '100%', maxWidth: 360, bgcolor: 'white' }}
         component='nav'
         aria-labelledby='nested-list-subheader'>
-        <ListItemButton onClick={handleClick}>
+        <ListItemButton key='0' onClick={(event) => handleClick(event, 0)}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Городской транспорт'
           />
-          {open ? <ExpandLess /> : <ExpandMore />}
+          {open0 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Collapse in={open} timeout='auto' unmountOnExit>
+        <Collapse in={open0} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
             <ListItemButton sx={{ pl: 4 }}>
               <ListItemText primary='Метрополитен' />
@@ -46,56 +70,56 @@ export default function AsideMenu() {
             </ListItemButton>
           </List>
         </Collapse>
-        <ListItemButton onClick={handleClick}>
+        <ListItemButton onClick={(event) => handleClick(event, 1)}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Новые виды мобильности'
           />
-          {open ? <ExpandLess /> : <ExpandMore />}
+          {open1 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Collapse in={open} timeout='auto' unmountOnExit>
+        <Collapse in={open1} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
             <ListItemButton sx={{ pl: 4 }}>
               <ListItemText primary='Раздел 1' />
             </ListItemButton>
           </List>
         </Collapse>
-        <ListItemButton onClick={handleClick}>
+        <ListItemButton onClick={(event) => handleClick(event, 2)}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Безопасность дорожного движения'
           />
-          {open ? <ExpandLess /> : <ExpandMore />}
+          {open2 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Collapse in={open} timeout='auto' unmountOnExit>
+        <Collapse in={open2} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
             <ListItemButton sx={{ pl: 4 }}>
               <ListItemText primary='Раздел 1' />
             </ListItemButton>
           </List>
         </Collapse>
-        <ListItemButton onClick={handleClick}>
+        <ListItemButton onClick={(event) => handleClick(event, 3)}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Здоровые улицы и экология'
           />
-          {open ? <ExpandLess /> : <ExpandMore />}
+          {open3 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Collapse in={open} timeout='auto' unmountOnExit>
+        <Collapse in={open3} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
             <ListItemButton sx={{ pl: 4 }}>
               <ListItemText primary='Раздел 1' />
             </ListItemButton>
           </List>
         </Collapse>
-        <ListItemButton onClick={handleClick}>
+        <ListItemButton onClick={(event) => handleClick(event, 4)}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Цифровые технологии в транспорте'
           />
-          {open ? <ExpandLess /> : <ExpandMore />}
+          {open4 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Collapse in={open} timeout='auto' unmountOnExit>
+        <Collapse in={open4} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
             <ListItemButton sx={{ pl: 4 }}>
               <ListItemText primary='Раздел 1' />

@@ -21,13 +21,17 @@ const top100Films = [
 ];
 
 export default function Header() {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
-  const [open, setOpen] = useState(false)
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
 
   const handleClose = () => {
-    setOpen(!open);
+    setAnchorEl(null);
   };
-  
+
   return (
     <header className={styles.upperMenuHeader}>
       <Link className={styles.upperMenuLogo} to='/'>
@@ -62,16 +66,22 @@ export default function Header() {
         <IconButton
           color='primary'
           aria-label='upload picture'
+          onClick={handleClick}
           component='span'>
           <Avatar sx={{ bgcolor: deepPurple[500] }}>A</Avatar>
         </IconButton>
 
         <Menu
           keepMounted
+          anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
         >
-          <MenuItem>Профиль</MenuItem>
+          <MenuItem onClick={handleClose}>Мои стартапы</MenuItem>
+          <MenuItem onClick={handleClose}>Мои подписки</MenuItem>
+          <MenuItem onClick={handleClose}>Профиль</MenuItem>
+          <MenuItem />
+          <MenuItem onClick={handleClose}>Выйти</MenuItem>
 
         </Menu>
       </div>
