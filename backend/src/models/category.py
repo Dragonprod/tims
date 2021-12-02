@@ -5,7 +5,7 @@ from src.models.status import StatusBase
 from src.models.status import StatusBase
 
 
-class CategoryBase(BaseModel):
+class ChildrenCategoryBase(BaseModel):
     id: int
     name: str
 
@@ -13,8 +13,18 @@ class CategoryBase(BaseModel):
         orm_mode = True
 
 
+class CategoryBase(BaseModel):
+    id: int
+    name: str
+    children: List[ChildrenCategoryBase] = None
+
+    class Config:
+        orm_mode = True
+
+
 class CategoryCrateorUpdate(BaseModel):
     name: str
+    children: List[str]
 
     class Config:
         orm_mode = True

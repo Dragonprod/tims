@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import styles from './ProjectCard.module.css';
 import Card from '@mui/material/Card';
@@ -7,11 +7,14 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import Button from '@mui/material/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import StatusProjectTag from '../StatusProjectTag/StatusProjectTag';
 import ThemeProjectTag from '../ThemeProjectTag/ThemeProjectTag';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 
 export default function ProjectCard(props) {
+  const [isFavourite, setisFavourite] = useState(false)
+
   const name = props.name
   const description = props.description
   const reviewCount = props.reviewCount
@@ -20,14 +23,19 @@ export default function ProjectCard(props) {
   const statusTags = props.statusTags
   const themeTags = props.themeTags
 
+  const handleFavourite = () => {
+    setisFavourite(!isFavourite);
+  }
   return (
     <Card className={styles.card} variant='outlined'>
       <div className={styles.tagsContainer}>
         <div className={styles.statusProjectTagContainer}>
-          <StatusProjectTag status={1} />
+          {/* <StatusProjectTag status={1} /> */}
+          {statusTags}
         </div>
         <div className={styles.themeProjectTagContainer}>
-          <ThemeProjectTag theme={1} />
+          {/* <ThemeProjectTag theme={1} /> */}
+          {themeTags}
         </div>
       </div>
       <h1 className={styles.cardHeader}>
@@ -55,8 +63,9 @@ export default function ProjectCard(props) {
           <Button
             className={styles.muiLikeButton}
             variant='text'
-            startIcon={<FavoriteBorderIcon />}>
-            В избранное
+            onClick={handleFavourite}
+            startIcon={(isFavourite == true) ? <FavoriteIcon /> : <FavoriteBorderIcon />}>
+            {(isFavourite == true) ? "В избранном" : "В избранное"}
           </Button>
           <Button className={styles.muiReadMoreButton} variant='contained'>
             Подробнее

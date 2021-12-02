@@ -77,12 +77,18 @@ export default function Header() {
           open={open}
           onClose={handleClose}
         >
-          <MenuItem onClick={handleClose}>Мои стартапы</MenuItem>
-          <MenuItem onClick={handleClose}>Мои подписки</MenuItem>
-          <MenuItem onClick={handleClose}>Профиль</MenuItem>
-          <MenuItem />
-          <MenuItem onClick={handleClose}>Выйти</MenuItem>
-
+          <Link className={styles.upperMenuLogo} to='/subscriptions'>
+            <MenuItem onClick={handleClose}>Мои подписки</MenuItem>
+          </Link>
+          <Link className={styles.upperMenuLogo} to='/startups'>
+            <MenuItem onClick={handleClose}>Мои стартапы</MenuItem>
+          </Link>
+          <Link className={styles.upperMenuLogo} to='/profile'>
+            <MenuItem onClick={handleClose}>Профиль</MenuItem>
+          </Link>
+          <Link className={styles.upperMenuLogo} to='/'>
+            <MenuItem onClick={handleClose}>Выйти</MenuItem>
+          </Link>
         </Menu>
       </div>
     </header>

@@ -8,6 +8,7 @@ from sqlalchemy import Column, String, Integer, Date, ForeignKey, Float, Boolean
 from sqlalchemy.util.langhelpers import public_factory
 from src.core.config import DATABASE_HOST, DATABASE_PORT, DATABASE_USER, DATABASE_NAME, DATABASE_PASSWORD, PRODUCTION, ELASTIC_HOST, ELASTIC_PORT
 import os
+import datetime
 
 engine_postrgesql = create_engine(
     f'postgresql+psycopg2://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_NAME}')
@@ -65,8 +66,7 @@ class UserDetail(Base):
     phone = Column(String(32))
     position = Column(String(64), nullable=True)
     company_id = Column(Integer, ForeignKey('company.id'), nullable=True)
-    user_info = relationship("User", back_populates="detail")
-    company = relationship("Company", backref="workers")
+    user_info = relationship("User")
 
     def __init__(self, pydantic_model) -> None:
         self.user_id = pydantic_model.user_id
@@ -83,10 +83,12 @@ class Company(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(128))
     inn = Column(String(64))
+    count_workers = Column(Integer)
 
     def __init__(self, pydantic_model) -> None:
         self.name = pydantic_model.name
         self.inn = pydantic_model.inn
+        self.count_workers = pydantic_model.count_workers
 
 
 class Role(Base):
@@ -111,27 +113,44 @@ class Startup(Base):
     __tablename__ = "startup"
     id = Column(Integer, primary_key=True)
     name = Column(String(256))
+    date = Column(Date)
     description = Column(String(1024))
     author = Column(Integer, ForeignKey('user.id'))
+    company_id = Column(Integer, ForeignKey('company.id'))
     sertificate = Column(String(128))
     statuses = relationship("Status",
                             secondary=seconadary_status, lazy='joined')
     categories = relationship(
         "Category", secondary=seconadary_startup, lazy='joined')
+    company = relationship(
+        "Company", lazy='joined', uselist=False)
 
     def __init__(self, pydantic_model) -> None:
         self.description = pydantic_model.description
         self.name = pydantic_model.name
         self.author = pydantic_model.author
+        self.company_id = pydantic_model.company_id
+        self.sertificate = pydantic_model.sertificate
 
 
 class Category(Base):
     __tablename__ = "category"
     id = Column(Integer, primary_key=True)
     name = Column(String(256))
+    children = relationship(
+        "ChildrenCategory", back_populates="parent_category", lazy='joined')
 
     def __init__(self, pydantic_model) -> None:
         self.name = pydantic_model.name
+
+
+class ChildrenCategory(Base):
+    __tablename__ = "children_category"
+    id = Column(Integer, primary_key=True)
+    name = Column(String(128))
+    parent_category_id = Column(Integer, ForeignKey('category.id'))
+    parent_category = relationship(
+        "Category")
 
 
 Base.metadata.create_all(engine_postrgesql)
@@ -147,7 +166,7 @@ class Elastic():
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.post(Elastic._host +
-                                        f"/{Elastic._index}/_doc/{id}", body_params=body_params, query_params=query_params) as response:
+                                        f"/{Elastic._index}/_doc/{id}", json=body_params, query_params=query_params) as response:
                     response.raise_for_status()
         except HTTPError as http_err:
             return None

@@ -39,6 +39,9 @@ class Bot():
         update.message.reply_html(message)
         createLog(update)
 
+    def profileHandler(self, update: Update, context: CallbackContext) -> None:
+        pass
+    
     def projectsHandler(self, update: Update, context: CallbackContext) -> None:
         pass
     

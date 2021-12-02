@@ -25,6 +25,7 @@
 }
 .muiSearchButton {
   background: var(--accent-clr) !important;
+  box-shadow: none !important;
 }
 .muiSubscribeButton {
   color: var(--accent-clr) !important;
