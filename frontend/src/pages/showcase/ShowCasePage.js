@@ -10,12 +10,12 @@ import Select from '@mui/material/Select';
 
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
-import API from "../../api/api";
+import API from '../../api/api';
 
 export default function ShowCasePage() {
-  const [startupsCount, setstartupsCount] = useState(0)
-  const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0)
-  const [searchValue, setsearchValue] = useState(0)
+  const [startupsCount, setstartupsCount] = useState(0);
+  const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0);
+  const [searchValue, setsearchValue] = useState(0);
   const [page, setPage] = useState(1);
 
   // useEffect(() => {
@@ -25,13 +25,13 @@ export default function ShowCasePage() {
   //   };
 
   //   getStartupsData();
-  // }, []); 
+  // }, []);
 
   const handleChange = event => {
     setsearchValue(event.target.value);
   };
 
-  const handlePageChange = (value) => {
+  const handlePageChange = value => {
     setPage(value);
   };
 
@@ -85,7 +85,7 @@ export default function ShowCasePage() {
             <span>Показать:</span>
             <FormControl sx={{ m: 1, minWidth: 120 }}>
               <Select
-                value={age}
+                value={1}
                 onChange={handleChange}
                 displayEmpty
                 inputProps={{ 'aria-label': 'Without label' }}>
