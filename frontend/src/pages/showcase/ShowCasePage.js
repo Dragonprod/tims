@@ -25,7 +25,7 @@ export default function ShowCasePage() {
         <span className={styles.lightCounter}>250</span>
       </div>
       <div className={`${styles.boldHeader} ${styles.favouritesHeader}`}>
-        <h2 className={styles.boldHeader}>Все решения</h2>
+        <h2 className={styles.boldHeader}>Избранное</h2>
         <span className={styles.lightCounter}>12</span>
       </div>
 
