@@ -1,5 +1,6 @@
 import asyncio
 import aiohttp
+import random
 
 
 async def migrate_start():
@@ -122,7 +123,7 @@ async def create_company():
 
     async with aiohttp.ClientSession() as session:
         for i in range(0, len(companies)):
-            await session.post("http://localhost:8080/api/v1/company/create", json={'name': companies[i], "inn": "21321321"})
+            await session.post("http://localhost:8080/api/v1/company/create", json={'name': companies[i], "inn": "21321321", "count_workers": random.randint(0, 30)})
 
 
 async def create_startup():
@@ -147,6 +148,6 @@ async def create_startup():
                 "statuses": statuses[i],
                 "sertificate": "string",
                 "categories": categories[i],
-                "company_id": i})
+                "company_id": i+1})
 
 asyncio.run(migrate_start())
