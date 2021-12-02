@@ -50,12 +50,12 @@ export default function Header() {
         />
       </div>
       <div className={styles.userContainer}>
-        <Button
+        {/* <Button
           className={styles.muiAddButton}
           variant='contained'
           startIcon={<AddCircleIcon />}>
           Добавить
-        </Button>
+        </Button> */}
         <IconButton
           className={styles.muiBellButton}
           color='primary'
