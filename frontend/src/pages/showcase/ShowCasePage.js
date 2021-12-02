@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AsideMenu from '../../components/AsideMenu/AsideMenu';
 import Header from '../../components/Menu/Header';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
@@ -9,10 +9,10 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
 export default function ShowCasePage() {
-  const [age, setAge] = React.useState('');
+  const [searchValue, setsearchValue] = useState(0)
 
   const handleChange = event => {
-    setAge(event.target.value);
+    setsearchValue(event.target.value);
   };
 
   return (
@@ -35,14 +35,17 @@ export default function ShowCasePage() {
         <Select
           labelId='demo-simple-select-autowidth-label'
           id='demo-simple-select-autowidth'
-          value={age}
+          value={searchValue}
           onChange={handleChange}
           autoWidth
-          label='Age'
+          label='SearchValue'
           inputProps={{ 'aria-label': 'Without label' }}>
-          <MenuItem value={20}>Сначала новые</MenuItem>
-          <MenuItem value={21}>Сначала старые</MenuItem>
-          <MenuItem value={22}>Сначала популярные</MenuItem>
+          <MenuItem value={0}>По дате добавления: Сначала новые</MenuItem>
+          <MenuItem value={1}>По дате добавления: Сначала старые</MenuItem>
+          <MenuItem value={2}>Оценки: По возрастанию</MenuItem>
+          <MenuItem value={3}>Оценки: По убыванию</MenuItem>
+          <MenuItem value={4}>Отзывы: Меньше 10</MenuItem>
+          <MenuItem value={5}>Отзывы: Больше 10</MenuItem>
         </Select>
       </FormControl>
       <AsideMenu />
