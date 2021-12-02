@@ -40,7 +40,10 @@ class Bot():
 
     def projectsHandler(self, update: Update, context: CallbackContext) -> None:
         pass
-
+    
+    def categoriesHandler(self, update: Update, context: CallbackContext) -> None:
+        pass
+    
     def addHandler(self, update: Update, context: CallbackContext) -> None:
         if len(context.args) > 0:
             searchRequest = ' '.join(context.args)
