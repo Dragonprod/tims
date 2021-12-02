@@ -30,6 +30,7 @@
 /* ===== Card Text ===== */
 .cardText {
   font-size: 14px;
+  font-weight: 800;
   margin-bottom: 1em;
   padding-left: 1rem;
   max-width: 75%;

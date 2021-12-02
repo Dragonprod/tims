@@ -6,7 +6,7 @@
 }
 @font-face {
   font-family: 'MoscowSans';
-  src: url('./assets/fonts/MoscowSans.ttc');
+  src: url('./assets/fonts/MoscowSans/Regular.woff');
 }
 body {
   color: var(--text-and-icons-clr-primary);
