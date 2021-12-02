@@ -137,10 +137,9 @@ class Bot():
             self.checkUpdatesJobCallback, interval=3, context=None)
 
         dispatcher = updater.dispatcher
-
-        dispatcher.add_handler(CommandHandler('start', self.startHandler))
         dispatcher.add_handler(CommandHandler(
             "start", self.startHandlerConnect, Filters.regex(ADD_TELEGRAM_REGEXP)))
+        dispatcher.add_handler(CommandHandler('start', self.startHandler))
         dispatcher.add_handler(CommandHandler('help', self.helpHandler))
         dispatcher.add_handler(CommandHandler(
             'projects', self.projectsHandler))

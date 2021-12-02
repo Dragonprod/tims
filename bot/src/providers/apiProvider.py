@@ -16,8 +16,8 @@ class API():
             "telegram_id": int(chatId)
         }
         
-        request = requests.post(f'{API_BASE_URL}/user/telegram/add', data = connectData)
-
+        request = requests.post(f'{API_BASE_URL}/user/telegram/add', json = connectData)
+        
         if request.status_code == 200:
             return True
         else:
