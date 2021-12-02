@@ -8,6 +8,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import { Divider } from '@mui/material';
 
 export default function AsideMenu() {
   const [open0, setOpen0] = useState(false);
@@ -54,6 +55,7 @@ export default function AsideMenu() {
           />
           {open0 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
+        <Divider />
         <Collapse in={open0} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
             <ListItemButton sx={{ pl: 4 }}>
@@ -77,6 +79,7 @@ export default function AsideMenu() {
           />
           {open1 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
+        <Divider />
         <Collapse in={open1} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
             <ListItemButton sx={{ pl: 4 }}>
@@ -91,6 +94,7 @@ export default function AsideMenu() {
           />
           {open2 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
+        <Divider />
         <Collapse in={open2} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
             <ListItemButton sx={{ pl: 4 }}>
@@ -105,6 +109,7 @@ export default function AsideMenu() {
           />
           {open3 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
+        <Divider />
         <Collapse in={open3} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
             <ListItemButton sx={{ pl: 4 }}>
@@ -119,6 +124,7 @@ export default function AsideMenu() {
           />
           {open4 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
+        <Divider />
         <Collapse in={open4} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
             <ListItemButton sx={{ pl: 4 }}>
