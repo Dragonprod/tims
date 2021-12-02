@@ -1,8 +1,6 @@
-import os
 import typing
 import aiohttp
 from requests.exceptions import HTTPError
-
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
@@ -10,7 +8,8 @@ from sqlalchemy import Column, String, Integer, Date, ForeignKey, Float, Boolean
 from src.core.config import DATABASE_HOST, DATABASE_PORT, DATABASE_USER, DATABASE_NAME, DATABASE_PASSWORD, PRODUCTION, ELASTIC_HOST, ELASTIC_PORT
 import os
 
-engine_postrgesql = create_engine(f'postgresql+psycopg2://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_NAME}')
+engine_postrgesql = create_engine(
+    f'postgresql+psycopg2://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_NAME}')
 Session = sessionmaker(bind=engine_postrgesql)
 Base = declarative_base(bind=engine_postrgesql)
 
@@ -30,9 +29,9 @@ secondary_role = Table('user_roles', Base.metadata,
                        )
 
 seconadary_status = Table("statuses_startups", Base.metadata,
-                        Column('status_id', ForeignKey('status.id')),
-                        Column('startup_id', ForeignKey('startup.id'))
-                        )
+                          Column('status_id', ForeignKey('status.id')),
+                          Column('startup_id', ForeignKey('startup.id'))
+                          )
 
 
 class User(Base):
@@ -43,6 +42,27 @@ class User(Base):
     is_admin = Column(Boolean)
     roles = relationship("Role",
                          secondary=secondary_role, lazy='joined')
+    detail = relationship("UserDetail", uselist=False)
+
+
+class UserDetail(Base):
+    __tablename__ = "user_detail"
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    first_name = Column(String(128))
+    second_name = Column(String(128))
+    patronymic = Column(String(128))
+    phone = Column(String(32))
+    position = Column(String(64), nullable=True)
+    company_id = Column(Integer, ForeignKey('company.id'), nullable=True)
+
+
+class Company(Base):
+    __tablename__ = "company"
+    id = Column(Integer, primary_key=True)
+    name = Column(String(128))
+    inn = Column(String(64))
+    workers = relationship("UserDetail")
 
 
 class Role(Base):
@@ -66,13 +86,22 @@ class Startup(Base):
     name = Column(String(256))
     description = Column(String(1024))
     author = Column(Integer, ForeignKey('user.id'))
+    sertificate = Column(Boolean)
     statuses = relationship("Status",
-                        secondary=seconadary_status, lazy='joined')
+                            secondary=seconadary_status, lazy='joined')
+    sphere_id = Column(Integer, ForeignKey('startup_spheres.id'))
 
     def __init__(self, pydantic_model) -> None:
         self.description = pydantic_model.description
         self.name = pydantic_model.name
         self.author = pydantic_model.author
+
+
+class StartupSpheres(Base):
+    __tablename__ = "startup_spheres"
+    id = Column(Integer, primary_key=True)
+    name = Column(String(256))
+    startups = relationship("Status", lazy='dynamic')
 
 
 Base.metadata.create_all(engine_postrgesql)
