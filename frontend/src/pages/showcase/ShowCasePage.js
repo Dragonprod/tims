@@ -115,18 +115,20 @@ export default function ShowCasePage() {
           <span className={styles.projectCardsAmount}>29 результатов</span>
           <div className={styles.selectProjectCardsAmountContainer}>
             <span>Показать:</span>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
+            <FormControl
+              className={styles.projectCardsAmountSelect}
+              sx={{ m: 1, minWidth: 80 }}>
               <Select
-                value={1}
+                labelId='demo-simple-select-autowidth-label'
+                id='demo-simple-select-autowidth'
+                value={searchValue}
                 onChange={handleChange}
-                displayEmpty
+                autoWidth
+                label='SearchValue'
                 inputProps={{ 'aria-label': 'Without label' }}>
-                <MenuItem value=''>
-                  <em>None</em>
-                </MenuItem>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value={0}>10</MenuItem>
+                <MenuItem value={1}>20</MenuItem>
+                <MenuItem value={2}>30</MenuItem>
               </Select>
             </FormControl>
           </div>
