@@ -17,8 +17,8 @@ router = APIRouter()
     response_model=CategoryBase,
     response_class=ORJSONResponse,
 )
-async def category_create(company: CategoryCrateorUpdate = Body(...), db: Session = Depends(get_db)):
-    return await create_category(company=company, db=db)
+async def category_create(category: CategoryCrateorUpdate = Body(...), db: Session = Depends(get_db)):
+    return await create_category(category=category, db=db)
 
 
 @router.get(
@@ -28,7 +28,7 @@ async def category_create(company: CategoryCrateorUpdate = Body(...), db: Sessio
     response_class=ORJSONResponse,
 )
 async def startup_get(id: int, db: Session = Depends(get_db)):
-    category = await get_category(startup_id=id, db=db)
+    category = await get_category(category_id=id, db=db)
     if category is None:
         return HTTPException(HTTP_404_NOT_FOUND)
     return CategoryBase.from_orm(category)

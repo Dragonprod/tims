@@ -28,7 +28,7 @@ async def company_create(company: CompanyCrateorUpdate = Body(...), db: Session 
     response_class=ORJSONResponse,
 )
 async def company_get(id: int, db: Session = Depends(get_db)):
-    company = await get_company(startup_id=id, db=db)
+    company = await get_company(company_id=id, db=db)
     if company is None:
         return HTTPException(HTTP_404_NOT_FOUND)
     return CompanyBase.from_orm(company)

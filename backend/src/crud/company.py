@@ -12,8 +12,8 @@ async def create_company(company, db: Session):
     return dbcompany
 
 
-async def get_company(category_id, db: Session):
-    return db.query(Company).filter(Company.id == category_id).first()
+async def get_company(company_id, db: Session):
+    return db.query(Company).filter(Company.id == company_id).first()
 
 
 async def get_companies(db: Session):

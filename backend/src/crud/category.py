@@ -1,13 +1,18 @@
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_404_NOT_FOUND
-from ..database.database import Elastic, Startup, Status, User, get_db, Session, Category
+from ..database.database import Elastic, Startup, Status, User, get_db, Session, Category, ChildrenCategory
 from ..helpers.exceptions import EntityDoesNotExist
 from fastapi import Depends, Body, Depends
 
 
 async def create_category(category, db: Session):
     dbcategory = Category(category)
+    print(dbcategory)
+    children_categories = [ChildrenCategory(
+        name=name) for name in category.children]
+    print(children_categories)
     db.add(dbcategory)
+    dbcategory.children.extend(children_categories)
     db.commit()
     return dbcategory
 

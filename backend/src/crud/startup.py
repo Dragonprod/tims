@@ -12,15 +12,16 @@ async def create_startup(startup, db: Session):
         Category.id.in_(startup.statuses)).all()
     dbstarup = Startup(startup)
     db.add(dbstarup)
-    print(dbstarup)
-    response = await Elastic.create(dbstarup.id, body_params={
-        'name': dbstarup.name, 'description': dbstarup.description})
-    if response is not None:
-        dbstarup.statuses.extend(tags)
-        dbstarup.categories.extend(categories)
-        db.commit()
-    else:
-        db.rollback()
+    # response = await Elastic.create(dbstarup.id, body_params={
+    #     'name': dbstarup.name, 'description': dbstarup.description})
+    # print(response.status)
+    # if response is not None:
+    dbstarup.statuses.extend(tags)
+    dbstarup.categories.extend(categories)
+    print(1)
+    db.commit()
+    # else:
+    #     db.rollback()
     return dbstarup
 
 
