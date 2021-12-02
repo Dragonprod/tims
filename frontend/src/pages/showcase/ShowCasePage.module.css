@@ -35,10 +35,11 @@
   border-radius: 10px;
 }
 .favouritesHeader {
-  grid-column: 7 / 9;
+  grid-column: 6 / 9;
   grid-row: 2 / 3;
   position: relative;
   width: max-content;
+  margin-left: 2.5em;
 }
 
 /* ===== Select ===== */
