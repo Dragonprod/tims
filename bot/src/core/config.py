@@ -1,15 +1,18 @@
 import os
+from dotenv import load_dotenv
 
-PRODUCTION = os.getenv('PRODUCTION', False)
+load_dotenv(os.path.abspath(__file__ + "/../../../../.env"))
+
+PRODUCTION = os.environ.get('PRODUCTION', False)
 
 API_BASE_URL = "http://localhost:8080/api"
-TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
-ADMINS_CHAT_IDS = os.getenv('ADMINS_CHAT_IDS').split(',')
+TELEGRAM_BOT_TOKEN = os.environ.get('TELEGRAM_BOT_TOKEN')
+ADMINS_CHAT_IDS = os.environ.get('ADMINS_CHAT_IDS').split(',')
 
-DATABASE_HOST = os.getenv('DATABASE_HOST')
-DATABASE_NAME = os.getenv('DATABASE_NAME')
-DATABASE_USER = os.getenv('DATABASE_USER')
-DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD')
-DATABASE_PORT = os.getenv('DATABASE_PORT')
+DATABASE_HOST = os.environ.get('DATABASE_HOST')
+DATABASE_NAME = os.environ.get('DATABASE_NAME')
+DATABASE_USER = os.environ.get('DATABASE_USER')
+DATABASE_PASSWORD = os.environ.get('DATABASE_PASSWORD')
+DATABASE_PORT = os.environ.get('DATABASE_PORT')
 
 ADD_TELEGRAM_REGEXP = r'[A-Za-z]{5}[0-9]{5}'
