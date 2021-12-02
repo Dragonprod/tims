@@ -10,28 +10,45 @@ import Select from '@mui/material/Select';
 
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
-import API from "../../api/api";
+import API from '../../api/api';
+import StatusProjectTag from '../../components/StatusProjectTag/StatusProjectTag';
+import ThemeProjectTag from '../../components/ThemeProjectTag/ThemeProjectTag';
 
+function rebuildData(date) {
+  const dateArray = date.split('-')
+  return `${dateArray[2]}.${dateArray[1]}.${dateArray[0]}`
+}
+
+function renderStatuses(statuses) {
+  return statuses.map((status) => (
+    (statuses === []) ? <StatusProjectTag status={0} /> : <StatusProjectTag status={status.id} />
+  ))
+}
+
+function renderThemes(categories) {
+  return (categories.id === undefined) ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />] : [<ThemeProjectTag theme={categories[0].id} />, <ThemeProjectTag theme={categories[0].children[0].id} />]
+
+}
 export default function ShowCasePage() {
-  const [startupsCount, setstartupsCount] = useState(0)
-  const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0)
-  const [searchValue, setsearchValue] = useState(0)
+  const [startupData, setstartupData] = useState([]);
+  const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0);
+  const [searchValue, setsearchValue] = useState(0);
   const [page, setPage] = useState(1);
 
   // useEffect(() => {
   //   const getStartupsData = async () => {
   //     const startupsResponse = await API.get("/startup");
-  //     setstartupsCount(startupsResponse.data.startups.length);
+  //     setstartupData(startupsResponse.data.startups);
   //   };
 
   //   getStartupsData();
-  // }, []); 
+  // }, []);
 
   const handleChange = event => {
     setsearchValue(event.target.value);
   };
 
-  const handlePageChange = (value) => {
+  const handlePageChange = value => {
     setPage(value);
   };
 
@@ -43,7 +60,7 @@ export default function ShowCasePage() {
       </h2>
       <div className={`${styles.boldHeader} ${styles.solutionsHeader}`}>
         <h2 className={styles.boldHeader}>Все решения</h2>
-        <span className={styles.lightCounter}>{startupsCount}</span>
+        <span className={styles.lightCounter}>{startupData.length}</span>
       </div>
       <div className={`${styles.boldHeader} ${styles.favouritesHeader}`}>
         <h2 className={styles.boldHeader}>Избранное</h2>
@@ -70,21 +87,58 @@ export default function ShowCasePage() {
       </FormControl>
       <AsideMenu />
       <div className={styles.projectCardsGrid}>
+        {/* {startupData.map((startup) => (
+          <ProjectCard
+            name={startup.name}
+            description={startup.description}
+            reviewCount={11}
+            avgMark={5.6}
+            createdTime={rebuildData(startup.date)}
+            statusTags={renderStatuses(startup.statuses)}
+            themeTags={renderThemes(startup.categories)}
+          />
+        ))} */}
         <ProjectCard
-          name='Программное обеспечение для анализа транспортных потоков по видео'
-          description='Технология мониторинга может применяться как для учёта транспортных потоков, так и для адаптивного регулирования перекрёстков. Система способна определять ДТП, занятость парковочных мест, контролировать соблюдение правил дорожного движения.'
+          name='Обогреваемые остановки наземного транспорта'
+          description='Технология мониторинга может применяться как для учёта транспортных потоков, так и для адаптивного 
+          регулирования перекрёстков. Система способна определять ДТП, занятость парковочных мест, 
+          контролировать соблюдение правил дорожного движения.'
           reviewCount={11}
           avgMark={5.6}
-          createdTime={'02.12.2021'}
+          createdTime='03.13.2021'
+          statusTags={[<StatusProjectTag status={0} />, <StatusProjectTag status={1} />]}
+          themeTags={[<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={1} />]}
         />
       </div>
-      <Typography>Page: {page}</Typography>
-      <Pagination
-        className={styles.projectCardsGrid}
-        count={10}
-        page={page}
-        onChange={handlePageChange}
-      />
+      <div className={styles.projectCardsPagination}>
+        <div className={styles.projectCardsPaginationTextContainer}>
+          <span className={styles.projectCardsAmount}>29 результатов</span>
+          <div className={styles.selectProjectCardsAmountContainer}>
+            <span>Показать:</span>
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+              <Select
+                value={1}
+                onChange={handleChange}
+                displayEmpty
+                inputProps={{ 'aria-label': 'Without label' }}>
+                <MenuItem value=''>
+                  <em>None</em>
+                </MenuItem>
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
+        </div>
+
+        <Pagination
+          className={styles.muiPagination}
+          count={10}
+          page={page}
+          onChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 }
