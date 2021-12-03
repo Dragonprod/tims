@@ -1,9 +1,10 @@
+from ....models.review import ReviewList
 from ....database.database import User, get_db, Session
 from fastapi import APIRouter, Body, Depends
 
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
-from ....crud.startup import create_startup, get_startup, get_startups, like_startup, search_startup
+from ....crud.startup import create_startup, get_startup, get_startups, like_startup, search_startup, get_reviews
 from ....models.startup import StartupBase, StartupCrateorUpdate, StartupList
 from ....models.message import MessageBase
 from fastapi.responses import ORJSONResponse
@@ -79,9 +80,21 @@ async def startup_like(user_id: int, startup_id: int, db: Session = Depends(get_
     status_code=HTTP_200_OK,
     response_class=ORJSONResponse,
 )
-async def startup_like(user_id: int, startup_id: int, db: Session = Depends(get_db)):
+async def startup_like_delete(user_id: int, startup_id: int, db: Session = Depends(get_db)):
     startup = await like_startup(user_id=user_id, startup_id=startup_id, db=db)
     if startup is None:
         return HTTPException(HTTP_404_NOT_FOUND)
     else:
         return MessageBase(message="Success")
+
+
+@router.get(
+    "/startup/{id}/reviews",
+    tags=["Startup"],
+    status_code=HTTP_200_OK,
+    response_model=ReviewList,
+    response_class=ORJSONResponse,
+)
+async def reviews(id: int, db: Session = Depends(get_db)):
+    reviews = await get_reviews(startup_id=id, db=db)
+    return ReviewList(reviews=reviews)

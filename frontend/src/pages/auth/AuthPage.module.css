@@ -1,0 +1,104 @@
+/* ===== Main Grid ===== */
+.mainGrid {
+  display: grid;
+  grid-template-columns: 2em repeat(10, 1fr) 2em;
+  grid-template-rows: 66px auto;
+  height: 100vh;
+}
+
+/* ===== Carousel ===== */
+.carouselContainer {
+  display: grid;
+  grid-column: 1 / 7;
+  grid-row: 2;
+  place-items: center;
+  padding: 4em;
+  text-align: center;
+}
+.carouselTitle {
+  font-weight: 400;
+  font-size: var(--font-size-headline);
+}
+
+/* ===== Auth Form ===== */
+.authFormContainer {
+  display: grid;
+  place-items: center;
+  grid-column: 7 / 13;
+  grid-row: 2;
+  background: var(--bg-clr-lvl-2);
+  padding: 0 8em;
+  text-align: center;
+}
+.authFormBlock {
+  max-width: 400px;
+}
+.boldHeader {
+  font-weight: var(--font-weight-headline);
+  font-size: var(--font-size-headline);
+  display: inline;
+  color: var(--text-and-icons-clr-primary);
+  margin-bottom: 1rem;
+}
+.signupHeader {
+  color: var(--text-and-icons-clr-secondary);
+}
+.authFormDescription {
+  font-weight: 400;
+  font-size: 15px;
+  margin-bottom: 2rem;
+}
+.authFormHeaderContainer {
+  display: flex;
+  justify-content: space-evenly;
+}
+.authFormEmail,
+.authFormPassword {
+  width: 100%;
+  margin-bottom: 24px !important;
+}
+.authFormEmail fieldset,
+.authFormPassword fieldset {
+  border-radius: var(--rounding-lvl-2);
+}
+.forgotPassword {
+  display: inline-block;
+  color: var(--accent-clr);
+  margin-bottom: 32px;
+  float: left;
+}
+.muiLoginButton,
+.muiGoogleLoginButton {
+  width: 100% !important;
+  padding: 16px !important;
+  border-radius: 30px !important;
+  text-transform: initial !important;
+  font-family: MoscowSans, Roboto, sans-serif !important;
+}
+.authFormOrWord {
+  margin: 16px 0;
+}
+.muiLoginButton {
+  background: var(--accent-clr) !important;
+  box-shadow: none !important;
+}
+.muiLoginButton:hover {
+  background: hsl(178, 99%, 33%) !important;
+  box-shadow: none !important;
+}
+.muiGoogleLoginButton {
+  color: var(--text-and-icons-clr-primary) !important;
+  border-color: #ccc !important;
+}
+.muiGoogleLoginButton:hover {
+  color: var(--accent-clr) !important;
+  border-color: var(--accent-clr) !important;
+}
+.authFormTip {
+  font-weight: 300;
+  margin-top: 50px;
+  font-size: 15px;
+}
+.authFormSupportReference {
+  color: var(--accent-clr);
+}

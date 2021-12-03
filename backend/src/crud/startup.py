@@ -2,7 +2,7 @@ import random
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_404_NOT_FOUND
 from ..models.startup import StartupBase, StartupList
-from ..database.database import Category, Elastic, Image, Startup, Status, User, get_db, Session
+from ..database.database import Category, Elastic, Image, Reviews, Startup, Status, User, get_db, Session
 from ..helpers.exceptions import EntityDoesNotExist
 from fastapi import Depends, Body, Depends
 from datetime import date
@@ -78,3 +78,7 @@ async def delete_like_startup(user_id: int, startup_id: int, db: Session):
         db.commit()
         return True
     return None
+
+
+async def get_reviews(startup_id: int, db: Session):
+    return db.query(Reviews).filter(Reviews.startup_id == startup_id).all()

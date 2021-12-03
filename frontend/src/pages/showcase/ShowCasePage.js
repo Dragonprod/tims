@@ -3,11 +3,11 @@ import AsideMenu from '../../components/AsideMenu/AsideMenu';
 import Header from '../../components/Menu/Header';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import styles from './ShowCasePage.module.css';
-
+import { connect } from 'react-redux';
+import { setFormData } from '../../store/dataStorage/actions';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import API from '../../api/api';
@@ -42,7 +42,8 @@ function renderStartups(startups, pageSize, pageNumber) {
   return startups.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
 }
 
-export default function ShowCasePage() {
+function ShowCasePage(props) {
+  const userId = props.inputData["user_id"];
   const [startupData, setstartupData] = useState([]);
   const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0);
   const [searchValue, setsearchValue] = useState(0);
@@ -226,3 +227,11 @@ export default function ShowCasePage() {
     </div>
   );
 }
+
+const mapStateToProps = (state) => {
+  return {
+    inputData: state.dataStorage.forms,
+  };
+};
+
+export default connect(mapStateToProps, null)(ShowCasePage);
