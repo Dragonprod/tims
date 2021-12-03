@@ -91,8 +91,8 @@ sudo systemctl status docker
 ### Запуск:
 
 1. Запустите проект - `docker-compose up -d`
-2. Выполните миграции проекта:
-2.1 С помощью CURL - 
+2. Выполните миграции проекта:\
+2.1 С помощью CURL -
 ```sh
 curl -X 'POST' \
   'http://localhost:8080/api/v1/migrate/start' \
@@ -127,7 +127,7 @@ sudo systemctl status docker
 1. Установите зависимости для backend - `cd backend && pip install -r requirements.txt`
 2. Установите зависимости для frontend - `cd frontend && npm install`
 3. Установите зависимости для telegram бота - `cd bot && pip install -r requirements.txt`
-4. Выполните миграции проекта:
+4. Выполните миграции проекта:\
 4.1 С помощью CURL - 
 ```sh
 curl -X 'POST' \
