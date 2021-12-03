@@ -5,7 +5,7 @@ from fastapi import APIRouter, Body, Depends, Query
 
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
-from ....crud.startup import create_startup, get_startup_by_id, get_startups, like_startup, search_startup, get_reviews
+from ....crud.startup import create_startup, get_startup_by_id, get_startups, like_startup, search_startup, get_reviews, delete_like_startup
 from ....models.startup import StartupBase, StartupCrateorUpdate, StartupList
 from ....models.message import MessageBase
 from fastapi.responses import ORJSONResponse
@@ -83,7 +83,7 @@ async def startup_like(user_id: int, startup_id: int, db: Session = Depends(get_
     response_class=ORJSONResponse,
 )
 async def startup_like_delete(user_id: int, startup_id: int, db: Session = Depends(get_db)):
-    startup = await like_startup(user_id=user_id, startup_id=startup_id, db=db)
+    startup = await delete_like_startup(user_id=user_id, startup_id=startup_id, db=db)
     if startup is None:
         return HTTPException(HTTP_404_NOT_FOUND)
     else:

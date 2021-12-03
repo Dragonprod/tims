@@ -35,19 +35,27 @@ function renderThemes(categories) {
   return categories.id === undefined
     ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />]
     : [
-        <ThemeProjectTag theme={categories[0].id} />,
-        <ThemeProjectTag theme={categories[0].children[0].id} />,
-      ];
+      <ThemeProjectTag theme={categories[0].id} />,
+      <ThemeProjectTag theme={categories[0].children[0].id} />,
+    ];
 }
 
 function renderStartups(startups, pageSize, pageNumber) {
   return startups.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
 }
 
+function averageMark(reviews) {
+  let sum = 0;
+  for (let i = 0; i < reviews.length; i++)
+    sum += reviews[i].mark;
+  return (sum / reviews.length) || 0
+}
+
 function ShowCasePage(props) {
   const [userId, setuserId] = useState(-1);
   const [startupData, setstartupData] = useState([]);
   const [favouriteStartupData, setfavouriteStartupData] = useState([]);
+  const [startupReviewsData, setstartupReviewsData] = useState([]);
   const [searchValue, setsearchValue] = useState(0);
   const [rowValue, setrowValue] = useState(10);
   const [page, setPage] = useState(1);
@@ -74,13 +82,15 @@ function ShowCasePage(props) {
       const startupsResponse = await API.get('/startup?offset=0&limit=2000');
       setstartupData(startupsResponse.data.startups);
 
-      // const favouriteStartupsResponse = await API.get(`/user/favorites/${userId}`);
-      const favouriteStartupsResponse = await API.get(`/user/favorites/1`);
+      const userIdStorage = await localforage.getItem('user_id');
+      setuserId(userIdStorage);
+
+      const favouriteStartupsResponse = await API.get(`/user/favorites/${userIdStorage}`);
       setfavouriteStartupData(favouriteStartupsResponse.data.favorites_startup);
 
-      localforage.getItem('user_id').then(user_id => {
-        setuserId(user_id);
-      });
+      // const startupsReviewsResponse = await API.get(`/startup/${startup.id}/reviews`)
+      // setstartupReviewsData(response.data.reviews);
+
     };
     getStartupsData();
   }, []);
@@ -104,17 +114,15 @@ function ShowCasePage(props) {
         Фильтры:
       </h2>
       <div
-        className={`${styles.boldHeader} ${styles.solutionsHeader} ${
-          solutionTabIsClicked === true ? styles.solutionsHeaderActive : ''
-        }`}
+        className={`${styles.boldHeader} ${styles.solutionsHeader} ${solutionTabIsClicked === true ? styles.solutionsHeaderActive : ''
+          }`}
         onClick={handleSolutionTabIsClicked}>
         <h2 className={styles.boldHeader}>Все решения</h2>
         <span className={styles.lightCounter}>{startupData.length}</span>
       </div>
       <div
-        className={`${styles.boldHeader} ${styles.favouritesHeader} ${
-          favouritesTabIsClicked === true ? styles.favouritesHeaderActive : ''
-        }`}
+        className={`${styles.boldHeader} ${styles.favouritesHeader} ${favouritesTabIsClicked === true ? styles.favouritesHeaderActive : ''
+          }`}
         onClick={handleFavouriteTabIsClicked}>
         <h2 className={styles.boldHeader}>Избранное</h2>
         <span className={styles.lightCounter}>
@@ -150,8 +158,8 @@ function ShowCasePage(props) {
               user_id={userId}
               name={startup.name}
               description={startup.description}
-              reviewCount={11}
-              avgMark={5.6}
+              reviewCount={startupReviewsData.length}
+              avgMark={averageMark(startupReviewsData)}
               createdTime={rebuildData(startup.date)}
               statusTags={renderStatuses(startup.statuses)}
               themeTags={renderThemes(startup.categories)}
@@ -161,14 +169,15 @@ function ShowCasePage(props) {
 
         {favouritesTabIsClicked &&
           favouriteStartupData.length > 0 &&
-          favouriteStartupData.map(startup => (
+          renderStartups(favouriteStartupData, rowValue, page).map(startup => (
             <ProjectCard
               id={startup.id}
               user_id={userId}
+              isFavourite={true}
               name={startup.name}
               description={startup.description}
-              reviewCount={11}
-              avgMark={6}
+              reviewCount={startupReviewsData.length}
+              avgMark={averageMark(startupReviewsData)}
               createdTime={rebuildData(startup.date)}
               statusTags={renderStatuses(startup.statuses)}
               themeTags={renderThemes(startup.categories)}

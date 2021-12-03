@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import styles from './ProjectCard.module.css';
 import Card from '@mui/material/Card';
@@ -28,6 +28,10 @@ export default function ProjectCard(props) {
   const themeTags = props.themeTags
   const onClick = props.onClick
 
+  useEffect(() => {
+    setisFavourite(props.isFavourite);
+  }, [props.isFavourite]);
+
   const likeProcess = async e => {
     e.preventDefault();
 
@@ -39,7 +43,7 @@ export default function ProjectCard(props) {
         startup_id: id,
       };
 
-      const res = await API.post(`/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`);
+      const res = await API.delete(`/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`);
       console.log(res.data.message);
     }
     else {
@@ -49,7 +53,7 @@ export default function ProjectCard(props) {
         startup_id: id,
       };
 
-      const res = await API.delete(`/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`);
+      const res = await API.post(`/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`);
       console.log(res.data.message);
     }
 
