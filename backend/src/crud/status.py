@@ -14,3 +14,7 @@ async def create_tag(tag, db: Session):
 
 async def get_tag(tag_id, db: Session):
     return db.query(Status).filter(Status.id == tag_id).first()
+
+
+async def get_statuses(db: Session):
+    return db.query(Status).all()

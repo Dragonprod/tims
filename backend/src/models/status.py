@@ -16,3 +16,10 @@ class StatusCrateorUpdate(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class StatusList(BaseModel):
+    statuses: List[StatusBase]
+
+    class Config:
+        orm_mode = True
