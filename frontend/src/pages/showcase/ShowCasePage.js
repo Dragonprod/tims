@@ -90,7 +90,7 @@ export default function ShowCasePage() {
           <MenuItem value={5}>Отзывы: Больше 10</MenuItem>
         </Select>
       </FormControl>
-      <AsideMenu />
+      <AsideMenu render={true} />
       <div className={styles.projectCardsGrid}>
         {startupData.map((startup) => (
           <ProjectCard
