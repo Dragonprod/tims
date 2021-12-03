@@ -68,7 +68,6 @@ function ShowCasePage(props) {
       const startupsResponse = await API.get('/startup?offset=0&limit=2000');
       setstartupData(startupsResponse.data.startups);
     };
-
     getStartupsData();
   }, []);
 

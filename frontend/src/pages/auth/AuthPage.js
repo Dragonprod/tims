@@ -12,7 +12,7 @@ import parseJwt from '../../services/jwt';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
-import {ReactComponent as GoogleIcon} from '../../assets/images/GoogleIcon.svg';
+import { ReactComponent as GoogleIcon } from '../../assets/images/GoogleIcon.svg';
 import CarouselImg from '../../assets/images/slide_base.png';
 
 function AuthPage(props) {
@@ -20,8 +20,9 @@ function AuthPage(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const reducer = props;
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -55,9 +56,8 @@ function AuthPage(props) {
         const jwt = parseJwt(res.data.token);
         if (jwt.is_admin === true) navigate('/admin');
         else if (jwt.is_admin === false) navigate('/showcases');
-        props.setFormData('user_id', jwt.user_id);
+        reducer.setFormData('user_id', jwt.user_id);
       } catch (e) {
-        console.log(e);
       }
   };
   return (
@@ -117,7 +117,7 @@ function AuthPage(props) {
               Войти
             </Button>
             <p className={styles.authFormOrWord}>или</p>
-            <Button className={styles.muiGoogleLoginButton} variant='outlined' startIcon={<GoogleIcon/>}>
+            <Button className={styles.muiGoogleLoginButton} variant='outlined' startIcon={<GoogleIcon />}>
               Войти с помощью Google
             </Button>
             <Snackbar
