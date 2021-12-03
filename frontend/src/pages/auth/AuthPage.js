@@ -7,7 +7,9 @@ export default function AuthPage() {
     <div className={styles.mainGrid}>
       <HeaderBase />
       <div className={styles.carouselContainer}>
-        <h2>Находите интересные проекты для реализации в несколько кликов</h2>
+        <h2 className={styles.carouselTitle}>
+          Находите интересные проекты для реализации в несколько кликов
+        </h2>
         <img src='' alt='Screenshot 1' />
       </div>
       <div className={styles.authFormContainer}></div>
