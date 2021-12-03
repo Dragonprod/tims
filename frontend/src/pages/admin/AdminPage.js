@@ -18,15 +18,15 @@ import ProjectCardForAdmin from '../../components/ProjectCardForAdmin/ProjectCar
 
 export default function AdminPage() {
   const [searchValue, setsearchValue] = useState(0);
+  const [applicationsData, setapplicationsData] = useState([])
 
-  // useEffect(() => {
-  //     const getStartupsData = async () => {
-  //         const startupsResponse = await API.get("/startup");
-  //         setstartupData(startupsResponse.data.startups);
-  //     };
-
-  //     getStartupsData();
-  // }, []);
+  useEffect(() => {
+    const getStartupsData = async () => {
+      const startupsResponse = await API.get("/applications?user_id=2");
+      setapplicationsData(startupsResponse.data.applications);
+    };
+    getStartupsData();
+  }, []);
 
   const handleChange = event => {
     setsearchValue(event.target.value);
@@ -40,7 +40,7 @@ export default function AdminPage() {
       </h2>
       <div className={`${styles.boldHeader} ${styles.solutionsHeader}`}>
         <h2 className={styles.boldHeader}>Все решения</h2>
-        <span className={styles.lightCounter}>{9}</span>
+        <span className={styles.lightCounter}>{applicationsData.length}</span>
       </div>
       <FormControl
         className={`${styles.boldHeader} ${styles.selectHeader}`}
@@ -63,30 +63,12 @@ export default function AdminPage() {
       </FormControl>
       <AsideMenu render={false} />
       <div className={styles.projectCardsGrid}>
-        <ProjectCardForAdmin />
 
-        {/* {startupData.map((startup) => (
-                    <ProjectCard
-                        name={startup.name}
-                        description={startup.description}
-                        reviewCount={11}
-                        avgMark={5.6}
-                        createdTime={rebuildData(startup.date)}
-                        statusTags={renderStatuses(startup.statuses)}
-                        themeTags={renderThemes(startup.categories)}
-                    />
-                ))} */}
-        {/* <ProjectCard
-          name='Обогреваемые остановки наземного транспорта'
-          description='Технология мониторинга может применяться как для учёта транспортных потоков, так и для адаптивного 
-          регулирования перекрёстков. Система способна определять ДТП, занятость парковочных мест, 
-          контролировать соблюдение правил дорожного движения.'
-          reviewCount={11}
-          avgMark={5.6}
-          createdTime='03.13.2021'
-          statusTags={[<StatusProjectTag status={0} />, <StatusProjectTag status={1} />]}
-          themeTags={[<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={1} />]}
-        /> */}
+
+        {applicationsData.map((startup) => (
+          <ProjectCardForAdmin />
+        ))}
+
       </div>
     </div>
   );
