@@ -37,6 +37,24 @@ function renderThemes(categories) {
       <ThemeProjectTag theme={categories[0].children[0].id} />,
     ];
 }
+
+function renderStartups(startups, amount, page) {
+  let startupsComponents = []
+
+  for(let i = 0; i < amount; i++) {
+    startupsComponents.push(
+      <ProjectCard
+            name={startups[i].name}
+            description={startups[i].description}
+            reviewCount={11}
+            avgMark={5.6}
+            createdTime={rebuildData(startups[i].date)}
+            statusTags={renderStatuses(startups[i].statuses)}
+            themeTags={renderThemes(startups[i].categories)}
+          />
+    )
+  }
+}
 export default function ShowCasePage() {
   const [startupData, setstartupData] = useState([]);
   const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0);
