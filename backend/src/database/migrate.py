@@ -16,6 +16,7 @@ async def migrate_start():
     await create_statusses()
     await create_categories()
     await create_startup()
+    await create_reviews()
 
 
 async def create_users():
@@ -133,7 +134,7 @@ async def create_startup():
         "За последние 7 лет я создал самый передовой в мире разговорный ИИ с открытым доменом для Replika - чат-бота №1 в США с более чем 10 миллионами пользователей.",
         "Технология мониторинга может применяться как для учёта транспортных потоков, так и для адаптивного регулирования перекрёстков. Система способна определять ДТП, занятость парковочных мест, контролировать соблюдение правил дорожного движения."
     ]
-    
+
     author = 2
     categories = [[1, 2, 3]]
     sertificate = "Есть"
@@ -160,5 +161,30 @@ async def create_startup():
                 "brief_description": "brief",
                 "product_use_cases": "product_use_cases",
                 "usability": "usability"})
+
+
+async def create_reviews():
+    print("Reviews")
+
+    review = [
+        "Гениальнейший проект",
+        "Лучше проекта я в свой жизни не встречал",
+        "Я в своем познании настолько преисполнился, что я как будто бы уже сто триллионов миллиардов лет проживаю на триллионах и триллионах таких же планет, как эта Земля, мне этот мир абсолютно"
+    ]
+
+    async with aiohttp.ClientSession() as session:
+        for i in range(30):
+            await session.post("http://localhost:8080/api/v1/user/review/add", json={
+                "review": random.choice(review),
+                "user_id": 2,
+                "startup_id": i + 1,
+                "mark": random.randint(0, 10)
+            })
+            await session.post("http://localhost:8080/api/v1/user/review/add", json={
+                "review": random.choice(review),
+                "user_id": 2,
+                "startup_id": i + 1,
+                "mark": random.randint(0, 10)
+            })
 
 asyncio.run(migrate_start())
