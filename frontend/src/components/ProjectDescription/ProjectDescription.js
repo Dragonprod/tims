@@ -14,7 +14,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import IconButton from '@mui/material/IconButton';
 
 export default function ProjectDescription(props) {
-  const onClick = props.onClick
+  const onClick = props.onClick;
   const [isFavourite, setisFavourite] = useState(false);
   const [open, setopen] = useState(false);
 
@@ -65,23 +65,69 @@ export default function ProjectDescription(props) {
         <div className={styles.darkBackground}>
           <div className={styles.projectDescriptionCard}>
             <div className={styles.topButtonsContainer}>
-              <Button
-                className={styles.muiLikeButton}
-                variant='text'
-                // onClick={likeProcess}
-                startIcon={(isFavourite === true) ? <FavoriteIcon /> : <FavoriteBorderIcon />}>
-                {(isFavourite === true) ? "В избранном" : "В избранное"}
-              </Button>
-              <Button
-                className={styles.muiShareButton}
-                variant='text'
-                startIcon={<ShareIcon />}
-              >
-                Поделиться
-              </Button>
-              <IconButton aria-label='delete' onClick={onClick}>
+              <div className={styles.topButtonsInnerContainer}>
+                <Button
+                  className={styles.muiLikeButton}
+                  variant='text'
+                  // onClick={likeProcess}
+                  startIcon={
+                    isFavourite === true ? (
+                      <FavoriteIcon className={styles.muiLikeIcon} />
+                    ) : (
+                      <FavoriteBorderIcon className={styles.muiLikeIcon} />
+                    )
+                  }>
+                  {isFavourite === true ? 'В избранном' : 'В избранное'}
+                </Button>
+                <Button
+                  className={styles.muiShareButton}
+                  variant='text'
+                  startIcon={<ShareIcon className={styles.muiShareIcon} />}>
+                  Поделиться
+                </Button>
+              </div>
+              <IconButton
+                className={styles.muiCloseButton}
+                aria-label='delete'
+                onClick={onClick}>
                 <CloseIcon />
               </IconButton>
+            </div>
+            <div className={styles.imageBoxContainer}>
+              <h3 className={`${styles.boldHeader}`}>
+                Обогреваемые остановки наземного транспорта
+              </h3>
+              <img
+                className={`${styles.startupImg} ${styles.startupImgActive}`}
+                src={StartupImg1}
+                alt='Main'
+              />
+              <img
+                className={`${styles.startupImg}`}
+                src={StartupImg1}
+                alt='1'
+              />
+              <img
+                className={`${styles.startupImg}`}
+                src={StartupImg2}
+                alt='2'
+              />
+              <img
+                className={`${styles.startupImg}`}
+                src={StartupImg3}
+                alt='3'
+              />
+            </div>
+            <div className={styles.projectContainer}>
+              <h3 className={`${styles.boldHeader}`}>
+                Сведения о “Warm Stops”
+              </h3>
+              <h3 className={`${styles.boldHeader}`}>Описание продукта</h3>
+              <h3 className={`${styles.boldHeader}`}>
+                Кейсы использования продукта
+              </h3>
+              <h3 className={`${styles.boldHeader}`}>Польза продукта</h3>
+              <h3 className={`${styles.boldHeader}`}>Мнения экспертов</h3>
             </div>
           </div>
         </div>

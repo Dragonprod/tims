@@ -51,7 +51,7 @@ function ShowCasePage(props) {
   const [searchValue, setsearchValue] = useState(0);
   const [rowValue, setrowValue] = useState(10);
   const [page, setPage] = useState(1);
-  const [openDesc, setopenDesc] = useState(false);
+  const [openDesc, setopenDesc] = useState(true);
   const [solutionTabIsClicked, setsolutionTabIsClicked] = useState(true);
   const [favouritesTabIsClicked, setfavouritesTabIsClicked] = useState(false);
 
