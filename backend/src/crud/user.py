@@ -67,3 +67,8 @@ async def get_favorites(user_id: int, db: Session):
 async def get_applications(user_id: int, db: Session):
     startups = db.query(Startup).filter(Startup.author == user_id).all()
     return startups
+
+
+async def get_category_own(user_id: int, db: Session):
+    user = db.query(User).filter(User.id == user_id).first()
+    return user.subscription_general, user.subscription_children

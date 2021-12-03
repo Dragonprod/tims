@@ -2,7 +2,6 @@ from typing import List
 from sqlalchemy import desc, asc
 import random
 from sqlalchemy.orm import joinedload
-from sqlalchemy.sql.functions import func
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_404_NOT_FOUND
 from ..models.startup import StartupBase, StartupList
@@ -10,6 +9,7 @@ from ..database.database import Category, ChildrenCategory, Company, Elastic, Im
 from ..helpers.exceptions import EntityDoesNotExist
 from fastapi import Depends, Body, Depends
 from datetime import date
+from sqlalchemy.sql import func
 
 
 async def create_startup(startup, db: Session):
@@ -80,7 +80,7 @@ async def get_startups(children_categories: List[str], categories: List[str], so
 
         return db.query(Startup).join(Startup.categories).join(Startup.reviewses).join(ChildrenCategory).filter(filter_categries).filter(filter_children_categories).order_by(order_date, order_marks).limit(limit).offset(offset).all()
 
-    return db.query(Startup).join(Startup.categories).join(ChildrenCategory).filter(filter_categries).filter(filter_children_categories).order_by(order_date).limit(limit).offset(offset).all()
+    return db.query(Startup, func.avg(Reviews.mark).label('average')).join(Startup.categories).join(ChildrenCategory).filter(filter_categries).filter(filter_children_categories).order_by(order_date).limit(limit).offset(offset).all()
 
 
 async def like_startup(user_id: int, startup_id: int, db: Session):
