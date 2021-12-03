@@ -15,7 +15,7 @@ async def create_user(user, db: Session):
         new_user.roles.extend(roles)
         db.add(new_user)
         db.commit()
-        return UserBase(id=new_user.id, email=user.email, is_admin=user.is_admin)
+        return UserBase(id=new_user.id, email=user.email, is_admin=user.is_admin, roles=new_user.roles)
     else:
         return None
 
