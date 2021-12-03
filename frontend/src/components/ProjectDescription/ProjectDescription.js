@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-vars, react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import styles from './ProjectDescription.module.css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
