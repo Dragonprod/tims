@@ -84,6 +84,7 @@ function ShowCasePage(props) {
 
       const userIdStorage = await localforage.getItem('user_id');
       setuserId(userIdStorage);
+
       const favouriteStartupsResponse = await API.get(`/user/favorites/${userIdStorage}`);
       setfavouriteStartupData(favouriteStartupsResponse.data.favorites_startup);
 
@@ -172,6 +173,7 @@ function ShowCasePage(props) {
             <ProjectCard
               id={startup.id}
               user_id={userId}
+              isFavourite={true}
               name={startup.name}
               description={startup.description}
               reviewCount={startupReviewsData.length}
