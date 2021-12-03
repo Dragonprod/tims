@@ -15,60 +15,45 @@ import StatusProjectTag from '../../components/StatusProjectTag/StatusProjectTag
 import ThemeProjectTag from '../../components/ThemeProjectTag/ThemeProjectTag';
 
 function rebuildData(date) {
-  const dateArray = date.split('-');
-  return `${dateArray[2]}.${dateArray[1]}.${dateArray[0]}`;
+  const dateArray = date.split('-')
+  return `${dateArray[2]}.${dateArray[1]}.${dateArray[0]}`
 }
 
 function renderStatuses(statuses) {
-  return statuses.map(status =>
-    statuses === [] ? (
-      <StatusProjectTag status={0} />
-    ) : (
-      <StatusProjectTag status={status.id} />
-    )
-  );
+  return statuses.map((status) => (
+    (statuses === []) ? <StatusProjectTag status={0} /> : <StatusProjectTag status={status.id} />
+  ))
 }
 
 function renderThemes(categories) {
-  return categories.id === undefined
-    ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />]
-    : [
-        <ThemeProjectTag theme={categories[0].id} />,
-        <ThemeProjectTag theme={categories[0].children[0].id} />,
-      ];
+  return (categories.id === undefined) ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />] : [<ThemeProjectTag theme={categories[0].id} />, <ThemeProjectTag theme={categories[0].children[0].id} />]
+
 }
 export default function ShowCasePage() {
   const [startupData, setstartupData] = useState([]);
   const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0);
   const [searchValue, setsearchValue] = useState(0);
+  const [rowValue, setrowValue] = useState(10);
   const [page, setPage] = useState(1);
 
-  const [solutionTabIsClicked, setSolutionTabIsClicked] = useState(true);
-  const [favouritesTabIsClicked, setFavouritesTabIsClicked] = useState(false);
+  useEffect(() => {
+    const getStartupsData = async () => {
+      const startupsResponse = await API.get("/startup");
+      setstartupData(startupsResponse.data.startups);
+    };
 
-  const handleSolutionTabIsClicked = () => {
-    setSolutionTabIsClicked(!solutionTabIsClicked);
-    setFavouritesTabIsClicked(favouritesTabIsClicked);
-  };
-  const handleFavouritesTabIsClicked = () => {
-    setSolutionTabIsClicked(solutionTabIsClicked);
-    setFavouritesTabIsClicked(!favouritesTabIsClicked);
-  };
-
-  // useEffect(() => {
-  //   const getStartupsData = async () => {
-  //     const startupsResponse = await API.get("/startup");
-  //     setstartupData(startupsResponse.data.startups);
-  //   };
-
-  //   getStartupsData();
-  // }, []);
+    getStartupsData();
+  }, []);
 
   const handleChange = event => {
     setsearchValue(event.target.value);
   };
 
-  const handlePageChange = value => {
+  const handleChangeRowValue = event => {
+    setrowValue(event.target.value);
+  };
+
+  const handlePageChange = (event, value) => {
     setPage(value);
   };
 
@@ -78,19 +63,11 @@ export default function ShowCasePage() {
       <h2 className={`${styles.boldHeader} ${styles.filtersHeader}`}>
         Фильтры:
       </h2>
-      <div
-        className={`${styles.boldHeader} ${styles.solutionsHeader} ${
-          solutionTabIsClicked ? styles.solutionsHeaderActive : ''
-        }`}
-        onClick={handleSolutionTabIsClicked}>
+      <div className={`${styles.boldHeader} ${styles.solutionsHeader}`}>
         <h2 className={styles.boldHeader}>Все решения</h2>
         <span className={styles.lightCounter}>{startupData.length}</span>
       </div>
-      <div
-        className={`${styles.boldHeader} ${styles.favouritesHeader} ${
-          solutionTabIsClicked ? styles.favouritesHeaderActive : ''
-        }`}
-        onClick={handleFavouritesTabIsClicked}>
+      <div className={`${styles.boldHeader} ${styles.favouritesHeader}`}>
         <h2 className={styles.boldHeader}>Избранное</h2>
         <span className={styles.lightCounter}>{favouritesStartupsCount}</span>
       </div>
@@ -113,9 +90,20 @@ export default function ShowCasePage() {
           <MenuItem value={5}>Отзывы: Больше 10</MenuItem>
         </Select>
       </FormControl>
-      <AsideMenu />
+      <AsideMenu render={true} />
       <div className={styles.projectCardsGrid}>
-        <ProjectCard
+        {startupData.map((startup) => (
+          <ProjectCard
+            name={startup.name}
+            description={startup.description}
+            reviewCount={11}
+            avgMark={5.6}
+            createdTime={rebuildData(startup.date)}
+            statusTags={renderStatuses(startup.statuses)}
+            themeTags={renderThemes(startup.categories)}
+          />
+        ))}
+        {/* <ProjectCard
           name='Обогреваемые остановки наземного транспорта'
           description='Технология мониторинга может применяться как для учёта транспортных потоков, так и для адаптивного 
           регулирования перекрёстков. Система способна определять ДТП, занятость парковочных мест, 
@@ -123,19 +111,13 @@ export default function ShowCasePage() {
           reviewCount={11}
           avgMark={5.6}
           createdTime='03.13.2021'
-          statusTags={[
-            <StatusProjectTag status={0} />,
-            <StatusProjectTag status={1} />,
-          ]}
-          themeTags={[
-            <ThemeProjectTag theme={0} />,
-            <ThemeProjectTag theme={1} />,
-          ]}
-        />
+          statusTags={[<StatusProjectTag status={0} />, <StatusProjectTag status={1} />]}
+          themeTags={[<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={1} />]}
+        /> */}
       </div>
       <div className={styles.projectCardsPagination}>
         <div className={styles.projectCardsPaginationTextContainer}>
-          <span className={styles.projectCardsAmount}>29 результатов</span>
+          <span className={styles.projectCardsAmount}>{startupData.length} результатов</span>
           <div className={styles.selectProjectCardsAmountContainer}>
             <span>Показать:</span>
             <FormControl
@@ -144,21 +126,22 @@ export default function ShowCasePage() {
               <Select
                 labelId='demo-simple-select-autowidth-label'
                 id='demo-simple-select-autowidth'
-                value={searchValue}
-                onChange={handleChange}
+                value={rowValue}
+                onChange={handleChangeRowValue}
                 autoWidth
                 label='SearchValue'
                 inputProps={{ 'aria-label': 'Without label' }}>
-                <MenuItem value={0}>10</MenuItem>
-                <MenuItem value={1}>20</MenuItem>
-                <MenuItem value={2}>30</MenuItem>
+                <MenuItem value={10}>10</MenuItem>
+                <MenuItem value={20}>20</MenuItem>
+                <MenuItem value={30}>30</MenuItem>
               </Select>
             </FormControl>
           </div>
         </div>
+
         <Pagination
           className={styles.muiPagination}
-          count={10}
+          count={((startupData.length/rowValue) >= 1 ) ? Math.ceil(startupData.length/rowValue) : 1}
           page={page}
           onChange={handlePageChange}
         />

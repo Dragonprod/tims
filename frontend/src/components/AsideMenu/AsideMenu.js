@@ -65,7 +65,8 @@ const categories = {
   ],
 
 }
-export default function AsideMenu() {
+export default function AsideMenu(props) {
+  const renderSubscribeButton = props.render
   const [open0, setOpen0] = useState(false);
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
@@ -181,7 +182,7 @@ export default function AsideMenu() {
           />
           {open4 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
-        <Divider /> 
+        <Divider />
         <Collapse in={open4} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
             {categories['Здоровые улицы и экология'].map((category) => (
@@ -212,9 +213,11 @@ export default function AsideMenu() {
       <Button className={styles.muiSearchButton} variant='contained'>
         Искать
       </Button>
-      <Button className={styles.muiSubscribeButton} variant='outlined'>
-        Подписаться на поиск
-      </Button>
+      {renderSubscribeButton && (
+        <Button className={styles.muiSubscribeButton} variant='outlined'>
+          Подписаться на поиск
+        </Button>
+      )}
     </div>
   );
 }

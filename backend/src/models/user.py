@@ -1,5 +1,7 @@
-from typing import Optional
+from typing import List, Optional
 from pydantic import BaseModel
+
+from src.models.startup import StartupBase
 
 
 class UserBase(BaseModel):
@@ -51,14 +53,17 @@ class UserTelegramCreate(BaseModel):
     class Config:
         orm_mode = True
 
+
 class UserTelegramResponse(BaseModel):
     telegram_id: int = None
 
     class Config:
         orm_mode = True
 
+
 class UserResponse(UserBase):
-    detail: UserDetailModel
+    detail: UserDetailModel = None
+    favorites_startup: List[StartupBase]
 
     class Config:
         orm_mode = True

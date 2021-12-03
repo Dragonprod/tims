@@ -42,7 +42,7 @@ async def startup_get(id: int, db: Session = Depends(get_db)):
     response_model=StartupList,
     response_class=ORJSONResponse,
 )
-async def get_startups(offset: int = 20, db: Session = Depends(get_db)):
+async def startups_get(offset: int = 20, db: Session = Depends(get_db)):
     startups = await get_startups(offset=offset, db=db)
     return StartupList(startups=startups)
 
@@ -60,14 +60,28 @@ async def get_startup(search: str, db: Session = Depends(get_db)):
 
 
 @router.post(
-    "/startup/{search}/like",
+    "/startup/like",
     tags=["Startup"],
     status_code=HTTP_200_OK,
     response_class=ORJSONResponse,
 )
-async def startup_like(id: int, db: Session = Depends(get_db)):
-    startup = await like_startup(startup_id=id, db=db)
+async def startup_like(user_id: int, startup_id: int, db: Session = Depends(get_db)):
+    startup = await like_startup(user_id=user_id, startup_id=startup_id, db=db)
     if startup is None:
         return HTTPException(HTTP_404_NOT_FOUND)
     else:
-        return MessageBase(message=f"{startup.likes}")
+        return MessageBase(message="Success")
+
+
+@router.delete(
+    "/startup/like",
+    tags=["Startup"],
+    status_code=HTTP_200_OK,
+    response_class=ORJSONResponse,
+)
+async def startup_like(user_id: int, startup_id: int, db: Session = Depends(get_db)):
+    startup = await like_startup(user_id=user_id, startup_id=startup_id, db=db)
+    if startup is None:
+        return HTTPException(HTTP_404_NOT_FOUND)
+    else:
+        return MessageBase(message="Success")
