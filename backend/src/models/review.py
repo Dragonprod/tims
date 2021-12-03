@@ -9,6 +9,7 @@ class ReviewBase(BaseModel):
     review: str
     user: UserBase
     startup_id: int
+    mark: int
 
     class Config:
         orm_mode = True
@@ -18,6 +19,7 @@ class ReviewCrateorUpdate(BaseModel):
     review: str
     user_id: int
     startup_id: int
+    mark: int
 
     class Config:
         orm_mode = True

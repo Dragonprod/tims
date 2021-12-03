@@ -11,20 +11,33 @@ async def migrate_start():
     #                              create_statusses(db, session=session)),
     #                          asyncio.create_task(create_company(db, session=session)))
 
+    await create_roles()
     await create_users()
     await create_company()
     await create_statusses()
     await create_categories()
     await create_startup()
+    await create_reviews()
+
+
+async def create_roles():
+    role1 = {"role": "admin"}
+    role2 = {"role": "user"}
+    role3 = {"role": "client"}
+
+    async with aiohttp.ClientSession() as session:
+        await session.post("http://localhost:8080/api/v1/role/create", json=role1)
+        await session.post("http://localhost:8080/api/v1/role/create", json=role2)
+        await session.post("http://localhost:8080/api/v1/role/create", json=role3)
 
 
 async def create_users():
     user1 = {"email": "admin@example.com",
-             "password": "admin", "is_admin": "true"}
+             "password": "admin", "is_admin": "true", "roles": [0]}
     user2 = {"email": "client@example.com",
-             "password": "client", "is_admin": "false"}
+             "password": "client", "is_admin": "false", "roles": [2]}
     user3 = {"email": "startup@example.com",
-             "password": "startup", "is_admin": "false"}
+             "password": "startup", "is_admin": "false", "roles": [1]}
     async with aiohttp.ClientSession() as session:
         await session.post("http://localhost:8080/api/v1/users/create", json=user1)
         await session.post("http://localhost:8080/api/v1/users/create", json=user2)
@@ -133,6 +146,7 @@ async def create_startup():
         "За последние 7 лет я создал самый передовой в мире разговорный ИИ с открытым доменом для Replika - чат-бота №1 в США с более чем 10 миллионами пользователей.",
         "Технология мониторинга может применяться как для учёта транспортных потоков, так и для адаптивного регулирования перекрёстков. Система способна определять ДТП, занятость парковочных мест, контролировать соблюдение правил дорожного движения."
     ]
+
     author = 2
     categories = [[1, 2, 3]]
     sertificate = "Есть"
@@ -140,7 +154,9 @@ async def create_startup():
     name = [
         "Обогреваемые остановки наземного транспорта",
         "Программное обеспечение для анализа транспортных потоков по видео",
+        "",
     ]
+
     statuses = [[1], [1], [1], [5], [4], [2], [3], [4], [2], [4]]
     company_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
@@ -158,4 +174,27 @@ async def create_startup():
                 "product_use_cases": "product_use_cases",
                 "usability": "usability"})
 
-asyncio.run(migrate_start())
+
+async def create_reviews():
+    print("Reviews")
+
+    review = [
+        "Гениальнейший проект",
+        "Лучше проекта я в свой жизни не встречал",
+        "Я в своем познании настолько преисполнился, что я как будто бы уже сто триллионов миллиардов лет проживаю на триллионах и триллионах таких же планет, как эта Земля, мне этот мир абсолютно"
+    ]
+
+    async with aiohttp.ClientSession() as session:
+        for i in range(30):
+            await session.post("http://localhost:8080/api/v1/user/review/add", json={
+                "review": random.choice(review),
+                "user_id": 2,
+                "startup_id": i + 1,
+                "mark": random.randint(0, 10)
+            })
+            await session.post("http://localhost:8080/api/v1/user/review/add", json={
+                "review": random.choice(review),
+                "user_id": 2,
+                "startup_id": i + 1,
+                "mark": random.randint(0, 10)
+            })

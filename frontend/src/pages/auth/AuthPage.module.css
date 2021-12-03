@@ -18,6 +18,10 @@
 .carouselTitle {
   font-weight: 400;
   font-size: var(--font-size-headline);
+  margin-bottom: 30px;
+}
+.CarouselImg {
+  width: 80%;
 }
 
 /* ===== Auth Form ===== */

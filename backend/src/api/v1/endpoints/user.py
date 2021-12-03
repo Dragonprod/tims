@@ -65,12 +65,12 @@ async def review_create(review: ReviewCrateorUpdate = Body(...), db: Session = D
 
 
 @router.get(
-    "/user/{id}/favorites",
+    "/user/favorites/{user_id}",
     tags=["User"],
     status_code=HTTP_200_OK,
     response_model=UserFavoritesStartup,
     response_class=ORJSONResponse,
 )
-async def favorites_get(user_id, db: Session = Depends(get_db)):
+async def favorites_get(user_id: int, db: Session = Depends(get_db)):
     user = await get_favorites(user_id=user_id, db=db)
     return UserFavoritesStartup(favorites_startup=user.favorites_startup)

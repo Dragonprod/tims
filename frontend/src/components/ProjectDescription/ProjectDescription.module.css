@@ -1,0 +1,67 @@
+/* ===== Dark Background ===== */
+.darkBackground {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 200;
+  background: rgba(37, 34, 44, 0.5);
+}
+
+/* ===== Project Description Card ===== */
+.projectDescriptionCard {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: grid;
+  grid-template-rows: 1fr 10fr 10fr;
+  background: var(--bg-clr-lvl-2);
+  width: 700px;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 32px;
+}
+.topButtonsContainer {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr;
+  align-items: center;
+}
+.boldHeader {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+/* ===== Upper Buttons ===== */
+.muiShareButton,
+.muiLikeButton {
+  display: block;
+  text-transform: initial !important;
+  font-family: MoscowSans, Roboto, sans-serif !important;
+  width: fit-content;
+  font-weight: 300 !important;
+  color: #505c6a !important;
+  color: var(--accent-clr) !important;
+}
+.muiLikeButton {
+  height: fit-content;
+  border-radius: 12px !important;
+  margin-right: 18px !important;
+}
+.muiCloseButton {
+  justify-self: end;
+}
+
+/* ===== Image Box ===== */
+.startupImg {
+  width: 100px;
+  height: 80px;
+  object-fit: cover;
+  margin-right: 8px;
+  border-radius: 12px;
+}
+.startupImgActive {
+  width: 100%;
+  height: auto;
+  margin: 0 0 18px;
+}

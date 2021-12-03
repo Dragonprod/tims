@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars, jsx-a11y/anchor-is-valid*/
 import React, { useEffect, useState } from 'react';
 import HeaderBase from '../../components/HeaderBase/HeaderBase';
 import styles from './AuthPage.module.css';
@@ -12,14 +13,18 @@ import parseJwt from '../../services/jwt';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import { ReactComponent as GoogleIcon } from '../../assets/images/GoogleIcon.svg';
+import CarouselImg from '../../assets/images/slide_base.png';
+import localforage from "localforage";
 
 function AuthPage(props) {
   const [error, setError] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const reducer = props;
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -36,7 +41,7 @@ function AuthPage(props) {
     setPassword(e.target.value);
   };
 
-  const loginProccess = async e => {
+  const loginProcess = async e => {
     e.preventDefault();
 
     const data = {
@@ -44,7 +49,7 @@ function AuthPage(props) {
       password: password,
     };
 
-    const res = await API.post(`users/login`, data);
+    const res = await API.post(`/users/login`, data);
 
     if (res.data.status_code === 401) setError(true);
 
@@ -53,19 +58,27 @@ function AuthPage(props) {
         const jwt = parseJwt(res.data.token);
         if (jwt.is_admin === true) navigate('/admin');
         else if (jwt.is_admin === false) navigate('/showcases');
-        props.setFormData('user_id', jwt.user_id);
+        reducer.setFormData('user_id', jwt.user_id);
+        localforage.setItem("user_id", jwt.user_id).then(() => {
+          console.log("user_id saved to storage");
+        });
       } catch (e) {
-        console.log(e);
       }
   };
   return (
     <div className={styles.mainGrid}>
       <HeaderBase />
       <div className={styles.carouselContainer}>
-        <h2 className={styles.carouselTitle}>
-          Находите интересные проекты для реализации в несколько кликов
-        </h2>
-        <img src='' alt='Screenshot 1' />
+        <div className={styles.carouselBlock}>
+          <h2 className={styles.carouselTitle}>
+            Находите интересные проекты для реализации в несколько кликов
+          </h2>
+          <img
+            className={styles.CarouselImg}
+            src={CarouselImg}
+            alt='Screenshot Main'
+          />
+        </div>
       </div>
       <div className={styles.authFormContainer}>
         <div className={styles.authFormBlock}>
@@ -99,17 +112,20 @@ function AuthPage(props) {
                 onChange={handleChangePassword}
               />
             </div>
-            <a href='/' className={styles.forgotPassword}>
+            <a href='#' className={styles.forgotPassword}>
               Забыли пароль?
             </a>
             <Button
               className={styles.muiLoginButton}
               variant='contained'
-              onClick={loginProccess}>
+              onClick={loginProcess}>
               Войти
             </Button>
             <p className={styles.authFormOrWord}>или</p>
-            <Button className={styles.muiGoogleLoginButton} variant='outlined'>
+            <Button
+              className={styles.muiGoogleLoginButton}
+              variant='outlined'
+              startIcon={<GoogleIcon />}>
               Войти с помощью Google
             </Button>
             <Snackbar
@@ -128,7 +144,7 @@ function AuthPage(props) {
           </form>
           <p className={styles.authFormTip}>
             Возникли проблемы с авторизацией? <br /> Обратитесь в{' '}
-            <a className={styles.authFormSupportReference} href='/'>
+            <a className={styles.authFormSupportReference} href='#'>
               службу поддержки
             </a>
           </p>

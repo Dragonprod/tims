@@ -1,10 +1,11 @@
+from typing import List, Optional
 from ....models.review import ReviewList
 from ....database.database import User, get_db, Session
-from fastapi import APIRouter, Body, Depends
+from fastapi import APIRouter, Body, Depends, Query
 
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
-from ....crud.startup import create_startup, get_startup, get_startups, like_startup, search_startup, get_reviews
+from ....crud.startup import create_startup, get_startup_by_id, get_startups, like_startup, search_startup, get_reviews, delete_like_startup
 from ....models.startup import StartupBase, StartupCrateorUpdate, StartupList
 from ....models.message import MessageBase
 from fastapi.responses import ORJSONResponse
@@ -30,7 +31,7 @@ async def startup_create(startup: StartupCrateorUpdate = Body(...), db: Session 
     response_class=ORJSONResponse,
 )
 async def startup_get(id: int, db: Session = Depends(get_db)):
-    startup = await get_startup(startup_id=id, db=db)
+    startup = await get_startup_by_id(startup_id=id, db=db)
     if startup is None:
         return HTTPException(HTTP_404_NOT_FOUND)
     return StartupBase.from_orm(startup)
@@ -43,8 +44,9 @@ async def startup_get(id: int, db: Session = Depends(get_db)):
     response_model=StartupList,
     response_class=ORJSONResponse,
 )
-async def startups_get(status: str = None, category: str = None, offset: int = 20, limit: int = 20, db: Session = Depends(get_db)):
-    startups = await get_startups(offset=offset, limit=limit, db=db)
+async def startups_get(children_categories: Optional[List[str]] = Query(None), categories: Optional[List[str]] = Query(None), more: bool = None,  sort_mark: str = None,  sort_date: str = "DESK",  offset: int = 20, limit: int = 20, db: Session = Depends(get_db)):
+
+    startups = await get_startups(children_categories=children_categories, more=more, categories=categories, sort_mark=sort_mark, sort_date=sort_date, offset=offset, limit=limit, db=db)
     return StartupList(startups=startups)
 
 
@@ -81,7 +83,7 @@ async def startup_like(user_id: int, startup_id: int, db: Session = Depends(get_
     response_class=ORJSONResponse,
 )
 async def startup_like_delete(user_id: int, startup_id: int, db: Session = Depends(get_db)):
-    startup = await like_startup(user_id=user_id, startup_id=startup_id, db=db)
+    startup = await delete_like_startup(user_id=user_id, startup_id=startup_id, db=db)
     if startup is None:
         return HTTPException(HTTP_404_NOT_FOUND)
     else:

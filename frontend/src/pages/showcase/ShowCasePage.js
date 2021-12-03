@@ -1,10 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import AsideMenu from '../../components/AsideMenu/AsideMenu';
 import Header from '../../components/Menu/Header';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import styles from './ShowCasePage.module.css';
 import { connect } from 'react-redux';
-import { setFormData } from '../../store/dataStorage/actions';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -13,6 +13,8 @@ import Pagination from '@mui/material/Pagination';
 import API from '../../api/api';
 import StatusProjectTag from '../../components/StatusProjectTag/StatusProjectTag';
 import ThemeProjectTag from '../../components/ThemeProjectTag/ThemeProjectTag';
+import ProjectDescription from '../../components/ProjectDescription/ProjectDescription';
+import localforage from 'localforage';
 
 function rebuildData(date) {
   const dateArray = date.split('-');
@@ -42,14 +44,22 @@ function renderStartups(startups, pageSize, pageNumber) {
   return startups.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
 }
 
+function averageMark(reviews) {
+  let sum = 0;
+  for (let i = 0; i < reviews.length; i++)
+    sum += reviews[i].mark;
+  return (sum / reviews.length) || 0
+}
+
 function ShowCasePage(props) {
-  const userId = props.inputData["user_id"];
+  const [userId, setuserId] = useState(-1);
   const [startupData, setstartupData] = useState([]);
-  const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0);
+  const [favouriteStartupData, setfavouriteStartupData] = useState([]);
+  const [startupReviewsData, setstartupReviewsData] = useState([]);
   const [searchValue, setsearchValue] = useState(0);
   const [rowValue, setrowValue] = useState(10);
   const [page, setPage] = useState(1);
-
+  const [openDesc, setopenDesc] = useState(true);
   const [solutionTabIsClicked, setsolutionTabIsClicked] = useState(true);
   const [favouritesTabIsClicked, setfavouritesTabIsClicked] = useState(false);
 
@@ -63,12 +73,25 @@ function ShowCasePage(props) {
     setfavouritesTabIsClicked(true);
   };
 
+  const handleMoreInfo = () => {
+    setopenDesc(!openDesc);
+  };
+
   useEffect(() => {
     const getStartupsData = async () => {
       const startupsResponse = await API.get('/startup?offset=0&limit=2000');
       setstartupData(startupsResponse.data.startups);
-    };
 
+      const userIdStorage = await localforage.getItem('user_id');
+      setuserId(userIdStorage);
+
+      const favouriteStartupsResponse = await API.get(`/user/favorites/${userIdStorage}`);
+      setfavouriteStartupData(favouriteStartupsResponse.data.favorites_startup);
+
+      const startupsReviewsResponse = await API.get(`/reviews`)
+      setstartupReviewsData(startupsReviewsResponse.data.reviews);
+
+    };
     getStartupsData();
   }, []);
 
@@ -84,32 +107,6 @@ function ShowCasePage(props) {
     setPage(value);
   };
 
-  const startupsData = () => {
-    switch (searchValue) {
-      case 0:
-        return
-        break;
-
-      case 1:
-
-        break;
-      case 2:
-
-        break;
-      case 3:
-
-        break;
-      case 4:
-
-        break;
-      case 5:
-
-        break;
-
-      default:
-        break;
-    }
-  }
   return (
     <div className={styles.mainGrid}>
       <Header />
@@ -117,18 +114,20 @@ function ShowCasePage(props) {
         Фильтры:
       </h2>
       <div
-        className={`${styles.boldHeader} ${styles.solutionsHeader} ${(solutionTabIsClicked === true) ? styles.solutionsHeaderActive : ''
+        className={`${styles.boldHeader} ${styles.solutionsHeader} ${solutionTabIsClicked === true ? styles.solutionsHeaderActive : ''
           }`}
         onClick={handleSolutionTabIsClicked}>
         <h2 className={styles.boldHeader}>Все решения</h2>
         <span className={styles.lightCounter}>{startupData.length}</span>
       </div>
       <div
-        className={`${styles.boldHeader} ${styles.favouritesHeader} ${(favouritesTabIsClicked === true) ? styles.favouritesHeaderActive : ''
+        className={`${styles.boldHeader} ${styles.favouritesHeader} ${favouritesTabIsClicked === true ? styles.favouritesHeaderActive : ''
           }`}
         onClick={handleFavouriteTabIsClicked}>
         <h2 className={styles.boldHeader}>Избранное</h2>
-        <span className={styles.lightCounter}>{favouritesStartupsCount}</span>
+        <span className={styles.lightCounter}>
+          {favouriteStartupData.length}
+        </span>
       </div>
       <FormControl
         className={`${styles.boldHeader} ${styles.selectHeader}`}
@@ -150,42 +149,47 @@ function ShowCasePage(props) {
         </Select>
       </FormControl>
       <AsideMenu render={true} />
+      <ProjectDescription open={openDesc} onClick={handleMoreInfo} />
       <div className={styles.projectCardsGrid}>
-        {solutionTabIsClicked && renderStartups(startupData, rowValue, page).map(startup => (
-          <ProjectCard
-            name={startup.name}
-            description={startup.description}
-            reviewCount={11}
-            avgMark={5.6}
-            createdTime={rebuildData(startup.date)}
-            statusTags={renderStatuses(startup.statuses)}
-            themeTags={renderThemes(startup.categories)}
-          />
-        ))}
+        {solutionTabIsClicked &&
+          renderStartups(startupData, rowValue, page).map(startup => (
+            <ProjectCard
+              id={startup.id}
+              user_id={userId}
+              name={startup.name}
+              description={startup.description}
+              reviewCount={startupReviewsData.length}
+              avgMark={averageMark(startupReviewsData)}
+              createdTime={rebuildData(startup.date)}
+              statusTags={renderStatuses(startup.statuses)}
+              themeTags={renderThemes(startup.categories)}
+              onClick={handleMoreInfo}
+            />
+          ))}
 
-        {favouritesTabIsClicked && startupData.map(startup => (
-          <ProjectCard
-            name={startup.name}
-            description={startup.description}
-            reviewCount={11}
-            avgMark={6}
-            createdTime={rebuildData(startup.date)}
-            statusTags={renderStatuses(startup.statuses)}
-            themeTags={renderThemes(startup.categories)}
-          />
-        ))}
+        {favouritesTabIsClicked &&
+          favouriteStartupData.length > 0 &&
+          renderStartups(favouriteStartupData, rowValue, page).map(startup => (
+            <ProjectCard
+              id={startup.id}
+              user_id={userId}
+              isFavourite={true}
+              name={startup.name}
+              description={startup.description}
+              reviewCount={startupReviewsData.length}
+              avgMark={averageMark(startupReviewsData)}
+              createdTime={rebuildData(startup.date)}
+              statusTags={renderStatuses(startup.statuses)}
+              themeTags={renderThemes(startup.categories)}
+            />
+          ))}
 
-        {/* <ProjectCard
-          name='Обогреваемые остановки наземного транспорта'
-          description='Технология мониторинга может применяться как для учёта транспортных потоков, так и для адаптивного 
-          регулирования перекрёстков. Система способна определять ДТП, занятость парковочных мест, 
-          контролировать соблюдение правил дорожного движения.'
-          reviewCount={11}
-          avgMark={5.6}
-          createdTime='03.13.2021'
-          statusTags={[<StatusProjectTag status={0} />, <StatusProjectTag status={1} />]}
-          themeTags={[<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={1} />]}
-        /> */}
+        {favouritesTabIsClicked && favouriteStartupData.length === 0 && (
+          <p>
+            Вы пока не добавили ничего в избранное. Но это легко исправить, на
+            платформе много новых проектов.
+          </p>
+        )}
       </div>
       <div className={styles.projectCardsPagination}>
         <div className={styles.projectCardsPaginationTextContainer}>
@@ -228,7 +232,7 @@ function ShowCasePage(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     inputData: state.dataStorage.forms,
   };
