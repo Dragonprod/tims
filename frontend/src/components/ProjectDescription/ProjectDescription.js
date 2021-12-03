@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import styles from './ProjectDescription.module.css';
 import ShareIcon from '@mui/icons-material/Share';
@@ -22,6 +22,13 @@ export default function ProjectDescription(props) {
   const createdTime = props.createdTime;
   const statusTags = props.statusTags;
   const themeTags = props.themeTags;
+
+  const onClick = props.onClick;
+  const [open, setopen] = useState(false);
+
+  useEffect(() => {
+    setopen(props.open);
+  }, [props.open]);
 
   const likeProcess = async e => {
     e.preventDefault();
@@ -52,38 +59,42 @@ export default function ProjectDescription(props) {
   };
 
   return (
-    <div className={styles.darkBackground}>
-      <div className={styles.projectDescriptionCard}>
-        <div className={styles.topButtonsContainer}>
-          <Button
-            className={styles.muiLikeButton}
-            variant='text'
-            onClick={likeProcess}
-            startIcon={
-              isFavourite ? (
-                <FavoriteIcon className={styles.muiLikeIcon} />
-              ) : (
-                <FavoriteBorderIcon className={styles.muiLikeIcon} />
-              )
-            }>
-            {isFavourite ? 'В избранном' : 'В избранное'}
-          </Button>
+    <>
+      {open && (
+        <div className={styles.darkBackground}>
+          <div className={styles.projectDescriptionCard}>
+            <div className={styles.topButtonsContainer}>
+              <Button
+                className={styles.muiLikeButton}
+                variant='text'
+                onClick={likeProcess}
+                startIcon={
+                  isFavourite ? (
+                    <FavoriteIcon className={styles.muiLikeIcon} />
+                  ) : (
+                    <FavoriteBorderIcon className={styles.muiLikeIcon} />
+                  )
+                }>
+                {isFavourite ? 'В избранном' : 'В избранное'}
+              </Button>
 
-          <Button
-            className={styles.muiShareButton}
-            variant='text'
-            onClick={likeProcess}
-            startIcon={
-              isFavourite ? (
-                <FavoriteIcon className={styles.muiLikeIcon} />
-              ) : (
-                <FavoriteBorderIcon className={styles.muiLikeIcon} />
-              )
-            }>
-            Поделиться
-          </Button>
+              <Button
+                className={styles.muiShareButton}
+                variant='text'
+                onClick={likeProcess}
+                startIcon={
+                  isFavourite ? (
+                    <FavoriteIcon className={styles.muiLikeIcon} />
+                  ) : (
+                    <FavoriteBorderIcon className={styles.muiLikeIcon} />
+                  )
+                }>
+                Поделиться
+              </Button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }

@@ -14,6 +14,7 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { ReactComponent as GoogleIcon } from '../../assets/images/GoogleIcon.svg';
 import CarouselImg from '../../assets/images/slide_base.png';
+import localforage from "localforage";
 
 function AuthPage(props) {
   const [error, setError] = useState(false);
@@ -57,6 +58,9 @@ function AuthPage(props) {
         if (jwt.is_admin === true) navigate('/admin');
         else if (jwt.is_admin === false) navigate('/showcases');
         reducer.setFormData('user_id', jwt.user_id);
+        localforage.setItem("user_id", jwt.user_id).then(() => {
+          console.log("user_id saved to storage");
+        });
       } catch (e) {
       }
   };
