@@ -5,9 +5,10 @@ from fastapi import APIRouter, Body, Depends, Query
 
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
-from ....crud.startup import create_startup, get_startup_by_id, get_startups, like_startup, search_startup, get_reviews, delete_like_startup
+from ....crud.startup import create_startup, get_startup_by_id, get_startups, like_startup, search_startup, get_reviews, delete_like_startup, send_application
 from ....models.startup import StartupBase, StartupCrateorUpdate, StartupList
 from ....models.message import MessageBase
+from ....models.application import ApplicationBase
 from fastapi.responses import ORJSONResponse
 
 router = APIRouter()
@@ -100,3 +101,15 @@ async def startup_like_delete(user_id: int, startup_id: int, db: Session = Depen
 async def reviews(id: int, db: Session = Depends(get_db)):
     reviews = await get_reviews(startup_id=id, db=db)
     return ReviewList(reviews=reviews)
+
+
+@router.post(
+    "/startup/application",
+    tags=["Startup"],
+    status_code=HTTP_200_OK,
+    response_model=ApplicationBase,
+    response_class=ORJSONResponse,
+)
+async def application(startup_id: int, user_id: int, db: Session = Depends(get_db)):
+    user, startup = await send_application(user_id=user_id, startup_id=startup_id, db=db)
+    return ApplicationBase(client=user, startup=startup)

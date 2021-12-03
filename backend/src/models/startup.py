@@ -2,6 +2,7 @@ from enum import Enum
 from typing import List, Optional
 from datetime import date
 from pydantic import BaseModel
+from sqlalchemy.sql.sqltypes import Boolean
 from src.models.status import StatusBase
 from src.models.category import CategoryBase
 from src.models.company import CompanyBase
