@@ -55,8 +55,9 @@ async def get_startup(startup_id, db: Session):
     return db.query(Startup).filter(Startup.id == startup_id).first()
 
 
-async def get_startups(offset: int, db: Session):
-    return db.query(Startup).limit(offset).all()
+async def get_startups(offset: int, limit: int, db: Session):
+    return db.query(Startup).order_by(
+        Startup.date.desc()).limit(limit).offset(offset).all()
 
 
 async def like_startup(user_id: int, startup_id: int, db: Session):
