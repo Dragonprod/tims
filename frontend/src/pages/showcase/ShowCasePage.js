@@ -33,22 +33,27 @@ export default function ShowCasePage() {
   const [startupData, setstartupData] = useState([]);
   const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0);
   const [searchValue, setsearchValue] = useState(0);
+  const [rowValue, setrowValue] = useState(10);
   const [page, setPage] = useState(1);
 
-  // useEffect(() => {
-  //   const getStartupsData = async () => {
-  //     const startupsResponse = await API.get("/startup");
-  //     setstartupData(startupsResponse.data.startups);
-  //   };
+  useEffect(() => {
+    const getStartupsData = async () => {
+      const startupsResponse = await API.get("/startup");
+      setstartupData(startupsResponse.data.startups);
+    };
 
-  //   getStartupsData();
-  // }, []);
+    getStartupsData();
+  }, []);
 
   const handleChange = event => {
     setsearchValue(event.target.value);
   };
 
-  const handlePageChange = value => {
+  const handleChangeRowValue = event => {
+    setrowValue(event.target.value);
+  };
+
+  const handlePageChange = (event, value) => {
     setPage(value);
   };
 
@@ -87,7 +92,7 @@ export default function ShowCasePage() {
       </FormControl>
       <AsideMenu />
       <div className={styles.projectCardsGrid}>
-        {/* {startupData.map((startup) => (
+        {startupData.map((startup) => (
           <ProjectCard
             name={startup.name}
             description={startup.description}
@@ -97,8 +102,8 @@ export default function ShowCasePage() {
             statusTags={renderStatuses(startup.statuses)}
             themeTags={renderThemes(startup.categories)}
           />
-        ))} */}
-        <ProjectCard
+        ))}
+        {/* <ProjectCard
           name='Обогреваемые остановки наземного транспорта'
           description='Технология мониторинга может применяться как для учёта транспортных потоков, так и для адаптивного 
           регулирования перекрёстков. Система способна определять ДТП, занятость парковочных мест, 
@@ -108,11 +113,11 @@ export default function ShowCasePage() {
           createdTime='03.13.2021'
           statusTags={[<StatusProjectTag status={0} />, <StatusProjectTag status={1} />]}
           themeTags={[<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={1} />]}
-        />
+        /> */}
       </div>
       <div className={styles.projectCardsPagination}>
         <div className={styles.projectCardsPaginationTextContainer}>
-          <span className={styles.projectCardsAmount}>29 результатов</span>
+          <span className={styles.projectCardsAmount}>{startupData.length} результатов</span>
           <div className={styles.selectProjectCardsAmountContainer}>
             <span>Показать:</span>
             <FormControl
@@ -121,14 +126,14 @@ export default function ShowCasePage() {
               <Select
                 labelId='demo-simple-select-autowidth-label'
                 id='demo-simple-select-autowidth'
-                value={searchValue}
-                onChange={handleChange}
+                value={rowValue}
+                onChange={handleChangeRowValue}
                 autoWidth
                 label='SearchValue'
                 inputProps={{ 'aria-label': 'Without label' }}>
-                <MenuItem value={0}>10</MenuItem>
-                <MenuItem value={1}>20</MenuItem>
-                <MenuItem value={2}>30</MenuItem>
+                <MenuItem value={10}>10</MenuItem>
+                <MenuItem value={20}>20</MenuItem>
+                <MenuItem value={30}>30</MenuItem>
               </Select>
             </FormControl>
           </div>
@@ -136,7 +141,7 @@ export default function ShowCasePage() {
 
         <Pagination
           className={styles.muiPagination}
-          count={10}
+          count={((startupData.length/rowValue) >= 1 ) ? Math.ceil(startupData.length/rowValue) : 1}
           page={page}
           onChange={handlePageChange}
         />
