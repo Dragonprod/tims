@@ -4,8 +4,8 @@ from fastapi import APIRouter, Body, Depends
 
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
-from ....crud.status import create_tag, get_tag
-from ....models.status import StatusBase, StatusCrateorUpdate
+from ....crud.status import create_tag, get_statuses, get_tag
+from ....models.status import StatusBase, StatusCrateorUpdate, StatusList
 from fastapi.responses import ORJSONResponse
 
 router = APIRouter()
@@ -34,3 +34,14 @@ async def status_get(id: int, db: Session = Depends(get_db)):
     if tag is None:
         return HTTPException(HTTP_404_NOT_FOUND)
     return StatusBase.from_orm(tag)
+
+
+@router.get(
+    "/status",
+    tags=["Status"],
+    status_code=HTTP_200_OK,
+    response_class=ORJSONResponse,
+)
+async def status_get(db: Session = Depends(get_db)):
+    statuses = await get_statuses(db=db)
+    return StatusList(statuses=statuses)

@@ -11,6 +11,8 @@ class StartupBase(BaseModel):
     id: int = None
     name: str
     description: str
+    brief_description: str
+    usability: str
     author: int
     date: date
     company_id: int
@@ -18,6 +20,7 @@ class StartupBase(BaseModel):
     sertificate: str = None
     categories: List[CategoryBase]
     company: CompanyBase = None
+    images: List[str] = None
 
     class Config:
         orm_mode = True
@@ -25,12 +28,16 @@ class StartupBase(BaseModel):
 
 class StartupCrateorUpdate(BaseModel):
     description: str
+    brief_description: str
+    product_use_cases: str
+    usability: str
     name: str
     author: int
     company_id: int
     statuses: List[int]
     sertificate: str
     categories: List[int]
+    images: List[str] = None
 
     class Config:
         orm_mode = True

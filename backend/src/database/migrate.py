@@ -129,25 +129,33 @@ async def create_company():
 async def create_startup():
     print("Startup")
 
-    description = ["10", "10", "10", "10", "10", "10", "10", "10", "10", "10"]
+    description = [
+        "За последние 7 лет я создал самый передовой в мире разговорный ИИ с открытым доменом для Replika - чат-бота №1 в США с более чем 10 миллионами пользователей.",
+        "Технология мониторинга может применяться как для учёта транспортных потоков, так и для адаптивного регулирования перекрёстков. Система способна определять ДТП, занятость парковочных мест, контролировать соблюдение правил дорожного движения."
+    ]
     author = 2
-    categories = [[1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [
-        1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3], [1, 2, 3]]
-
+    categories = [[1, 2, 3]]
     sertificate = "Есть"
-    name = ["GENESIAS", "DASDSA", "sfdsfds", "dsdsasa", "dsadsa",
-            "dsadsa", "gfdgdf", "fsdfsd", "]fdsfds", "fsdfds"]
-    statuses = [[0], [1], [1], [5], [4], [2], [3], [4], [2], [4]]
+
+    name = [
+        "Обогреваемые остановки наземного транспорта",
+        "Программное обеспечение для анализа транспортных потоков по видео",
+    ]
+    statuses = [[1], [1], [1], [5], [4], [2], [3], [4], [2], [4]]
+    company_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     async with aiohttp.ClientSession() as session:
-        for i in range(10):
+        for i in range(30):
             await session.post("http://localhost:8080/api/v1/startup/create", json={
-                "description": description[i],
-                "name": name[i],
+                "description": random.choice(description),
+                "name": random.choice(name),
                 "author": 2,
-                "statuses": statuses[i],
+                "statuses": random.choice(statuses),
                 "sertificate": "string",
-                "categories": categories[i],
-                "company_id": i+1})
+                "categories": categories[0],
+                "company_id": random.choice(company_ids),
+                "brief_description": "brief",
+                "product_use_cases": "product_use_cases",
+                "usability": "usability"})
 
 asyncio.run(migrate_start())

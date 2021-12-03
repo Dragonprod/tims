@@ -14,6 +14,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import DefaultAvatar from "../../assets/images/default_avatar.png";
 
 const top100Films = [
   { title: 'The Shawshank Redemption', year: 1994 },
@@ -50,12 +51,12 @@ export default function Header() {
         />
       </div>
       <div className={styles.userContainer}>
-        <Button
+        {/* <Button
           className={styles.muiAddButton}
           variant='contained'
           startIcon={<AddCircleIcon />}>
           Добавить
-        </Button>
+        </Button> */}
         <IconButton
           className={styles.muiBellButton}
           color='primary'
@@ -68,7 +69,7 @@ export default function Header() {
           aria-label='upload picture'
           onClick={handleClick}
           component='span'>
-          <Avatar src="assets/images/default_avatar.png" />
+          <Avatar src={DefaultAvatar} />
         </IconButton>
 
         <Menu
