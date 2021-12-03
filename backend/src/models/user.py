@@ -8,6 +8,23 @@ class RoleBase(BaseModel):
     id: int
     role: str
 
+    class Config:
+        orm_mode = True
+
+
+class RoleCreateprUpdate(BaseModel):
+    role: str
+
+    class Config:
+        orm_mode = True
+
+
+class RoleList(BaseModel):
+    roles: List[RoleBase]
+
+    class Config:
+        orm_mode = True
+
 
 class UserBase(BaseModel):
     id: int

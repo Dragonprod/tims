@@ -11,6 +11,7 @@ async def migrate_start():
     #                              create_statusses(db, session=session)),
     #                          asyncio.create_task(create_company(db, session=session)))
 
+    await create_roles()
     await create_users()
     await create_company()
     await create_statusses()
@@ -19,13 +20,24 @@ async def migrate_start():
     await create_reviews()
 
 
+async def create_roles():
+    role1 = {"role": "admin"}
+    role2 = {"role": "user"}
+    role3 = {"role": "client"}
+
+    async with aiohttp.ClientSession() as session:
+        await session.post("http://localhost:8080/api/v1/role/create", json=role1)
+        await session.post("http://localhost:8080/api/v1/role/create", json=role2)
+        await session.post("http://localhost:8080/api/v1/role/create", json=role3)
+
+
 async def create_users():
     user1 = {"email": "admin@example.com",
-             "password": "admin", "is_admin": "true"}
+             "password": "admin", "is_admin": "true", "roles": [0]}
     user2 = {"email": "client@example.com",
-             "password": "client", "is_admin": "false"}
+             "password": "client", "is_admin": "false", "roles": [2]}
     user3 = {"email": "startup@example.com",
-             "password": "startup", "is_admin": "false"}
+             "password": "startup", "is_admin": "false", "roles": [1]}
     async with aiohttp.ClientSession() as session:
         await session.post("http://localhost:8080/api/v1/users/create", json=user1)
         await session.post("http://localhost:8080/api/v1/users/create", json=user2)
