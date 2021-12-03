@@ -1,4 +1,6 @@
 import logging
+
+from sqlalchemy.sql.functions import user
 from src.database.db import TelegramUsers, Session
 
 logger = logging.getLogger(__name__)
@@ -19,3 +21,25 @@ def getUserById(chatid):
         return [True, userQuery]
     else:
         return [False, None]
+
+def getNotificationStatus(chatid):
+    userQuery = db.query(TelegramUsers).filter(
+        TelegramUsers.chatid == str(chatid)).first()
+    if userQuery != None:
+        return userQuery.notifications 
+        
+def enableNotifications(chatid):
+    userQuery = db.query(TelegramUsers).filter(
+        TelegramUsers.chatid == str(chatid)).first()
+    if userQuery != None:
+        userQuery.notifications = True
+        db.commit()
+        db.close()
+
+def disableNotifications(chatid):
+    userQuery = db.query(TelegramUsers).filter(
+        TelegramUsers.chatid == str(chatid)).first()
+    if userQuery != None:
+        userQuery.notifications = False
+        db.commit()
+        db.close()
