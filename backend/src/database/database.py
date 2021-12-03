@@ -41,6 +41,12 @@ seconadary_startup = Table("categories_startup", Base.metadata,
                            Column('startup_id', ForeignKey('startup.id'))
                            )
 
+seconadary_favorites = Table("favorites", Base.metadata,
+                             Column('user_id', ForeignKey(
+                                 'user.id')),
+                             Column('startup_id', ForeignKey('startup.id'))
+                             )
+
 
 class User(Base):
     __tablename__ = "user"
@@ -54,6 +60,8 @@ class User(Base):
                          secondary=secondary_role, lazy='joined')
     detail = relationship(
         "UserDetail", back_populates="user_info", lazy='joined', uselist=False)
+    favorites_startup = relationship(
+        "Startup", secondary=seconadary_favorites, lazy='joined')
 
 
 class UserDetail(Base):

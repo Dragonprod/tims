@@ -59,9 +59,21 @@ async def get_startups(offset: int, db: Session):
     return db.query(Startup).limit(offset).all()
 
 
-async def like_startup(startup_id: int, db: Session):
+async def like_startup(user_id: int, startup_id: int, db: Session):
+    dbuser = db.query(User).filter(User.id == user_id).first()
     dbstartup = db.query(Startup).filter(Startup.id == startup_id).first()
-    if dbstartup is not None:
-        dbstartup.likes += 1
+    if dbuser is not None and dbstartup is not None:
+        dbuser.favorites_startup.append(dbstartup)
         db.commit()
-    return dbstartup
+        return True
+    return None
+
+
+async def delete_like_startup(user_id: int, startup_id: int, db: Session):
+    dbuser = db.query(User).filter(User.id == user_id).first()
+    dbstartup = db.query(Startup).filter(Startup.id == startup_id).first()
+    if dbuser is not None and dbstartup is not None:
+        dbuser.favorites_startup.remove(dbstartup)
+        db.commit()
+        return True
+    return None
