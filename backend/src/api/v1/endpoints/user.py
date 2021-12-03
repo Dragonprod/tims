@@ -4,8 +4,8 @@ from fastapi import APIRouter, Body, Depends
 
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_202_ACCEPTED
-from ....crud.user import get_user, set_user_telegram_id, update_user, get_user_activation_code, create_review
-from ....models.user import UserDetailModel, UserTelegramCreate
+from ....crud.user import get_favorites, get_user, set_user_telegram_id, update_user, get_user_activation_code, create_review
+from ....models.user import UserDetailModel, UserTelegramCreate, UserFavoritesStartup
 from fastapi.responses import ORJSONResponse
 
 router = APIRouter()
@@ -62,3 +62,15 @@ async def add_telegram(telegram: UserTelegramCreate = Body(...), db: Session = D
 async def review_create(review: ReviewCrateorUpdate = Body(...), db: Session = Depends(get_db)):
     review = await create_review(review=review, db=db)
     return review
+
+
+@router.post(
+    "/user/{id}/favorites",
+    tags=["User"],
+    status_code=HTTP_200_OK,
+    response_model=UserFavoritesStartup,
+    response_class=ORJSONResponse,
+)
+async def favorites_get(user_id, db: Session = Depends(get_db)):
+    user = await get_favorites(user_id=user_id, db=db)
+    return UserFavoritesStartup(favorites_startup=user.favorites_startup)

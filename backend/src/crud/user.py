@@ -57,3 +57,7 @@ async def create_review(review, db: Session):
     db.add(review)
     db.commit()
     return review
+
+
+async def get_favorites(user_id: int, db: Session):
+    return db.query(User).filter(User.id == user_id).first()
