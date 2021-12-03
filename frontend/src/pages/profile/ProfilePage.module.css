@@ -38,8 +38,9 @@
   height: 100px !important;
 }
 .firstLine,
-.secondLine {
-  margin-top: 48px;
+.secondLine,
+.thirdLine {
+  margin: 48px 0;
 }
 .input {
   margin: 10px !important;
@@ -48,6 +49,7 @@
 .formContainer {
   grid-column: 5 / 10;
   grid-row: 3;
+  padding-bottom: 5em;
 }
 .formContainer fieldset {
   border-radius: 12px;
@@ -69,4 +71,35 @@
 .secondLine {
   display: grid;
   justify-items: start;
+}
+
+/* ===== My Subs Section ===== */
+.smallSectionHeader {
+  margin-bottom: 24px;
+}
+.smallSectionSubtitle {
+  color: var(--text-and-icons-clr-secondary);
+  margin-bottom: 24px;
+}
+
+/* ===== Subscription Card ===== */
+.subscriptionCard {
+  background: var(--bg-clr-lvl-2);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+}
+.subscriptionIconsBox {
+  justify-self: end;
+}
+.subscriptionIcon {
+  color: var(--accent-clr);
+}
+.muiSaveButton {
+  text-transform: initial !important;
+  background: var(--accent-clr) !important;
+  padding: 10px 16px !important;
+  border-radius: 12px !important;
 }
