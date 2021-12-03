@@ -90,7 +90,7 @@ sudo systemctl status docker
 
 ### Запуск:
 
-1. Запустите проект - `docker-compose up -d`
+1. Запустите проект - `docker-compose up -d`. Подождите 60-120 секунд для запуска `Elastic`
 2. Выполните миграции проекта:\
 С помощью CURL -
 ```sh
@@ -140,7 +140,7 @@ curl -X 'POST' \
 
 ### Запуск:
 
-1. Запустите базу данных и PGAdmin - `docker-compose up -d`
+1. Запустите базу данных и PGAdmin - `docker-compose up -d`. Подождите 60-120 секунд для запуска `Elastic`
 2. Запустите backend - `cd backend && uvicorn src.main:app --reload`
 3. Запустите frontend - `cd frontend && npm start`
 4. Запустите telegram бота - `cd bot && python3 main.py`
