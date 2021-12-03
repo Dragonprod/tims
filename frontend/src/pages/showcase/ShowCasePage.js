@@ -35,9 +35,9 @@ function renderThemes(categories) {
   return categories.id === undefined
     ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />]
     : [
-      <ThemeProjectTag theme={categories[0].id} />,
-      <ThemeProjectTag theme={categories[0].children[0].id} />,
-    ];
+        <ThemeProjectTag theme={categories[0].id} />,
+        <ThemeProjectTag theme={categories[0].children[0].id} />,
+      ];
 }
 
 function renderStartups(startups, pageSize, pageNumber) {
@@ -47,33 +47,30 @@ function renderStartups(startups, pageSize, pageNumber) {
 function averageMark(reviews, id) {
   var sum = 0;
   for (let i = 0; i < reviews.length; i++)
-    if (reviews[i].startup_id === id)
-      sum += reviews[i].mark;
+    if (reviews[i].startup_id === id) sum += reviews[i].mark;
 
-  return (sum / reviewsCount(reviews, id)) || 0
+  return sum / reviewsCount(reviews, id) || 0;
 }
 
 function reviewsCount(reviews, id) {
   let count = 0;
   for (let i = 0; i < reviews.length; i++)
-    if (reviews[i].startup_id === id)
-      count++;
-  return count
+    if (reviews[i].startup_id === id) count++;
+  return count;
 }
 
 function checkIsFavourite(id, favouriteStartups) {
   for (let j = 0; j < favouriteStartups.length; j++)
-    if (id === favouriteStartups[j].id)
-      return true;
+    if (id === favouriteStartups[j].id) return true;
   return false;
 }
 
 function addFavourites(favouriteStartupData, startupData, id) {
-  return favouriteStartupData.push(startupData[id])
+  return favouriteStartupData.push(startupData[id]);
 }
 
 function deleteFavourites(favouriteStartupData, startupData, id) {
-  return favouriteStartupData.filter(item => item !== startupData[id])
+  return favouriteStartupData.filter(item => item !== startupData[id]);
 }
 
 function ShowCasePage() {
@@ -114,35 +111,47 @@ function ShowCasePage() {
   }
 
   const incrementCounter = () => {
-    setfavouriteStartupDataCount((state) => (state + 1));
-  }
+    setfavouriteStartupDataCount(state => state + 1);
+  };
 
   const decrementCounter = () => {
-    setfavouriteStartupDataCount((state) => (state - 1));
-  }
+    setfavouriteStartupDataCount(state => state - 1);
+  };
 
   const handleChange = async event => {
     setsearchValue(event.target.value);
     switch (event.target.value) {
-      case 0: {
-        const startupsResponse = await API.get('/startup?sort_date=DESC&offset=0&limit=2000');
-        setstartupData(startupsResponse.data.startups);
-      }
+      case 0:
+        {
+          const startupsResponse = await API.get(
+            '/startup?sort_date=DESC&offset=0&limit=2000'
+          );
+          setstartupData(startupsResponse.data.startups);
+        }
         break;
-      case 1: {
-        const startupsResponse = await API.get('/startup?sort_date=ASC&offset=0&limit=2000');
-        setstartupData(startupsResponse.data.startups);
-      }
+      case 1:
+        {
+          const startupsResponse = await API.get(
+            '/startup?sort_date=ASC&offset=0&limit=2000'
+          );
+          setstartupData(startupsResponse.data.startups);
+        }
         break;
-      case 2: {
-        const startupsResponse = await API.get('/startup?sort_mark=DESCC&offset=0&limit=2000');
-        setstartupData(startupsResponse.data.startups);
-      }
+      case 2:
+        {
+          const startupsResponse = await API.get(
+            '/startup?sort_mark=DESCC&offset=0&limit=2000'
+          );
+          setstartupData(startupsResponse.data.startups);
+        }
         break;
-      case 3: {
-        const startupsResponse = await API.get('/startup?sort_mark=ASC&offset=0&limit=2000');
-        setstartupData(startupsResponse.data.startups);
-      }
+      case 3:
+        {
+          const startupsResponse = await API.get(
+            '/startup?sort_mark=ASC&offset=0&limit=2000'
+          );
+          setstartupData(startupsResponse.data.startups);
+        }
         break;
 
       default:
@@ -159,29 +168,38 @@ function ShowCasePage() {
   };
 
   const addProjectToFavourites = id => {
-    console.log(id)
-    setfavouriteStartupData(addFavourites(favouriteStartupData, startupData, 0))
-  }
+    console.log(id);
+    setfavouriteStartupData(
+      addFavourites(favouriteStartupData, startupData, 0)
+    );
+  };
 
   const deleteProjectToFavourites = id => {
-    setfavouriteStartupData(deleteFavourites(favouriteStartupData, startupData, 0))
-  }
+    setfavouriteStartupData(
+      deleteFavourites(favouriteStartupData, startupData, 0)
+    );
+  };
 
   useEffect(() => {
     const getStartupsData = async () => {
-      const startupsResponse = await API.get('/startup?sort_mark=DESC&offset=0&limit=2000');
+      const startupsResponse = await API.get(
+        '/startup?sort_mark=DESC&offset=0&limit=2000'
+      );
       setstartupData(startupsResponse.data.startups);
 
       const userIdStorage = await localforage.getItem('user_id');
       setuserId(userIdStorage);
 
-      const favouriteStartupsResponse = await API.get(`/user/favorites/${userIdStorage}`);
+      const favouriteStartupsResponse = await API.get(
+        `/user/favorites/${userIdStorage}`
+      );
       setfavouriteStartupData(favouriteStartupsResponse.data.favorites_startup);
-      setfavouriteStartupDataCount(favouriteStartupsResponse.data.favorites_startup.length)
+      setfavouriteStartupDataCount(
+        favouriteStartupsResponse.data.favorites_startup.length
+      );
 
-      const startupsReviewsResponse = await API.get(`/reviews`)
+      const startupsReviewsResponse = await API.get(`/reviews`);
       setstartupReviewsData(startupsReviewsResponse.data.reviews);
-
     };
     getStartupsData();
   }, []);
@@ -193,20 +211,20 @@ function ShowCasePage() {
         Фильтры:
       </h2>
       <div
-        className={`${styles.boldHeader} ${styles.solutionsHeader} ${solutionTabIsClicked === true ? styles.solutionsHeaderActive : ''
-          }`}
+        className={`${styles.boldHeader} ${styles.solutionsHeader} ${
+          solutionTabIsClicked === true ? styles.solutionsHeaderActive : ''
+        }`}
         onClick={handleSolutionTabIsClicked}>
         <h2 className={styles.boldHeader}>Все решения</h2>
         <span className={styles.lightCounter}>{startupData.length}</span>
       </div>
       <div
-        className={`${styles.boldHeader} ${styles.favouritesHeader} ${favouritesTabIsClicked === true ? styles.favouritesHeaderActive : ''
-          }`}
+        className={`${styles.boldHeader} ${styles.favouritesHeader} ${
+          favouritesTabIsClicked === true ? styles.favouritesHeaderActive : ''
+        }`}
         onClick={handleFavouriteTabIsClicked}>
         <h2 className={styles.boldHeader}>Избранное</h2>
-        <span className={styles.lightCounter}>
-          {favouriteStartupDataCount}
-        </span>
+        <span className={styles.lightCounter}>{favouriteStartupDataCount}</span>
       </div>
       <FormControl
         className={`${styles.boldHeader} ${styles.selectHeader}`}
@@ -246,8 +264,8 @@ function ShowCasePage() {
               onClick={() => handleMoreInfo(startup)}
               inc={incrementCounter}
               dec={decrementCounter}
-            // addProjectToFavourites={addProjectToFavourites}
-            // deleteProjectToFavourites={deleteProjectToFavourites}
+              // addProjectToFavourites={addProjectToFavourites}
+              // deleteProjectToFavourites={deleteProjectToFavourites}
             />
           ))}
 
@@ -275,8 +293,8 @@ function ShowCasePage() {
 
         {favouritesTabIsClicked && favouriteStartupData.length === 0 && (
           <p>
-            Вы пока не добавили ничего в избранное. Но это легко исправить, на
-            платформе много новых проектов.
+            Вы пока не добавили ничего в избранное. <br />
+            Но это легко исправить, на платформе много новых проектов.
           </p>
         )}
       </div>

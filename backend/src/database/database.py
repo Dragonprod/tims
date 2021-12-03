@@ -152,9 +152,10 @@ class Startup(Base):
     brief_description = Column(String(512))
     product_use_cases = Column(String(512))
     usability = Column(String(1024))
+    usecases = Column(String(256))
     author = Column(Integer, ForeignKey('user.id'))
     company_id = Column(Integer, ForeignKey('company.id'))
-    sertificate = Column(String(128))
+    sertificate = Column(Boolean)
     images = relationship("Image")
     statuses = relationship("Status",
                             secondary=seconadary_status)
@@ -176,6 +177,7 @@ class Startup(Base):
         self.brief_description = pydantic_model.brief_description
         self.product_use_cases = pydantic_model.product_use_cases
         self.usability = pydantic_model.usability
+        self.usecases = pydantic_model.usecases
 
 
 class Reviews(Base):
@@ -227,34 +229,36 @@ Base.metadata.create_all(engine_postrgesql)
 
 class Elastic():
     _index = 'docs'
-    _host = f'{ELASTIC_HOST}:{ELASTIC_PORT}'
+    _host = f'http://{ELASTIC_HOST}:{ELASTIC_PORT}'
 
     @staticmethod
     async def create(id: int, query_params: typing.Optional[dict] = None,
                      body_params: typing.Optional[dict] = None) -> None:
         try:
+            print(Elastic._host)
             async with aiohttp.ClientSession() as session:
                 async with session.post(Elastic._host +
-                                        f"/{Elastic._index}/_doc/{id}", json=body_params, query_params=query_params) as response:
+                                        f"/{Elastic._index}/_doc/{id}", json=body_params, params=query_params) as response:
                     response.raise_for_status()
+                print(response.status)
         except HTTPError as http_err:
             return None
         except Exception as err:
             return None
-        return await response.json()
+        return response
 
     @staticmethod
     async def search(query_params: typing.Optional[dict] = None,
                      body_params: typing.Optional[dict] = None) -> dict:
         try:
             async with aiohttp.ClientSession() as session:
-                async with session.get(Elastic._host + f"/{Elastic._index}/_search/", body_params=body_params, query_params=query_params) as response:
+                async with session.get(Elastic._host + f"/{Elastic._index}/_search/", json=body_params, params=query_params) as response:
                     response.raise_for_status()
         except HTTPError as http_err:
             return None
         except Exception as err:
             return None
-        return await response.json()
+        return response
 
     @staticmethod
     async def delete(id: int) -> None:
@@ -266,4 +270,4 @@ class Elastic():
             return None
         except Exception as err:
             return None
-        return await response.json()  # need to json
+        return response  # need to json
