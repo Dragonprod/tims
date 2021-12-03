@@ -79,20 +79,16 @@ function ShowCasePage(props) {
 
   useEffect(() => {
     const getStartupsData = async () => {
-      localforage.getItem('user_id').then(user_id => {
-        setuserId(user_id);
-      });
-
       const startupsResponse = await API.get('/startup?offset=0&limit=2000');
       setstartupData(startupsResponse.data.startups);
 
-      const favouriteStartupsResponse = await API.get(`/user/favorites/${userId}`);
+      const userIdStorage = await localforage.getItem('user_id');
+      setuserId(userIdStorage);
+      const favouriteStartupsResponse = await API.get(`/user/favorites/${userIdStorage}`);
       setfavouriteStartupData(favouriteStartupsResponse.data.favorites_startup);
 
-      startupsResponse.data.startups.map(startup => {
-        const startupsReviewsResponse = API.get(`/startup/${startup.id}/reviews`);
-        setstartupReviewsData(startupsReviewsResponse.data.reviews);
-      })
+      // const startupsReviewsResponse = await API.get(`/startup/${startup.id}/reviews`)
+      // setstartupReviewsData(response.data.reviews);
 
     };
     getStartupsData();
@@ -172,7 +168,7 @@ function ShowCasePage(props) {
 
         {favouritesTabIsClicked &&
           favouriteStartupData.length > 0 &&
-          favouriteStartupData.map(startup => (
+          renderStartups(favouriteStartupData, rowValue, page).map(startup => (
             <ProjectCard
               id={startup.id}
               user_id={userId}
