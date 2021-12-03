@@ -1,0 +1,38 @@
+/* ===== Comment Card ===== */
+.commentCard {
+  display: grid;
+  grid-template-columns: 1fr 10fr;
+  grid-template-rows: 1fr auto;
+  /* background: var(--bg-clr-lvl-1); */
+  padding: 24px;
+  margin-bottom: 24px;
+  /* border-radius: 16px; */
+  align-items: center;
+  font-size: 14px;
+}
+
+/* ===== Icons ===== */
+.projectRate {
+  display: flex;
+  align-items: center;
+  grid-column: 3;
+}
+.projectRate svg {
+  width: 20px;
+  height: 20px;
+  margin-right: 14px;
+  color: var(--accent-clr) !important;
+  margin-right: 4px;
+}
+.commentText {
+  grid-column: 2;
+}
+.pastTime {
+  color: var(--text-and-icons-clr-secondary);
+  margin-left: 16px;
+}
+
+.userAvatar {
+  margin-top: 15px;
+  margin-right: 15px;
+}

@@ -15,6 +15,7 @@ import IconButton from '@mui/material/IconButton';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import StatusProjectTag from '../StatusProjectTag/StatusProjectTag';
 import ThemeProjectTag from '../ThemeProjectTag/ThemeProjectTag';
+import CommentCard from '../CommentCard/CommentCard';
 
 export default function ProjectDescription(props) {
   const onClick = props.onClick;
@@ -24,14 +25,14 @@ export default function ProjectDescription(props) {
   const imagesSrc = [StartupImg1, StartupImg2, StartupImg3];
   const [primaryImageSrc, setprimaryImageSrc] = useState(StartupImg1);
 
-  const id = props.id
-  const name = props.name
-  const description = props.description
-  const reviewCount = props.reviewCount
-  const avgMark = props.avgMark
-  const createdTime = props.createdTime
-  const statusTags = props.statusTags
-  const themeTags = props.themeTags
+  const id = props.id;
+  const name = props.name;
+  const description = props.description;
+  const reviewCount = props.reviewCount;
+  const avgMark = props.avgMark;
+  const createdTime = props.createdTime;
+  const statusTags = props.statusTags;
+  const themeTags = props.themeTags;
 
   useEffect(() => {
     setopen(props.open);
@@ -42,16 +43,16 @@ export default function ProjectDescription(props) {
     setisFavourite(!isFavourite);
   };
 
-  const changeImage = (id) => {
+  const changeImage = id => {
     switch (id) {
       case 0:
-        setprimaryImageSrc(imagesSrc[0])
+        setprimaryImageSrc(imagesSrc[0]);
         break;
       case 1:
-        setprimaryImageSrc(imagesSrc[1])
+        setprimaryImageSrc(imagesSrc[1]);
         break;
       case 2:
-        setprimaryImageSrc(imagesSrc[2])
+        setprimaryImageSrc(imagesSrc[2]);
         break;
       default:
         break;
@@ -210,6 +211,9 @@ export default function ProjectDescription(props) {
                 </Button>
               </div>
               <h3 className={`${styles.boldHeader}`}>Мнения экспертов</h3>
+              <div>
+                <CommentCard />
+              </div>
             </div>
           </div>
         </div>
