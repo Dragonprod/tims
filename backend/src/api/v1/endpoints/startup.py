@@ -42,8 +42,8 @@ async def startup_get(id: int, db: Session = Depends(get_db)):
     response_model=StartupList,
     response_class=ORJSONResponse,
 )
-async def startups_get(offset: int = 20, db: Session = Depends(get_db)):
-    startups = await get_startups(offset=offset, db=db)
+async def startups_get(status: str = None, category: str = None, offset: int = 20, limit: int = 20, db: Session = Depends(get_db)):
+    startups = await get_startups(offset=offset, limit=limit, db=db)
     return StartupList(startups=startups)
 
 

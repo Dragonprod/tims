@@ -18,7 +18,6 @@ class StartupBase(BaseModel):
     company_id: int
     statuses: List[StatusBase]
     sertificate: str = None
-    likes: int
     categories: List[CategoryBase]
     company: CompanyBase = None
     images: List[str] = None
