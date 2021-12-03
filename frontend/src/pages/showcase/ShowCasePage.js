@@ -13,6 +13,7 @@ import API from '../../api/api';
 import StatusProjectTag from '../../components/StatusProjectTag/StatusProjectTag';
 import ThemeProjectTag from '../../components/ThemeProjectTag/ThemeProjectTag';
 import ProjectDescription from '../../components/ProjectDescription/ProjectDescription';
+import localforage from "localforage";
 
 function rebuildData(date) {
   const dateArray = date.split('-');
@@ -33,9 +34,9 @@ function renderThemes(categories) {
   return categories.id === undefined
     ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />]
     : [
-        <ThemeProjectTag theme={categories[0].id} />,
-        <ThemeProjectTag theme={categories[0].children[0].id} />,
-      ];
+      <ThemeProjectTag theme={categories[0].id} />,
+      <ThemeProjectTag theme={categories[0].children[0].id} />,
+    ];
 }
 
 function renderStartups(startups, pageSize, pageNumber) {
@@ -43,7 +44,7 @@ function renderStartups(startups, pageSize, pageNumber) {
 }
 
 function ShowCasePage(props) {
-  const userId = props.inputData['user_id'];
+  const [userId, setuserId] = useState(-1);
   const [startupData, setstartupData] = useState([]);
   const [favouriteStartupData, setfavouriteStartupData] = useState([]);
   const [searchValue, setsearchValue] = useState(0);
@@ -75,6 +76,10 @@ function ShowCasePage(props) {
       // const favouriteStartupsResponse = await API.get(`/user/favorites/${userId}`);
       const favouriteStartupsResponse = await API.get(`/user/favorites/1`);
       setfavouriteStartupData(favouriteStartupsResponse.data.favorites_startup);
+
+      localforage.getItem("user_id").then(user_id => {
+        setuserId(user_id);
+      });
     };
     getStartupsData();
   }, []);
@@ -98,17 +103,15 @@ function ShowCasePage(props) {
         Фильтры:
       </h2>
       <div
-        className={`${styles.boldHeader} ${styles.solutionsHeader} ${
-          solutionTabIsClicked === true ? styles.solutionsHeaderActive : ''
-        }`}
+        className={`${styles.boldHeader} ${styles.solutionsHeader} ${solutionTabIsClicked === true ? styles.solutionsHeaderActive : ''
+          }`}
         onClick={handleSolutionTabIsClicked}>
         <h2 className={styles.boldHeader}>Все решения</h2>
         <span className={styles.lightCounter}>{startupData.length}</span>
       </div>
       <div
-        className={`${styles.boldHeader} ${styles.favouritesHeader} ${
-          favouritesTabIsClicked === true ? styles.favouritesHeaderActive : ''
-        }`}
+        className={`${styles.boldHeader} ${styles.favouritesHeader} ${favouritesTabIsClicked === true ? styles.favouritesHeaderActive : ''
+          }`}
         onClick={handleFavouriteTabIsClicked}>
         <h2 className={styles.boldHeader}>Избранное</h2>
         <span className={styles.lightCounter}>
@@ -135,12 +138,13 @@ function ShowCasePage(props) {
         </Select>
       </FormControl>
       <AsideMenu render={true} />
-      <ProjectDescription open={openDesc} onClick={handleMoreInfo}/>
+      <ProjectDescription open={openDesc} onClick={handleMoreInfo} />
       <div className={styles.projectCardsGrid}>
         {solutionTabIsClicked &&
           renderStartups(startupData, rowValue, page).map(startup => (
             <ProjectCard
               id={startup.id}
+              user_id={userId}
               name={startup.name}
               description={startup.description}
               reviewCount={11}
@@ -152,10 +156,11 @@ function ShowCasePage(props) {
             />
           ))}
 
-        {favouritesTabIsClicked &&
+        {favouritesTabIsClicked && (favouriteStartupData.length > 0) &&
           favouriteStartupData.map(startup => (
             <ProjectCard
               id={startup.id}
+              user_id={userId}
               name={startup.name}
               description={startup.description}
               reviewCount={11}
@@ -166,17 +171,7 @@ function ShowCasePage(props) {
             />
           ))}
 
-        {/* <ProjectCard
-          name='Обогреваемые остановки наземного транспорта'
-          description='Технология мониторинга может применяться как для учёта транспортных потоков, так и для адаптивного 
-          регулирования перекрёстков. Система способна определять ДТП, занятость парковочных мест, 
-          контролировать соблюдение правил дорожного движения.'
-          reviewCount={11}
-          avgMark={5.6}
-          createdTime='03.13.2021'
-          statusTags={[<StatusProjectTag status={0} />, <StatusProjectTag status={1} />]}
-          themeTags={[<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={1} />]}
-        /> */}
+        {favouritesTabIsClicked && (favouriteStartupData.length === 0) && <p>Вы пока не добавили ничего в избранное. Но это легко исправить, на платформе много новых проектов.</p>}
       </div>
       <div className={styles.projectCardsPagination}>
         <div className={styles.projectCardsPaginationTextContainer}>

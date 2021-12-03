@@ -12,11 +12,13 @@ import StatusProjectTag from '../StatusProjectTag/StatusProjectTag';
 import ThemeProjectTag from '../ThemeProjectTag/ThemeProjectTag';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import API from '../../api/api';
+import localforage from "localforage";
 
 export default function ProjectCard(props) {
   const [isFavourite, setisFavourite] = useState(false)
-  
+
   const id = props.id
+  const user_id = props.user_id
   const name = props.name
   const description = props.description
   const reviewCount = props.reviewCount
@@ -33,7 +35,7 @@ export default function ProjectCard(props) {
     if (isFavourite) {
       setisFavourite(!isFavourite);
       const data = {
-        user_id: 1,
+        user_id: user_id,
         startup_id: id,
       };
 
@@ -43,7 +45,7 @@ export default function ProjectCard(props) {
     else {
       setisFavourite(!isFavourite);
       const data = {
-        user_id: 1,
+        user_id: user_id,
         startup_id: id,
       };
 
