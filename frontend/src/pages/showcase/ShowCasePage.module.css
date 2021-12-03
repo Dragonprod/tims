@@ -7,6 +7,10 @@
 }
 
 /* ===== Headers ===== */
+.solutionsHeader,
+.favouritesHeader {
+  cursor: pointer;
+}
 .boldHeader {
   align-self: center;
   color: var(--text-and-icons-clr-primary);
@@ -23,6 +27,7 @@
   grid-row: 2 / 3;
   position: relative;
   width: max-content;
+  color: var(--text-and-icons-clr-secondary);
 }
 .lightCounter {
   position: absolute;
@@ -40,6 +45,11 @@
   position: relative;
   width: max-content;
   margin-left: 2.5em;
+  color: var(--text-and-icons-clr-secondary);
+}
+.solutionsHeaderActive .boldHeader,
+.favouritesHeaderActive .boldHeader {
+  color: var(--text-and-icons-clr-primary);
 }
 
 /* ===== Select ===== */
