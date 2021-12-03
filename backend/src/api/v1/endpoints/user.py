@@ -1,9 +1,10 @@
+from ....models.review import ReviewBase, ReviewCrateorUpdate
 from ....database.database import User, get_db, Session
 from fastapi import APIRouter, Body, Depends
 
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_202_ACCEPTED
-from ....crud.user import get_user, set_user_telegram_id, update_user, get_user_activation_code
+from ....crud.user import get_user, set_user_telegram_id, update_user, get_user_activation_code, create_review
 from ....models.user import UserDetailModel, UserTelegramCreate
 from fastapi.responses import ORJSONResponse
 
@@ -29,6 +30,7 @@ async def update(user: UserDetailModel = Body(...), db: Session = Depends(get_db
 async def get(id: int, db: Session = Depends(get_db)):
     return await get_user(id=id, db=db)
 
+
 @router.put(
     "/user/telegram/activate/{id}",
     tags=["User"],
@@ -37,6 +39,7 @@ async def get(id: int, db: Session = Depends(get_db)):
 )
 async def get_code(id: int, db: Session = Depends(get_db)):
     return await get_user_activation_code(id=id, db=db)
+
 
 @router.post(
     "/user/telegram/add",
@@ -47,3 +50,15 @@ async def get_code(id: int, db: Session = Depends(get_db)):
 async def add_telegram(telegram: UserTelegramCreate = Body(...), db: Session = Depends(get_db)):
     telegram = await set_user_telegram_id(telegram=telegram, db=db)
     return telegram
+
+
+@router.post(
+    "/user/review/add",
+    tags=["User"],
+    status_code=HTTP_200_OK,
+    response_model=ReviewBase,
+    response_class=ORJSONResponse,
+)
+async def review_create(review: ReviewCrateorUpdate = Body(...), db: Session = Depends(get_db)):
+    review = await create_review(review=review, db=db)
+    return review

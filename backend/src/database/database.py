@@ -136,6 +136,8 @@ class Startup(Base):
         "Category", secondary=seconadary_startup, lazy='joined')
     company = relationship(
         "Company", lazy='joined', uselist=False)
+    reviewses = relationship(
+        "Reviews", back_populates="startap")
 
     def __init__(self, pydantic_model) -> None:
         self.description = pydantic_model.description
@@ -146,6 +148,21 @@ class Startup(Base):
         self.brief_description = pydantic_model.brief_description
         self.product_use_cases = pydantic_model.product_use_cases
         self.usability = pydantic_model.usability
+
+
+class Reviews(Base):
+    __tablename__ = "reviews"
+    id = Column(Integer, primary_key=True)
+    review = Column(String(256))
+    user_id = Column(Integer, ForeignKey('user.id'))
+    startup_id = Column(Integer, ForeignKey('startup.id'))
+    startap = relationship("Startup")
+    user = relationship("User", lazy="joined")
+
+    def __init__(self, pydantic_model) -> None:
+        self.review = pydantic_model.review
+        self.user_id = pydantic_model.user_id
+        self.startup_id = pydantic_model.startup_id
 
 
 class Image(Base):
