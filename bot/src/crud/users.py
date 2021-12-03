@@ -43,3 +43,17 @@ def disableNotifications(chatid):
         userQuery.notifications = False
         db.commit()
         db.close()
+
+def updateUserCategory(chatid, category):
+    userQuery = db.query(TelegramUsers).filter(
+        TelegramUsers.chatid == str(chatid)).first()
+    if userQuery != None:
+        userQuery.category = category
+        db.commit()
+        db.close()
+
+def getLatestIdUser(chatid):
+    userQuery = db.query(TelegramUsers).filter(
+        TelegramUsers.chatid == chatid).first()
+    if userQuery != None:
+        return userQuery.lastStartupId
