@@ -64,7 +64,7 @@ async def review_create(review: ReviewCrateorUpdate = Body(...), db: Session = D
     return review
 
 
-@router.post(
+@router.get(
     "/user/{id}/favorites",
     tags=["User"],
     status_code=HTTP_200_OK,
