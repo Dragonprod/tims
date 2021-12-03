@@ -40,6 +40,9 @@
   color: var(--text-and-icons-clr-primary);
   margin-bottom: 1rem;
 }
+.signupHeader {
+  color: var(--text-and-icons-clr-secondary);
+}
 .authFormDescription {
   font-weight: 400;
   font-size: 15px;
