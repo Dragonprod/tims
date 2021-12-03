@@ -14,9 +14,6 @@ import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import { ReactComponent as GoogleIcon } from '../../assets/images/GoogleIcon.svg';
 import CarouselImg from '../../assets/images/slide_base.png';
-import CarouselImg1 from '../../assets/images/1.jpg';
-import CarouselImg2 from '../../assets/images/2.jpg';
-import CarouselImg3 from '../../assets/images/3.jpg';
 
 function AuthPage(props) {
   const [error, setError] = useState(false);
@@ -75,21 +72,6 @@ function AuthPage(props) {
             className={styles.CarouselImg}
             src={CarouselImg}
             alt='Screenshot Main'
-          />
-          <img
-            className={styles.CarouselImg}
-            src={CarouselImg1}
-            alt='Screenshot 1'
-          />
-          <img
-            className={styles.CarouselImg}
-            src={CarouselImg2}
-            alt='Screenshot 2'
-          />
-          <img
-            className={styles.CarouselImg}
-            src={CarouselImg3}
-            alt='Screenshot 3'
           />
         </div>
       </div>
