@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import AsideMenu from '../../components/AsideMenu/AsideMenu';
 import Header from '../../components/Menu/Header';

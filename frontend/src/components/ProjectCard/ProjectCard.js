@@ -95,8 +95,8 @@ export default function ProjectCard(props) {
             className={styles.muiLikeButton}
             variant='text'
             onClick={likeProcess}
-            startIcon={(isFavourite == true) ? <FavoriteIcon /> : <FavoriteBorderIcon />}>
-            {(isFavourite == true) ? "В избранном" : "В избранное"}
+            startIcon={(isFavourite === true) ? <FavoriteIcon /> : <FavoriteBorderIcon />}>
+            {(isFavourite === true) ? "В избранном" : "В избранное"}
           </Button>
           <Button className={styles.muiReadMoreButton} variant='contained' onClick={onClick}>
             Подробнее
