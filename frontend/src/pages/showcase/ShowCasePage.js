@@ -38,23 +38,10 @@ function renderThemes(categories) {
     ];
 }
 
-function renderStartups(startups, amount, page) {
-  let startupsComponents = []
-
-  for(let i = 0; i < amount; i++) {
-    startupsComponents.push(
-      <ProjectCard
-            name={startups[i].name}
-            description={startups[i].description}
-            reviewCount={11}
-            avgMark={5.6}
-            createdTime={rebuildData(startups[i].date)}
-            statusTags={renderStatuses(startups[i].statuses)}
-            themeTags={renderThemes(startups[i].categories)}
-          />
-    )
-  }
+function renderStartups(startups, pageSize, pageNumber) {
+  return startups.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
 }
+
 export default function ShowCasePage() {
   const [startupData, setstartupData] = useState([]);
   const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0);
@@ -77,7 +64,7 @@ export default function ShowCasePage() {
 
   useEffect(() => {
     const getStartupsData = async () => {
-      const startupsResponse = await API.get('/startup');
+      const startupsResponse = await API.get('/startup?offset=0&limit=2000');
       setstartupData(startupsResponse.data.startups);
     };
 
@@ -99,7 +86,7 @@ export default function ShowCasePage() {
   const startupsData = () => {
     switch (searchValue) {
       case 0:
-          return 
+        return
         break;
 
       case 1:
@@ -163,7 +150,7 @@ export default function ShowCasePage() {
       </FormControl>
       <AsideMenu render={true} />
       <div className={styles.projectCardsGrid}>
-        {solutionTabIsClicked && startupData.map(startup => (
+        {solutionTabIsClicked && renderStartups(startupData, rowValue, page).map(startup => (
           <ProjectCard
             name={startup.name}
             description={startup.description}
