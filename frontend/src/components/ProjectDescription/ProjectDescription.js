@@ -197,7 +197,18 @@ export default function ProjectDescription(props) {
                 Replika, чтобы вывести последние достижения в области
                 разговорного ИИ на новый уровень.
               </p>
-              <div></div>
+              <div className={styles.startuperCard}>
+                <span className={styles.startuperPosition}>Директор</span>
+                <a href='/' className={styles.startuperSite}>
+                  www.startaper.ru
+                </a>
+                <span className={styles.startuperName}>
+                  Оксана Валерьевна Савчук
+                </span>
+                <Button className={styles.muiRequestButton} variant='contained'>
+                  Отправить запрос
+                </Button>
+              </div>
               <h3 className={`${styles.boldHeader}`}>Мнения экспертов</h3>
             </div>
           </div>

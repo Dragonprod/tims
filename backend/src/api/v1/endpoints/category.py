@@ -1,9 +1,10 @@
+from ....models.message import MessageBase
 from ....database.database import User, get_db, Session
 from fastapi import APIRouter, Body, Depends
 
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
-from ....crud.category import get_categories, get_category, create_category
+from ....crud.category import get_categories, get_category, create_category, subscription_on
 from ....models.category import CategoryBase, CategoryCrateorUpdate, CategoryList
 from fastapi.responses import ORJSONResponse
 
@@ -44,3 +45,17 @@ async def startup_get(id: int, db: Session = Depends(get_db)):
 async def category_list(db: Session = Depends(get_db)):
     categories = await get_categories(db=db)
     return CategoryList(categories=categories)
+
+
+@router.post(
+    "/category/subscription",
+    tags=["Category"],
+    status_code=HTTP_200_OK,
+    response_class=ORJSONResponse,
+)
+async def subscription(user_id: int, category: int, db: Session = Depends(get_db), children=False):
+    sub = await subscription_on(children=False, user_id=user_id, category=category, db=db)
+    if sub is None:
+        return HTTPException(HTTP_404_NOT_FOUND)
+    else:
+        return MessageBase(message="Success")

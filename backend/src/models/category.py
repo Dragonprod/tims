@@ -32,3 +32,14 @@ class CategoryCrateorUpdate(BaseModel):
 
 class CategoryList(BaseModel):
     categories: List[CategoryBase]
+
+    class Config:
+        orm_mode = True
+
+
+class SubscriptionCategory(BaseModel):
+    id: int
+    name: str
+
+    class Config:
+        orm_mode = True

@@ -54,6 +54,21 @@ seconadary_applications = Table("applications", Base.metadata,
                                 Column('startup_id', ForeignKey('startup.id'))
                                 )
 
+seconadary_subscriptions = Table("subscription_category", Base.metadata,
+                                 Column('user_id', ForeignKey(
+                                     'user.id')),
+                                 Column('category_id',
+                                        ForeignKey('category.id'))
+                                 )
+
+
+seconadary_subscriptions_children = Table("subscription_category_children", Base.metadata,
+                                          Column('user_id', ForeignKey(
+                                              'user.id')),
+                                          Column('children_category_id',
+                                                 ForeignKey('children_category.id'))
+                                          )
+
 
 class User(Base):
     __tablename__ = "user"
@@ -69,6 +84,10 @@ class User(Base):
         "UserDetail", back_populates="user_info", uselist=False)
     favorites_startup = relationship(
         "Startup", secondary=seconadary_favorites)
+    subscription_general = relationship(
+        "Category", secondary=seconadary_subscriptions)
+    subscription_children = relationship(
+        "ChildrenCategory", secondary=seconadary_subscriptions_children)
 
 
 class UserDetail(Base):
