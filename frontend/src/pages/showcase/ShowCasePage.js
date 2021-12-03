@@ -44,16 +44,17 @@ export default function ShowCasePage() {
   const [rowValue, setrowValue] = useState(10);
   const [page, setPage] = useState(1);
 
-  const [solutionTabIsClicked, setSolutionTabIsClicked] = useState(true);
-  const [favouritesTabIsClicked, setFavouritesTabIsClicked] = useState(false);
+  const [solutionTabIsClicked, setsolutionTabIsClicked] = useState(true);
+  const [favouritesTabIsClicked, setfavouritesTabIsClicked] = useState(false);
 
   const handleSolutionTabIsClicked = () => {
-    setSolutionTabIsClicked(!solutionTabIsClicked);
-    setFavouritesTabIsClicked(favouritesTabIsClicked);
+    setsolutionTabIsClicked(true);
+    setfavouritesTabIsClicked(false);
   };
-  const handleFavouritesTabIsClicked = () => {
-    setSolutionTabIsClicked(solutionTabIsClicked);
-    setFavouritesTabIsClicked(!favouritesTabIsClicked);
+
+  const handleFavouriteTabIsClicked = () => {
+    setsolutionTabIsClicked(false);
+    setfavouritesTabIsClicked(true);
   };
 
   useEffect(() => {
@@ -85,7 +86,7 @@ export default function ShowCasePage() {
       </h2>
       <div
         className={`${styles.boldHeader} ${styles.solutionsHeader} ${
-          solutionTabIsClicked ? styles.solutionsHeaderActive : ''
+          ( solutionTabIsClicked === true ) ? styles.solutionsHeaderActive : ''
         }`}
         onClick={handleSolutionTabIsClicked}>
         <h2 className={styles.boldHeader}>Все решения</h2>
@@ -93,9 +94,9 @@ export default function ShowCasePage() {
       </div>
       <div
         className={`${styles.boldHeader} ${styles.favouritesHeader} ${
-          solutionTabIsClicked ? styles.favouritesHeaderActive : ''
+          ( favouritesTabIsClicked === true ) ? styles.favouritesHeaderActive : ''
         }`}
-        onClick={handleFavouritesTabIsClicked}>
+        onClick={handleFavouriteTabIsClicked}>
         <h2 className={styles.boldHeader}>Избранное</h2>
         <span className={styles.lightCounter}>{favouritesStartupsCount}</span>
       </div>
