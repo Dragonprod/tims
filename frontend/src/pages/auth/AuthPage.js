@@ -107,7 +107,7 @@ function AuthPage(props) {
                 onChange={handleChangePassword}
               />
             </div>
-            <a href='/' className={styles.forgotPassword}>
+            <a href='#' className={styles.forgotPassword}>
               Забыли пароль?
             </a>
             <Button
@@ -136,7 +136,7 @@ function AuthPage(props) {
           </form>
           <p className={styles.authFormTip}>
             Возникли проблемы с авторизацией? <br /> Обратитесь в{' '}
-            <a className={styles.authFormSupportReference} href='/'>
+            <a className={styles.authFormSupportReference} href='#'>
               службу поддержки
             </a>
           </p>
