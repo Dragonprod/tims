@@ -24,6 +24,7 @@ export default function ProjectCard(props) {
   const createdTime = props.createdTime
   const statusTags = props.statusTags
   const themeTags = props.themeTags
+  const onClick = props.onClick
 
   const likeProcess = async e => {
     e.preventDefault();
@@ -95,7 +96,7 @@ export default function ProjectCard(props) {
             startIcon={(isFavourite == true) ? <FavoriteIcon /> : <FavoriteBorderIcon />}>
             {(isFavourite == true) ? "В избранном" : "В избранное"}
           </Button>
-          <Button className={styles.muiReadMoreButton} variant='contained'>
+          <Button className={styles.muiReadMoreButton} variant='contained' onClick={onClick}>
             Подробнее
           </Button>
         </div>

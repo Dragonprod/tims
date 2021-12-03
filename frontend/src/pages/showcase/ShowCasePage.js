@@ -49,7 +49,7 @@ function ShowCasePage(props) {
   const [searchValue, setsearchValue] = useState(0);
   const [rowValue, setrowValue] = useState(10);
   const [page, setPage] = useState(1);
-
+  const [openDesc, setopenDesc] = useState(false);
   const [solutionTabIsClicked, setsolutionTabIsClicked] = useState(true);
   const [favouritesTabIsClicked, setfavouritesTabIsClicked] = useState(false);
 
@@ -61,6 +61,10 @@ function ShowCasePage(props) {
   const handleFavouriteTabIsClicked = () => {
     setsolutionTabIsClicked(false);
     setfavouritesTabIsClicked(true);
+  };
+
+  const handleMoreInfo = () => {
+    setopenDesc(!openDesc);
   };
 
   useEffect(() => {
@@ -131,7 +135,7 @@ function ShowCasePage(props) {
         </Select>
       </FormControl>
       <AsideMenu render={true} />
-      <ProjectDescription />
+      <ProjectDescription open={openDesc} onClick={handleMoreInfo}/>
       <div className={styles.projectCardsGrid}>
         {solutionTabIsClicked &&
           renderStartups(startupData, rowValue, page).map(startup => (
@@ -144,6 +148,7 @@ function ShowCasePage(props) {
               createdTime={rebuildData(startup.date)}
               statusTags={renderStatuses(startup.statuses)}
               themeTags={renderThemes(startup.categories)}
+              onClick={handleMoreInfo}
             />
           ))}
 
