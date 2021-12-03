@@ -12,7 +12,12 @@ export default function AuthPage() {
         </h2>
         <img src='' alt='Screenshot 1' />
       </div>
-      <div className={styles.authFormContainer}></div>
+      <div className={styles.authFormContainer}>
+        <div className={styles.authFormBlock}>
+          <h2>Вход</h2>
+          <h2>Вход</h2>
+        </div>
+      </div>
     </div>
   );
 }
