@@ -63,7 +63,10 @@ class UserTelegramResponse(BaseModel):
 
 class UserResponse(UserBase):
     detail: UserDetailModel = None
-    favorites_startup: List[StartupBase]
 
     class Config:
         orm_mode = True
+
+
+class UserFavoritesStartup(BaseModel):
+    favorites_startup: List[StartupBase]

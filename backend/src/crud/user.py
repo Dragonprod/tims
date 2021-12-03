@@ -1,7 +1,7 @@
 from src.helpers.codeGenerator import create_activation_code
 from ..core.security import get_password_hash
 from ..models.user import UserDetailModel, UserActivationCodeModel, UserInCreate, UserInLogin, UserTelegramResponse, UserBase, UserResponse
-from ..database.database import User, UserDetail, get_db, Session
+from ..database.database import Reviews, User, UserDetail, get_db, Session
 from ..helpers.exceptions import EntityDoesNotExist
 from fastapi import Depends
 
@@ -50,3 +50,14 @@ async def set_user_telegram_id(telegram, db: Session):
     dbuser.telegram_id = telegram.telegram_id
     db.commit()
     return UserTelegramResponse.from_orm(dbuser)
+
+
+async def create_review(review, db: Session):
+    review = Reviews(review)
+    db.add(review)
+    db.commit()
+    return review
+
+
+async def get_favorites(user_id: int, db: Session):
+    return db.query(User).filter(User.id == user_id).first()
