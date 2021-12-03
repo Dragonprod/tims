@@ -13,6 +13,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import {ReactComponent as GoogleIcon} from '../../assets/images/GoogleIcon.svg';
+import CarouselImg from '../../assets/images/slide_base.png';
 
 function AuthPage(props) {
   const [error, setError] = useState(false);
@@ -63,10 +64,16 @@ function AuthPage(props) {
     <div className={styles.mainGrid}>
       <HeaderBase />
       <div className={styles.carouselContainer}>
-        <h2 className={styles.carouselTitle}>
-          Находите интересные проекты для реализации в несколько кликов
-        </h2>
-        <img src='' alt='Screenshot 1' />
+        <div className={styles.carouselBlock}>
+          <h2 className={styles.carouselTitle}>
+            Находите интересные проекты для реализации в несколько кликов
+          </h2>
+          <img
+            className={styles.CarouselImg}
+            src={CarouselImg}
+            alt='Screenshot 1'
+          />
+        </div>
       </div>
       <div className={styles.authFormContainer}>
         <div className={styles.authFormBlock}>
