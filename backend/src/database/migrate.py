@@ -198,5 +198,3 @@ async def create_reviews():
                 "startup_id": i + 1,
                 "mark": random.randint(0, 10)
             })
-
-asyncio.run(migrate_start())
