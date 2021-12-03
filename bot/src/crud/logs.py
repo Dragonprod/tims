@@ -1,6 +1,6 @@
 import logging
 from src.providers.functionsProvider import isAdmin, getCommand
-from src.database.db import Logs, Session
+from src.database.db import TelegramLogs, Session
 from datetime import datetime
 
 logger = logging.getLogger(__name__)
@@ -14,7 +14,7 @@ def createLog(update):
     command = getCommand(update.message.text)
     admin = isAdmin(update.message.chat.id)
 
-    logRow = Logs(time=time, chatid=chatid, username=username,
+    logRow = TelegramLogs(time=time, chatid=chatid, username=username,
                   command=command, isAdmin=admin)
 
     db.add(logRow)
@@ -23,11 +23,11 @@ def createLog(update):
 
 
 def getLogs():
-    return db.query(Logs).all()
+    return db.query(TelegramLogs).all()
 
 
 def getLogsById(chatid):
-    logsQuery = db.query(Logs).filter(Logs.chatid == str(chatid)).all()
+    logsQuery = db.query(TelegramLogs).filter(TelegramLogs.chatid == str(chatid)).all()
     if logsQuery != []:
         return [True, logsQuery]
     else:

@@ -10,6 +10,7 @@ from src.core.config import TELEGRAM_BOT_TOKEN, ADD_TELEGRAM_REGEXP
 from src.core.keyboards import MENU_KEYBOARD_CLIENT, MENU_KEYBOARD_STARTUP, CATEGORIES_KEYBOARD
 
 from src.crud.logs import createLog, getLogs, getLogsById
+from src.crud.users import createUser, getUserById
 
 from src.providers.apiProvider import API
 from src.providers.functionsProvider import isAdmin
@@ -38,6 +39,7 @@ class Bot():
     def startHandlerConnect(self, update: Update, context: CallbackContext) -> None:
         result = self.api.connectAccount(
             context.args[0], update.message.chat.id)
+        createUser(str(update.message.chat.id), result['id'])
         message = '{0} <b>Здравствуйте {1}!</b>\nВы успешно привязали свой Telegram. Пожалуйста, вернитесь в личный кабинет и обновите страницу.'.format(
             u"\U0001f44b", update.message.chat.first_name)
         update.message.reply_html(message)
