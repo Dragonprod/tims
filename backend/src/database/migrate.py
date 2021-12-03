@@ -28,7 +28,7 @@ async def update_users():
         "second_name": "Зуев",
         "patronymic": "Сергеевич",
         "phone": "89005553535",
-        "position": "Директор транспорта",
+        "position": "Директор городского транспорта",
         "company_id": 2
     }
     user2 = {
@@ -37,7 +37,7 @@ async def update_users():
         "second_name": "Букров",
         "patronymic": "Сергеевич",
         "phone": "89013213312",
-        "position": "Глава транспорта",
+        "position": "Директор мобильности пассажиров",
         "company_id": 5
     }
     user3 = {
@@ -57,8 +57,8 @@ async def update_users():
 
 async def create_roles():
     role1 = {"role": "admin"}
-    role2 = {"role": "user"}
-    role3 = {"role": "client"}
+    role2 = {"role": "client"}
+    role3 = {"role": "startup"}
 
     async with aiohttp.ClientSession() as session:
         await session.post("http://localhost:8080/api/v1/role/create", json=role1)
@@ -68,11 +68,11 @@ async def create_roles():
 
 async def create_users():
     user1 = {"email": "admin@example.com",
-             "password": "admin", "is_admin": "true", "roles": [0]}
+             "password": "admin", "is_admin": "true", "roles": [1]}
     user2 = {"email": "client@example.com",
              "password": "client", "is_admin": "false", "roles": [2]}
     user3 = {"email": "startup@example.com",
-             "password": "startup", "is_admin": "false", "roles": [1]}
+             "password": "startup", "is_admin": "false", "roles": [3]}
     async with aiohttp.ClientSession() as session:
         await session.post("http://localhost:8080/api/v1/users/create", json=user1)
         await session.post("http://localhost:8080/api/v1/users/create", json=user2)
@@ -189,7 +189,6 @@ async def create_startup():
     name = [
         "Обогреваемые остановки наземного транспорта",
         "Программное обеспечение для анализа транспортных потоков по видео",
-        "",
     ]
 
     statuses = [[1], [1], [1], [5], [4], [2], [3], [4], [2], [4]]

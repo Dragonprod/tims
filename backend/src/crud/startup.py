@@ -10,6 +10,7 @@ from ..helpers.exceptions import EntityDoesNotExist
 from fastapi import Depends, Body, Depends
 from datetime import date
 from sqlalchemy.sql import func
+import json
 
 
 async def create_startup(startup, db: Session):
@@ -23,6 +24,7 @@ async def create_startup(startup, db: Session):
     dbstarup = Startup(startup)
     dbstarup.date = random_date[random.randint(0, len(random_date)-1)]
     db.add(dbstarup)
+    db.commit()
     response = await Elastic.create(dbstarup.id, body_params={
         'name': dbstarup.name, 'description': dbstarup.description})
     if response is not None:
@@ -32,6 +34,7 @@ async def create_startup(startup, db: Session):
         db.commit()
     else:
         db.rollback()
+        return None
     return dbstarup
 
 
@@ -39,18 +42,25 @@ async def search_startup(name: str, db: Session):
 
     body = {
         "query": {
-            "match": {
-                "name": name,
+            "multi_match": {
+                "query": name,
+                "fields": [
+                    "name",
+                    "description"
+                ]
             }
         }
     }
 
     search = await Elastic.search(body_params=body)
-    print(search)
     if search is not None:
-        id = [doc['_id'] for doc in search['hits']['hits']]
+        print(search)
+        id = [doc['_id']
+              for doc in search['hits']['hits']]
+        print(id)
         filter = (Startup.id.in_(id))
         return db.query(Startup).filter(filter).all()
+    return []
 
 
 async def get_startup_by_id(startup_id, db: Session):

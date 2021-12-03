@@ -49,15 +49,17 @@ function AuthPage(props) {
       password: password,
     };
 
-    const res = await API.post(`/users/login`, data);
+    const authReponse = await API.post(`/users/login`, data);
 
-    if (res.data.status_code === 401) setError(true);
+    if (authReponse.data.status_code === 404) setError(true);
+    else if (authReponse.data.status_code === 400) setError(true);
 
     if (!error)
       try {
-        const jwt = parseJwt(res.data.token);
+        const jwt = parseJwt(authReponse.data.token);
         if (jwt.is_admin === true) navigate('/admin');
-        else if (jwt.is_admin === false) navigate('/showcases');
+        else if (jwt.roles[0].role === 'startup') navigate('/profile');
+        else if (jwt.roles[0].role === 'client') navigate('/showcases');
         reducer.setFormData('user_id', jwt.user_id);
         localforage.setItem("user_id", jwt.user_id).then(() => {
           console.log("user_id saved to storage");

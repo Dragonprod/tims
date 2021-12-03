@@ -235,17 +235,16 @@ class Elastic():
     async def create(id: int, query_params: typing.Optional[dict] = None,
                      body_params: typing.Optional[dict] = None) -> None:
         try:
-            print(Elastic._host)
             async with aiohttp.ClientSession() as session:
                 async with session.post(Elastic._host +
                                         f"/{Elastic._index}/_doc/{id}", json=body_params, params=query_params) as response:
                     response.raise_for_status()
-                print(response.status)
+                    body = await response.json()
         except HTTPError as http_err:
             return None
         except Exception as err:
             return None
-        return response
+        return body
 
     @staticmethod
     async def search(query_params: typing.Optional[dict] = None,
@@ -254,11 +253,12 @@ class Elastic():
             async with aiohttp.ClientSession() as session:
                 async with session.get(Elastic._host + f"/{Elastic._index}/_search/", json=body_params, params=query_params) as response:
                     response.raise_for_status()
+                    body = await response.json()
         except HTTPError as http_err:
             return None
         except Exception as err:
             return None
-        return response
+        return body
 
     @staticmethod
     async def delete(id: int) -> None:
@@ -266,8 +266,9 @@ class Elastic():
             async with aiohttp.ClientSession() as session:
                 async with session.delete(Elastic._host + f"/{Elastic._index}/_doc/{id}") as response:
                     response.raise_for_status()
+                    body = await response.json()
         except HTTPError as http_err:
             return None
         except Exception as err:
             return None
-        return response  # need to json
+        return body

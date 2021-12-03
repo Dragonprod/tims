@@ -14,15 +14,31 @@ from fastapi.responses import ORJSONResponse
 router = APIRouter()
 
 
+@router.get(
+    "/startup/search",
+    tags=["Startup"],
+    status_code=HTTP_200_OK,
+    response_model=StartupList,
+    response_class=ORJSONResponse,
+)
+async def search(search: str, db: Session = Depends(get_db)):
+    print(1)
+    startups = await search_startup(name=search, db=db)
+    return StartupList(startups=startups)
+
+
 @router.post(
     "/startup/create",
     tags=["Startup"],
     status_code=HTTP_201_CREATED,
-    response_model=StartupBase,
     response_class=ORJSONResponse,
 )
 async def startup_create(startup: StartupCrateorUpdate = Body(...), db: Session = Depends(get_db)):
-    return await create_startup(startup=startup, db=db)
+    startup = await create_startup(startup=startup, db=db)
+    if startup != None:
+        return HTTPException(HTTP_400_BAD_REQUEST)
+    else:
+        return startup
 
 
 @router.get(
@@ -46,22 +62,8 @@ async def startup_get(id: int, db: Session = Depends(get_db)):
     response_class=ORJSONResponse,
 )
 async def startups_get(children_categories: Optional[List[str]] = Query(None), categories: Optional[List[str]] = Query(None), more: bool = None,  sort_mark: str = None,  sort_date: str = "DESK",  offset: int = 20, limit: int = 20, db: Session = Depends(get_db)):
-
     startups = await get_startups(children_categories=children_categories, more=more, categories=categories, sort_mark=sort_mark, sort_date=sort_date, offset=offset, limit=limit, db=db)
     print(startups)
-    return StartupList(startups=startups)
-
-
-@router.get(
-    "/startup/search",
-    tags=["Startup"],
-    status_code=HTTP_200_OK,
-    response_model=StartupList,
-    response_class=ORJSONResponse,
-)
-async def search(search: str, db: Session = Depends(get_db)):
-    print(1)
-    startups = await search_startup(name=search, db=db)
     return StartupList(startups=startups)
 
 

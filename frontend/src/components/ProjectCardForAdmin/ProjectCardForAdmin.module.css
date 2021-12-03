@@ -34,12 +34,69 @@
   max-width: 75%;
 }
 
+/* ===== Buttons ===== */
+.muiReadMoreButton,
+.muiAboutButton {
+  display: block;
+  text-transform: initial !important;
+  font-family: MoscowSans, Roboto, sans-serif !important;
+  width: max-content;
+  font-weight: 300 !important;
+}
+.muiReadMoreButton {
+  background: var(--accent-clr) !important;
+  padding: 16px !important;
+  border-radius: 16px 0px !important;
+  box-shadow: none !important;
+}
+.muiAboutButton {
+  color: var(--accent-clr) !important;
+  height: fit-content;
+  border-radius: 12px !important;
+  margin-right: 36px !important;
+}
+
+/* ===== First Line ===== */
+.firstLine {
+  display: grid;
+  grid-template-columns: 3fr 3fr 4fr;
+  padding: 0 18px;
+}
+.startupName,
+.organisationName,
+.startupName2 {
+  font-size: 18px;
+}
+.startupName,
+.organisationName {
+  color: var(--accent-clr);
+  display: inline-block;
+  max-width: 80%;
+  margin-bottom: 24px;
+}
+.startupName2 {
+  text-align: right;
+  display: inline-block;
+  max-width: 55%;
+  justify-self: end;
+  font-weight: 800;
+}
+
+/* ===== Second Line ===== */
+.secondLine {
+  display: grid;
+  grid-template-columns: 3fr 3fr 4fr;
+  padding: 0 18px;
+  align-items: center;
+}
+
 /* ===== Card Footer ===== */
 .cardFooter {
   font-size: 14px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  padding-left: 1rem;
+  grid-template-columns: 3fr 3fr 4fr;
+  padding-left: 18px;
+  align-items: center;
 }
 .projectStatsContainer {
   display: grid;
@@ -52,6 +109,7 @@
   grid-template-columns: 1fr 0.5fr;
   justify-items: end;
   align-items: center;
+  grid-column: 3 / 4;
 }
 .projectComments,
 .projectRate,
@@ -65,24 +123,9 @@
   margin-right: 14px;
   color: var(--text-and-icons-clr-tertiary);
 }
-
-/* ===== Buttons ===== */
-.muiReadMoreButton,
-.muiLikeButton {
-  display: block;
-  text-transform: initial !important;
-  font-family: MoscowSans, Roboto, sans-serif !important;
-  width: fit-content;
-  font-weight: 300 !important;
-}
-.muiReadMoreButton {
-  background: var(--accent-clr) !important;
-  padding: 16px !important;
-  border-radius: 16px 0px !important;
-  box-shadow: none !important;
-}
-.muiLikeButton {
-  color: var(--accent-clr) !important;
-  height: fit-content;
-  border-radius: 12px !important;
+.startuperContactContainer,
+.investorContactContainer {
+  color: var(--text-and-icons-clr-secondary);
+  display: inline-block;
+  max-width: 80%;
 }

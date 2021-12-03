@@ -90,16 +90,16 @@ sudo systemctl status docker
 
 ### Запуск:
 
-1. Запустите проект - `docker-compose up -d`
-2. Выполните миграции проекта:
-2.1 С помощью CURL - 
+1. Запустите проект - `docker-compose up -d`. Подождите 60-120 секунд для запуска `Elastic`
+2. Выполните миграции проекта:\
+С помощью CURL -
 ```sh
 curl -X 'POST' \
   'http://localhost:8080/api/v1/migrate/start' \
   -H 'accept: application/json' \
   -d ''
 ```
-2.2 Или с помощью документации - [localhost:8080/docs](http://localhost:8080/docs/)
+Или с помощью документации - [localhost:8080/docs](http://localhost:8080/docs/)
 ![Миграции](/docs/migrate.png "Миграции")
 
 ### Установка необходимых пакетов(Windows/Development):
@@ -127,20 +127,20 @@ sudo systemctl status docker
 1. Установите зависимости для backend - `cd backend && pip install -r requirements.txt`
 2. Установите зависимости для frontend - `cd frontend && npm install`
 3. Установите зависимости для telegram бота - `cd bot && pip install -r requirements.txt`
-4. Выполните миграции проекта:
-4.1 С помощью CURL - 
+4. Выполните миграции проекта:\
+С помощью CURL - 
 ```sh
 curl -X 'POST' \
   'http://localhost:8080/api/v1/migrate/start' \
   -H 'accept: application/json' \
   -d ''
 ```
-4.2 Или с помощью документации - [localhost:8080/docs](http://localhost:8080/docs/)
+Или с помощью документации - [localhost:8080/docs](http://localhost:8080/docs/)
 ![Миграции](/docs/migrate.png "Миграции")
 
 ### Запуск:
 
-1. Запустите базу данных и PGAdmin - `docker-compose up -d`
+1. Запустите базу данных и PGAdmin - `docker-compose up -d`. Подождите 60-120 секунд для запуска `Elastic`
 2. Запустите backend - `cd backend && uvicorn src.main:app --reload`
 3. Запустите frontend - `cd frontend && npm start`
 4. Запустите telegram бота - `cd bot && python3 main.py`
