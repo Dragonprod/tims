@@ -25,6 +25,7 @@
   display: grid;
   grid-template-columns: 1fr 0.5fr;
   align-items: center;
+  margin-bottom: 18px;
 }
 .boldHeader {
   font-size: 18px;
@@ -42,10 +43,10 @@
   font-weight: 300 !important;
   color: #505c6a !important;
   color: var(--accent-clr) !important;
+  border-radius: 12px !important;
 }
 .muiLikeButton {
   height: fit-content;
-  border-radius: 12px !important;
   margin-right: 18px !important;
 }
 .muiCloseButton {
@@ -64,4 +65,45 @@
   width: 100%;
   height: auto;
   margin: 0 0 18px;
+}
+.attachmentContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 25px;
+}
+.attachmentItemContainer {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  align-items: center;
+  padding: 10px;
+  width: fit-content;
+  margin-right: 17px;
+}
+.attachmentText {
+  font-size: 13px;
+  font-weight: 400;
+}
+.attachmentSize {
+  color: #505c6a;
+}
+.attachIcon {
+  color: var(--accent-clr);
+}
+
+/* ===== Texts ===== */
+.statsTable {
+  margin-bottom: 24px;
+}
+.statsTable div {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.text {
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+/* ===== Startuper Card ===== */
+.startuperCard {
+  background: var(--bg-clr-lvl-1);
 }

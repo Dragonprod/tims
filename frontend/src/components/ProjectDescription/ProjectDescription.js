@@ -12,6 +12,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import CloseIcon from '@mui/icons-material/Close';
 import ShareIcon from '@mui/icons-material/Share';
 import IconButton from '@mui/material/IconButton';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import StatusProjectTag from '../StatusProjectTag/StatusProjectTag';
+import ThemeProjectTag from '../ThemeProjectTag/ThemeProjectTag';
 
 export default function ProjectDescription(props) {
   const onClick = props.onClick;
@@ -117,16 +120,85 @@ export default function ProjectDescription(props) {
                 src={StartupImg3}
                 alt='3'
               />
+              <div className={styles.attachmentContainer}>
+                <div className={styles.attachmentItemContainer}>
+                  <AttachFileIcon className={styles.attachIcon} />
+                  <span className={styles.attachmentText}>
+                    Сертификат{' '}
+                    <span className={styles.attachmentSize}>(PDF, 2 Мб)</span>
+                  </span>
+                </div>
+                <div className={styles.attachmentItemContainer}>
+                  <AttachFileIcon className={styles.attachIcon} />
+                  <span className={styles.attachmentText}>
+                    Сертификат{' '}
+                    <span className={styles.attachmentSize}>(PDF, 2 Мб)</span>
+                  </span>
+                </div>
+                <div className={styles.attachmentItemContainer}>
+                  <AttachFileIcon className={styles.attachIcon} />
+                  <span className={styles.attachmentText}>
+                    Сертификат{' '}
+                    <span className={styles.attachmentSize}>(PDF, 2 Мб)</span>
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className={styles.projectContainer}>
+            <div className={styles.projectTextContainer}>
               <h3 className={`${styles.boldHeader}`}>
                 Сведения о “Warm Stops”
               </h3>
+              <div className={styles.statsTable}>
+                <div>
+                  Статус: <StatusProjectTag status={6} />{' '}
+                </div>
+                <div>
+                  Категория: <ThemeProjectTag theme={4} />{' '}
+                </div>
+                <div>
+                  В организации: <span>Менее 20</span>
+                </div>
+                <div>
+                  Сертификация: <span>Требуется</span>
+                </div>
+                <div>Запрос к акселератору и видение пилотного проекта</div>
+              </div>
               <h3 className={`${styles.boldHeader}`}>Описание продукта</h3>
+              <p className={styles.text}>
+                За последние 7 лет я создал самый передовой в мире разговорный
+                ИИ с открытым доменом для Replika - чат-бота №1 в США с более
+                чем 10 миллионами пользователей. В начале этого года я покинул
+                Replika, чтобы вывести последние достижения в области
+                разговорного ИИ на новый уровень.
+              </p>
+              <p className={styles.text}>
+                Наше новое приложение Botify позволяет пользователям создавать
+                фотореалистичные цифровые персоны для увлекательных бесед. Для
+                каждой цифровой персоны можно настроить индивидуальный персонаж
+                и таким образом создать уникальную личность любого человека.
+                Хотите поговорить с Маском о колонизации Марса? Может быть, вы
+                хотите спросить Иисуса о шумихе вокруг NFT? Вы можете сделать
+                все это в Botify.
+              </p>
               <h3 className={`${styles.boldHeader}`}>
                 Кейсы использования продукта
               </h3>
+              <p className={styles.text}>
+                За последние 7 лет я создал самый передовой в мире разговорный
+                ИИ с открытым доменом для Replika - чат-бота №1 в США с более
+                чем 10 миллионами пользователей. В начале этого года я покинул
+                Replika, чтобы вывести последние достижения в области
+                разговорного ИИ на новый уровень.
+              </p>
               <h3 className={`${styles.boldHeader}`}>Польза продукта</h3>
+              <p className={styles.text}>
+                За последние 7 лет я создал самый передовой в мире разговорный
+                ИИ с открытым доменом для Replika - чат-бота №1 в США с более
+                чем 10 миллионами пользователей. В начале этого года я покинул
+                Replika, чтобы вывести последние достижения в области
+                разговорного ИИ на новый уровень.
+              </p>
+              <div></div>
               <h3 className={`${styles.boldHeader}`}>Мнения экспертов</h3>
             </div>
           </div>
