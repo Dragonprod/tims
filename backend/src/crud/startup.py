@@ -31,6 +31,7 @@ async def create_startup(startup, db: Session):
         dbstarup.statuses.extend(tags)
         dbstarup.images.extend(images)
         dbstarup.categories.extend(categories)
+        db.commit()
     else:
         db.rollback()
         return None

@@ -235,7 +235,6 @@ class Elastic():
     async def create(id: int, query_params: typing.Optional[dict] = None,
                      body_params: typing.Optional[dict] = None) -> None:
         try:
-            print(Elastic._host)
             async with aiohttp.ClientSession() as session:
                 async with session.post(Elastic._host +
                                         f"/{Elastic._index}/_doc/{id}", json=body_params, params=query_params) as response:
