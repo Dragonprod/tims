@@ -1,13 +1,12 @@
-from enum import Enum
+from src.models.user import UserMinimal
 from typing import List, Optional
 from pydantic import BaseModel
-from src.models.user import UserBase
 
 
 class ReviewBase(BaseModel):
     id: int
     review: str
-    user: UserBase
+    user: UserMinimal
     startup_id: int
     mark: int
 

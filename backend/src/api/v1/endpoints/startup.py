@@ -22,9 +22,16 @@ router = APIRouter()
     response_class=ORJSONResponse,
 )
 async def search(search: str, db: Session = Depends(get_db)):
-    print(1)
     startups = await search_startup(name=search, db=db)
-    return StartupList(startups=startups)
+    startups_pydantic = []
+
+    for i in range(0, len(startups)):
+        model = StartupBase.from_orm(startups[i][0])
+        model.average_mark = startups[i][1]
+        model.count_reviewses = startups[i][2]
+        startups_pydantic.append(model)
+
+    return StartupList(startups=startups_pydantic)
 
 
 @router.post(
@@ -51,7 +58,10 @@ async def startup_get(id: int, db: Session = Depends(get_db)):
     startup = await get_startup_by_id(startup_id=id, db=db)
     if startup is None:
         return HTTPException(HTTP_404_NOT_FOUND)
-    return StartupBase.from_orm(startup)
+    startup_model = StartupBase.from_orm(startup[0])
+    startup_model.average_mark = startup[1]
+    startup_model.count_reviewses = startup[2]
+    return startup_model
 
 
 @router.get(
@@ -61,10 +71,18 @@ async def startup_get(id: int, db: Session = Depends(get_db)):
     response_model=StartupList,
     response_class=ORJSONResponse,
 )
-async def startups_get(children_categories: Optional[List[str]] = Query(None), categories: Optional[List[str]] = Query(None), more: bool = None,  sort_mark: str = None,  sort_date: str = "DESK",  offset: int = 20, limit: int = 20, db: Session = Depends(get_db)):
+async def startups_get(children_categories: Optional[List[str]] = Query(None), categories: Optional[List[str]] = Query(None), more: bool = None,  sort_mark: str = None,  sort_date: str = None,  offset: int = 20, limit: int = 20, db: Session = Depends(get_db)):
     startups = await get_startups(children_categories=children_categories, more=more, categories=categories, sort_mark=sort_mark, sort_date=sort_date, offset=offset, limit=limit, db=db)
-    print(startups)
-    return StartupList(startups=startups)
+
+    startups_pydantic = []
+
+    for i in range(0, len(startups)):
+        model = StartupBase.from_orm(startups[i][0])
+        model.average_mark = startups[i][1]
+        model.count_reviewses = startups[i][2]
+        startups_pydantic.append(model)
+
+    return StartupList(startups=startups_pydantic)
 
 
 @router.post(

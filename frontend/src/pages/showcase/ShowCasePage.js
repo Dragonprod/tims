@@ -153,7 +153,22 @@ function ShowCasePage() {
           setstartupData(startupsResponse.data.startups);
         }
         break;
-
+        case 4:
+          {
+            const startupsResponse = await API.get(
+              '/startup?more=true&offset=0&limit=2000'
+            );
+            setstartupData(startupsResponse.data.startups);
+          }
+          break;
+        case 5:
+          {
+            const startupsResponse = await API.get(
+              '/startup?more=false&offset=0&limit=2000'
+            );
+            setstartupData(startupsResponse.data.startups);
+          }
+          break;
       default:
         break;
     }
@@ -249,8 +264,8 @@ function ShowCasePage() {
               name={startup.name}
               isFavourite={checkIsFavourite(startup.id, favouriteStartupData)}
               description={startup.description}
-              reviewCount={reviewsCount(startupReviewsData, startup.id)}
-              avgMark={averageMark(startupReviewsData, startup.id)}
+              reviewCount={startup.count_reviewses}
+              avgMark={startup.average_mark}
               createdTime={rebuildData(startup.date)}
               statusTags={renderStatuses(startup.statuses)}
               themeTags={renderThemes(startup.categories)}
@@ -271,8 +286,8 @@ function ShowCasePage() {
               name={startup.name}
               isFavourite={checkIsFavourite(startup.id, favouriteStartupData)}
               description={startup.description}
-              reviewCount={reviewsCount(startupReviewsData, startup.id)}
-              avgMark={averageMark(startupReviewsData, startup.id)}
+              reviewCount={startup.count_reviewses}
+              avgMark={startup.average_mark}
               createdTime={rebuildData(startup.date)}
               statusTags={renderStatuses(startup.statuses)}
               themeTags={renderThemes(startup.categories)}

@@ -146,13 +146,13 @@ class Status(Base):
 class Startup(Base):
     __tablename__ = "startup"
     id = Column(Integer, primary_key=True)
-    name = Column(String(256))
+    name = Column(String(512))
     date = Column(Date)
-    description = Column(String(1024))
+    description = Column(String(2048))
     brief_description = Column(String(512))
     product_use_cases = Column(String(512))
     usability = Column(String(1024))
-    usecases = Column(String(256))
+    usecases = Column(String(512))
     author = Column(Integer, ForeignKey('user.id'))
     company_id = Column(Integer, ForeignKey('company.id'))
     sertificate = Column(Boolean)
@@ -183,7 +183,7 @@ class Startup(Base):
 class Reviews(Base):
     __tablename__ = "reviews"
     id = Column(Integer, primary_key=True)
-    review = Column(String(256))
+    review = Column(String(512))
     mark = Column(Integer)
     user_id = Column(Integer, ForeignKey('user.id'))
     startup_id = Column(Integer, ForeignKey('startup.id'))

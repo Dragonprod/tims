@@ -1,0 +1,72 @@
+/* ===== Main Grid ===== */
+.mainGrid {
+  display: grid;
+  grid-template-columns: 2em repeat(10, 1fr) 2em;
+  grid-template-rows: 74px 100px auto 60px;
+  height: 100vh;
+}
+
+/* ===== Headers ===== */
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  grid-column: 5 / 9;
+  grid-row: 2 / 3;
+}
+.boldHeader {
+  align-self: center;
+  color: var(--text-and-icons-clr-secondary);
+  font-weight: var(--font-weight-headline);
+  font-size: var(--font-size-headline);
+  display: inline;
+  user-select: none;
+  cursor: pointer;
+}
+.profileHeaderActive,
+.myStartupsHeaderActive,
+.mySubscribesHeaderActive {
+  color: var(--text-and-icons-clr-primary);
+}
+
+/* ===== Form ===== */
+.formContainer {
+  grid-column: 5 / 10;
+  grid-row: 3;
+}
+.avatar {
+  width: 100px !important;
+  height: 100px !important;
+}
+.firstLine,
+.secondLine {
+  margin-top: 48px;
+}
+.input {
+  margin: 10px !important;
+  width: 45%;
+}
+.formContainer {
+  grid-column: 5 / 10;
+  grid-row: 3;
+}
+.formContainer fieldset {
+  border-radius: 12px;
+  border-color: #ccc;
+  background: var(--bg-clr-lvl-2);
+  z-index: -1;
+}
+.input div:hover fieldset {
+  border-color: var(--accent-clr) !important;
+}
+
+/* ===== Edit Button ===== */
+.muiEditButton {
+  color: var(--accent-clr) !important;
+  text-transform: initial !important;
+  margin-left: 16px !important;
+}
+
+.secondLine {
+  display: grid;
+  justify-items: start;
+}

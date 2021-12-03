@@ -1,29 +1,6 @@
 from typing import List, Optional
 from pydantic import BaseModel
-
-from src.models.startup import StartupBase
-
-
-class RoleBase(BaseModel):
-    id: int
-    role: str
-
-    class Config:
-        orm_mode = True
-
-
-class RoleCreateprUpdate(BaseModel):
-    role: str
-
-    class Config:
-        orm_mode = True
-
-
-class RoleList(BaseModel):
-    roles: List[RoleBase]
-
-    class Config:
-        orm_mode = True
+from src.models.role import RoleBase
 
 
 class UserBase(BaseModel):
@@ -31,6 +8,23 @@ class UserBase(BaseModel):
     email: str
     is_admin: bool
     roles: List[RoleBase] = None
+
+    class Config:
+        orm_mode = True
+
+
+class UserDetailMinimal(BaseModel):
+    first_name: str = None
+    second_name: str = None
+    patronymic: str = None
+
+    class Config:
+        orm_mode = True
+
+
+class UserMinimal(BaseModel):
+    id: int
+    detail: UserDetailMinimal
 
     class Config:
         orm_mode = True
@@ -91,7 +85,3 @@ class UserResponse(UserBase):
 
     class Config:
         orm_mode = True
-
-
-class UserFavoritesStartup(BaseModel):
-    favorites_startup: List[StartupBase]
