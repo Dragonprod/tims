@@ -64,7 +64,7 @@
   width: 100%;
   padding: 16px;
   border-radius: 30px;
-  text-transform: initial;
+  text-transform: initial !important;
 }
 .authFormOrWord {
   margin: 16px 0;
