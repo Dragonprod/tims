@@ -14,51 +14,50 @@ import ShareIcon from '@mui/icons-material/Share';
 import IconButton from '@mui/material/IconButton';
 
 export default function ProjectDescription(props) {
+  const onClick = props.onClick
   const [isFavourite, setisFavourite] = useState(false);
-
-  const id = props.id;
-  const name = props.name;
-  const description = props.description;
-  const reviewCount = props.reviewCount;
-  const avgMark = props.avgMark;
-  const createdTime = props.createdTime;
-  const statusTags = props.statusTags;
-  const themeTags = props.themeTags;
-
-  const onClick = props.onClick;
   const [open, setopen] = useState(false);
+
+  // const id = props.id
+  // const name = props.name
+  // const description = props.description
+  // const reviewCount = props.reviewCount
+  // const avgMark = props.avgMark
+  // const createdTime = props.createdTime
+  // const statusTags = props.statusTags
+  // const themeTags = props.themeTags
 
   useEffect(() => {
     setopen(props.open);
   }, [props.open]);
 
-  const likeProcess = async e => {
-    e.preventDefault();
+  // const likeProcess = async e => {
+  //   e.preventDefault();
 
-    if (isFavourite) {
-      setisFavourite(!isFavourite);
-      const data = {
-        user_id: 1,
-        startup_id: id,
-      };
+  //   if (isFavourite) {
+  //     setisFavourite(!isFavourite);
+  //     const data = {
+  //       user_id: 1,
+  //       startup_id: id,
+  //     };
 
-      const res = await API.post(
-        `/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`
-      );
-      console.log(res.data.message);
-    } else {
-      setisFavourite(!isFavourite);
-      const data = {
-        user_id: 1,
-        startup_id: id,
-      };
+  //     const res = await API.post(
+  //       `/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`
+  //     );
+  //     console.log(res.data.message);
+  //   } else {
+  //     setisFavourite(!isFavourite);
+  //     const data = {
+  //       user_id: 1,
+  //       startup_id: id,
+  //     };
 
-      const res = await API.delete(
-        `/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`
-      );
-      console.log(res.data.message);
-    }
-  };
+  //     const res = await API.delete(
+  //       `/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`
+  //     );
+  //     console.log(res.data.message);
+  //   }
+  // };
 
   return (
     <>
@@ -69,23 +68,18 @@ export default function ProjectDescription(props) {
               <Button
                 className={styles.muiLikeButton}
                 variant='text'
-                onClick={likeProcess}
-                startIcon={
-                  isFavourite ? (
-                    <FavoriteIcon className={styles.muiLikeIcon} />
-                  ) : (
-                    <FavoriteBorderIcon className={styles.muiLikeIcon} />
-                  )
-                }>
-                {isFavourite ? 'В избранном' : 'В избранное'}
+                // onClick={likeProcess}
+                startIcon={(isFavourite === true) ? <FavoriteIcon /> : <FavoriteBorderIcon />}>
+                {(isFavourite === true) ? "В избранном" : "В избранное"}
               </Button>
               <Button
                 className={styles.muiShareButton}
                 variant='text'
-                startIcon={ShareIcon}>
+                startIcon={<ShareIcon />}
+              >
                 Поделиться
               </Button>
-              <IconButton aria-label='delete'>
+              <IconButton aria-label='delete' onClick={onClick}>
                 <CloseIcon />
               </IconButton>
             </div>
