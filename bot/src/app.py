@@ -1,11 +1,13 @@
 import logging
+import random
 
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, CallbackQueryHandler, Filters, ConversationHandler
 from telegram_bot_pagination import InlineKeyboardPaginator
+from src.providers.functionsProvider import getAverage
 
 from src.core.config import TELEGRAM_BOT_TOKEN, ADD_TELEGRAM_REGEXP
-from src.core.keyboards import MENU_KEYBOARD_CLIENT, MENU_KEYBOARD_STARTUP
+from src.core.keyboards import MENU_KEYBOARD_CLIENT, MENU_KEYBOARD_STARTUP, CATEGORIES_KEYBOARD
 
 from src.crud.logs import createLog, getLogs, getLogsById
 
@@ -29,11 +31,13 @@ class Bot():
     def startHandler(self, update: Update, context: CallbackContext) -> None:
         message = '{0} <b>Здравствуйте {1}!</b>\nМеня зовут Иван, я бот помощник, разработанный командой Null Safety в рамках хакатона Цифровой прорыв(финал)'.format(
             u"\U0001f44b", update.message.chat.first_name)
-        update.message.reply_html(message, reply_markup=ReplyKeyboardMarkup(MENU_KEYBOARD_CLIENT, resize_keyboard=True, one_time_keyboard=False))
+        update.message.reply_html(message, reply_markup=ReplyKeyboardMarkup(
+            MENU_KEYBOARD_CLIENT, resize_keyboard=True, one_time_keyboard=False))
         createLog(update)
 
     def startHandlerConnect(self, update: Update, context: CallbackContext) -> None:
-        result = self.api.connectAccount(context.args[0], update.message.chat.id)
+        result = self.api.connectAccount(
+            context.args[0], update.message.chat.id)
         message = '{0} <b>Здравствуйте {1}!</b>\nВы успешно привязали свой Telegram. Пожалуйста, вернитесь в личный кабинет и обновите страницу.'.format(
             u"\U0001f44b", update.message.chat.first_name)
         update.message.reply_html(message)
@@ -41,13 +45,49 @@ class Bot():
 
     def profileHandler(self, update: Update, context: CallbackContext) -> None:
         pass
-    
+
     def projectsHandler(self, update: Update, context: CallbackContext) -> None:
-        pass
-    
+        data = self.api.getProjects()
+
+        self.projectsData = []
+        projectMessage = ''
+
+        for i in range(len(data)):
+            if i % 5 != 0 or i == 0:
+                projectMessage += f'<b>Название</b> - <i>{data[i]["name"]}</i>\n'
+                projectMessage += f'<b>Описание</b> - <i>{data[i]["description"]}</i>\n'
+                projectMessage += f'<b>Кол-во оценок</b> - <i>{random.randint(0,10)}</i>\n'
+                projectMessage += f'<b>Средняя оценка</b> - <i>{random.randint(0,10)}</i>\n'
+                projectMessage += f'<b>Дата создания</b> - <i>{data[i]["date"]}</i>\n\n'
+            else:
+                self.projectsData.append(projectMessage)
+                projectMessage = ''
+
+        if projectMessage != '':
+            self.projectsData.append(projectMessage)
+
+        paginator = InlineKeyboardPaginator(
+            len(self.projectsData), data_pattern='projects#{page}')
+        update.effective_message.reply_html(
+            text=self.projectsData[0], reply_markup=paginator.markup)
+
+    def projectsPageCallback(self, update: Update, context: CallbackContext) -> None:
+        query = update.callback_query
+        query.answer()
+
+        page = int(query.data.split('#')[1])
+
+        paginator = InlineKeyboardPaginator(
+            len(self.projectsData), current_page=page, data_pattern='projects#{page}')
+
+        query.edit_message_text(
+            text=self.projectsData[page - 1], reply_markup=paginator.markup)
+
     def categoriesHandler(self, update: Update, context: CallbackContext) -> None:
-        pass
-    
+        update.message.reply_html("Список доступных категорий", reply_markup=ReplyKeyboardMarkup(
+            CATEGORIES_KEYBOARD, resize_keyboard=True, one_time_keyboard=False))
+        createLog(update)
+
     def addHandler(self, update: Update, context: CallbackContext) -> None:
         if len(context.args) > 0:
             searchRequest = ' '.join(context.args)
@@ -145,7 +185,11 @@ class Bot():
         dispatcher.add_handler(CommandHandler('start', self.startHandler))
         dispatcher.add_handler(CommandHandler('help', self.helpHandler))
         dispatcher.add_handler(CommandHandler(
+            'categories', self.categoriesHandler))
+        dispatcher.add_handler(CommandHandler(
             'projects', self.projectsHandler))
+        dispatcher.add_handler(CallbackQueryHandler(
+            self.projectsHandler, pattern='^projects#'))
         dispatcher.add_handler(CommandHandler('add', self.addHandler))
 
         dispatcher.add_handler(CommandHandler('logs', self.logsHandler))
