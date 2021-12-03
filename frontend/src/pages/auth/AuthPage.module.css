@@ -42,8 +42,33 @@
   font-size: 15px;
   margin-bottom: 2rem;
 }
+.authFormHeaderContainer {
+  display: flex;
+  justify-content: space-evenly;
+}
 .authFormEmail,
 .authFormPassword {
   width: 100%;
-  margin-bottom: 24px;
+  margin-bottom: 24px !important;
+}
+.authFormEmail fieldset,
+.authFormPassword fieldset {
+  border-radius: var(--rounding-lvl-2);
+}
+.forgotPassword {
+  color: var(--accent-clr);
+  margin-bottom: 32px;
+}
+.muiLoginButton,
+.muiGoogleLoginButton {
+  width: 100%;
+  padding: 16px;
+  border-radius: 30px;
+  text-transform: initial;
+}
+.authFormOrWord {
+  margin: 16px 0;
+}
+.muiLoginButton {
+  background: var(--accent-clr);
 }

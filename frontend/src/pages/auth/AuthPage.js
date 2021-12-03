@@ -7,38 +7,36 @@ import SlideBase from '../../assets/images/slide_base.png';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import API from '../../api/api';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import parseJwt from '../../services/jwt';
-import Snackbar from "@mui/material/Snackbar";
-import Alert from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 function AuthPage() {
   const [error, setError] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-
-  }, []);
+  useEffect(() => {}, []);
 
   const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
     setError(false);
   };
 
-  const handleChangeEmail = (e) => {
+  const handleChangeEmail = e => {
     setEmail(e.target.value);
   };
 
-  const handleChangePassword = (e) => {
+  const handleChangePassword = e => {
     setPassword(e.target.value);
   };
 
-  const loginProccess = async (e) => {
+  const loginProccess = async e => {
     e.preventDefault();
 
     const data = {
@@ -51,14 +49,12 @@ function AuthPage() {
     if (res.data.status_code == 400) setError(true);
 
     try {
-      const jwt = parseJwt(res.data.token)
-      if (jwt.is_admin == true) navigate("/admin");
-      else if (jwt.is_admin == false) navigate("/showcases");
+      const jwt = parseJwt(res.data.token);
+      if (jwt.is_admin == true) navigate('/admin');
+      else if (jwt.is_admin == false) navigate('/showcases');
+    } catch (e) {
+      console.log(e);
     }
-    catch (e) {
-      console.log(e)
-    }
-
   };
 
   return (
@@ -103,24 +99,25 @@ function AuthPage() {
               />
             </div>
             <p>Забыли пароль?</p>
-            <Button className={styles.muiSearchButton} variant='contained' onClick={loginProccess}>
+            <Button
+              className={styles.muiLoginButton}
+              variant='contained'
+              onClick={loginProccess}>
               Искать
             </Button>
             <p>или</p>
-            <Button className={styles.muiSearchButton} variant='outlined'>
+            <Button className={styles.muiGoogleLoginButton} variant='outlined'>
               Войти с помощью Google
             </Button>
             <Snackbar
-              anchorOrigin={{ vertical: "top", horizontal: "right" }}
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
               open={error}
               autoHideDuration={3000}
-              onClose={handleClose}
-            >
+              onClose={handleClose}>
               <Alert
-                severity="error"
+                severity='error'
                 onClose={handleClose}
-                sx={{ width: "100%" }}
-              >
+                sx={{ width: '100%' }}>
                 <AlertTitle>Ошибка</AlertTitle>
                 Проверьте — <strong>логин или пароль!</strong>
               </Alert>
