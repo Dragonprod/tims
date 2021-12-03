@@ -48,19 +48,19 @@ function AuthPage() {
 
     const res = await API.post(`users/login`, data);
 
-    if (res.data.status_code == 400) setError(true);
+    if (res.data.status_code == 401) setError(true);
 
-    try {
-      const jwt = parseJwt(res.data.token)
-      if (jwt.is_admin == true) navigate("/admin");
-      else if (jwt.is_admin == false) navigate("/showcases");
-    }
-    catch (e) {
-      console.log(e)
-    }
+    if (!error)
+      try {
+        const jwt = parseJwt(res.data.token)
+        if (jwt.is_admin == true) navigate("/admin");
+        else if (jwt.is_admin == false) navigate("/showcases");
+      }
+      catch (e) {
+        console.log(e)
+      }
 
   };
-
   return (
     <div className={styles.mainGrid}>
       <HeaderBase />
