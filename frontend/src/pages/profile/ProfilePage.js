@@ -39,15 +39,22 @@ export default function ProfilePage() {
   }, []);
 
 
-
-  const handleSolutionTabIsClicked = () => {
-    setsolutionTabIsClicked(true);
-    setfavouritesTabIsClicked(false);
+  const handleProfileTabIsClicked = () => {
+    setprofileActive(true);
+    setmyStartupsActive(false);
+    setmySubsActive(false);
   };
 
-  const handleFavouriteTabIsClicked = () => {
-    setsolutionTabIsClicked(false);
-    setfavouritesTabIsClicked(true);
+  const handleStartupsTabIsClicked = () => {
+    setprofileActive(false);
+    setmyStartupsActive(true);
+    setmySubsActive(false);
+  };
+
+  const handleSubsTabIsClicked = () => {
+    setprofileActive(false);
+    setmyStartupsActive(false);
+    setmySubsActive(true);
   };
 
 
@@ -57,20 +64,14 @@ export default function ProfilePage() {
   return (
     <div className={styles.mainGrid}>
       <Header />
-      <div
-        className={`${styles.boldHeader} ${styles.solutionsHeader} ${solutionTabIsClicked === true ? styles.solutionsHeaderActive : ''
-          }`}
-        onClick={handleSolutionTabIsClicked}>
-
-      </div>
       <div className={styles.headerContainer}>
-        <h2 className={`${styles.boldHeader} ${styles.profileHeader} ${profileActive === true ? style.a : ''}`} >
+        <h2 className={`${styles.boldHeader} ${styles.profileHeader} ${profileActive === true ? styles.profileHeaderActive : ''}`} onClick={handleProfileTabIsClicked}>
           Профиль
         </h2>
-        <h2 className={`${styles.boldHeader} ${styles.myStartupsHeader}`}>
+        <h2 className={`${styles.boldHeader} ${styles.myStartupsHeader} ${myStartupsActive === true ? styles.myStartupsHeaderActive : ''}`} onClick={handleStartupsTabIsClicked}>
           Мои стартапы
         </h2>
-        <h2 className={`${styles.boldHeader} ${styles.mySubscribesHeader}`}>
+        <h2 className={`${styles.boldHeader} ${styles.mySubscribesHeader} ${mySubsActive === true ? styles.mySubscribesHeaderActive : ''}`} onClick={handleSubsTabIsClicked}>
           Мои подписки
         </h2>
       </div>
@@ -123,20 +124,6 @@ export default function ProfilePage() {
           </Button>
         </div>
       </div>
-      {/* <h2
-        className={`${styles.boldHeader} ${styles.solutionsHeader} ${
-          solutionTabIsClicked === true ? styles.solutionsHeaderActive : ''
-        }`}
-        onClick={handleSolutionTabIsClicked}>
-        Профиль
-      </h2>
-      <h2
-        className={`${styles.boldHeader} ${styles.favouritesHeader} ${
-          favouritesTabIsClicked === true ? styles.favouritesHeaderActive : ''
-        }`}
-        onClick={handleFavouriteTabIsClicked}>
-        Мои стартапы
-      </h2> */}
     </div>
   );
 }
