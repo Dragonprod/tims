@@ -15,25 +15,45 @@ import StatusProjectTag from '../../components/StatusProjectTag/StatusProjectTag
 import ThemeProjectTag from '../../components/ThemeProjectTag/ThemeProjectTag';
 
 function rebuildData(date) {
-  const dateArray = date.split('-')
-  return `${dateArray[2]}.${dateArray[1]}.${dateArray[0]}`
+  const dateArray = date.split('-');
+  return `${dateArray[2]}.${dateArray[1]}.${dateArray[0]}`;
 }
 
 function renderStatuses(statuses) {
-  return statuses.map((status) => (
-    (statuses === []) ? <StatusProjectTag status={0} /> : <StatusProjectTag status={status.id} />
-  ))
+  return statuses.map(status =>
+    statuses === [] ? (
+      <StatusProjectTag status={0} />
+    ) : (
+      <StatusProjectTag status={status.id} />
+    )
+  );
 }
 
 function renderThemes(categories) {
-  return (categories.id === undefined) ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />] : [<ThemeProjectTag theme={categories[0].id} />, <ThemeProjectTag theme={categories[0].children[0].id} />]
-
+  return categories.id === undefined
+    ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />]
+    : [
+        <ThemeProjectTag theme={categories[0].id} />,
+        <ThemeProjectTag theme={categories[0].children[0].id} />,
+      ];
 }
 export default function ShowCasePage() {
   const [startupData, setstartupData] = useState([]);
   const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0);
   const [searchValue, setsearchValue] = useState(0);
   const [page, setPage] = useState(1);
+
+  const [solutionTabIsClicked, setSolutionTabIsClicked] = useState(true);
+  const [favouritesTabIsClicked, setFavouritesTabIsClicked] = useState(false);
+
+  const handleSolutionTabIsClicked = () => {
+    setSolutionTabIsClicked(!solutionTabIsClicked);
+    setFavouritesTabIsClicked(favouritesTabIsClicked);
+  };
+  const handleFavouritesTabIsClicked = () => {
+    setSolutionTabIsClicked(solutionTabIsClicked);
+    setFavouritesTabIsClicked(!favouritesTabIsClicked);
+  };
 
   // useEffect(() => {
   //   const getStartupsData = async () => {
@@ -58,11 +78,19 @@ export default function ShowCasePage() {
       <h2 className={`${styles.boldHeader} ${styles.filtersHeader}`}>
         Фильтры:
       </h2>
-      <div className={`${styles.boldHeader} ${styles.solutionsHeader}`}>
+      <div
+        className={`${styles.boldHeader} ${styles.solutionsHeader} ${
+          solutionTabIsClicked ? styles.solutionsHeaderActive : ''
+        }`}
+        onClick={handleSolutionTabIsClicked}>
         <h2 className={styles.boldHeader}>Все решения</h2>
         <span className={styles.lightCounter}>{startupData.length}</span>
       </div>
-      <div className={`${styles.boldHeader} ${styles.favouritesHeader}`}>
+      <div
+        className={`${styles.boldHeader} ${styles.favouritesHeader} ${
+          solutionTabIsClicked ? styles.favouritesHeaderActive : ''
+        }`}
+        onClick={handleFavouritesTabIsClicked}>
         <h2 className={styles.boldHeader}>Избранное</h2>
         <span className={styles.lightCounter}>{favouritesStartupsCount}</span>
       </div>
@@ -87,17 +115,6 @@ export default function ShowCasePage() {
       </FormControl>
       <AsideMenu />
       <div className={styles.projectCardsGrid}>
-        {/* {startupData.map((startup) => (
-          <ProjectCard
-            name={startup.name}
-            description={startup.description}
-            reviewCount={11}
-            avgMark={5.6}
-            createdTime={rebuildData(startup.date)}
-            statusTags={renderStatuses(startup.statuses)}
-            themeTags={renderThemes(startup.categories)}
-          />
-        ))} */}
         <ProjectCard
           name='Обогреваемые остановки наземного транспорта'
           description='Технология мониторинга может применяться как для учёта транспортных потоков, так и для адаптивного 
@@ -106,8 +123,14 @@ export default function ShowCasePage() {
           reviewCount={11}
           avgMark={5.6}
           createdTime='03.13.2021'
-          statusTags={[<StatusProjectTag status={0} />, <StatusProjectTag status={1} />]}
-          themeTags={[<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={1} />]}
+          statusTags={[
+            <StatusProjectTag status={0} />,
+            <StatusProjectTag status={1} />,
+          ]}
+          themeTags={[
+            <ThemeProjectTag theme={0} />,
+            <ThemeProjectTag theme={1} />,
+          ]}
         />
       </div>
       <div className={styles.projectCardsPagination}>
@@ -133,7 +156,6 @@ export default function ShowCasePage() {
             </FormControl>
           </div>
         </div>
-
         <Pagination
           className={styles.muiPagination}
           count={10}
