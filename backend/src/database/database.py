@@ -57,11 +57,11 @@ class User(Base):
     telegram_id = Column(Integer)
     activationLink = Column(String(128))
     roles = relationship("Role",
-                         secondary=secondary_role, lazy='joined')
+                         secondary=secondary_role)
     detail = relationship(
-        "UserDetail", back_populates="user_info", lazy='joined', uselist=False)
+        "UserDetail", back_populates="user_info", uselist=False)
     favorites_startup = relationship(
-        "Startup", secondary=seconadary_favorites, lazy='joined')
+        "Startup", secondary=seconadary_favorites)
 
 
 class UserDetail(Base):
@@ -129,13 +129,13 @@ class Startup(Base):
     author = Column(Integer, ForeignKey('user.id'))
     company_id = Column(Integer, ForeignKey('company.id'))
     sertificate = Column(String(128))
-    images = relationship("Image", lazy='joined')
+    images = relationship("Image")
     statuses = relationship("Status",
-                            secondary=seconadary_status, lazy='joined')
+                            secondary=seconadary_status)
     categories = relationship(
-        "Category", secondary=seconadary_startup, lazy='joined')
+        "Category", secondary=seconadary_startup)
     company = relationship(
-        "Company", lazy='joined', uselist=False)
+        "Company", uselist=False)
     reviewses = relationship(
         "Reviews", back_populates="startap")
 
@@ -154,15 +154,17 @@ class Reviews(Base):
     __tablename__ = "reviews"
     id = Column(Integer, primary_key=True)
     review = Column(String(256))
+    mark = Column(Integer)
     user_id = Column(Integer, ForeignKey('user.id'))
     startup_id = Column(Integer, ForeignKey('startup.id'))
     startap = relationship("Startup")
-    user = relationship("User", lazy="joined")
+    user = relationship("User")
 
     def __init__(self, pydantic_model) -> None:
         self.review = pydantic_model.review
         self.user_id = pydantic_model.user_id
         self.startup_id = pydantic_model.startup_id
+        self.mark = pydantic_model.mark
 
 
 class Image(Base):
@@ -177,7 +179,7 @@ class Category(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(256))
     children = relationship(
-        "ChildrenCategory", back_populates="parent_category", lazy='joined')
+        "ChildrenCategory", back_populates="parent_category")
 
     def __init__(self, pydantic_model) -> None:
         self.name = pydantic_model.name

@@ -31,7 +31,6 @@ async def update_user(user, db: Session):
 
 async def get_user(id: int, db: Session):
     dbuser = db.query(User).filter(User.id == id).first()
-    print(dbuser.detail)
     if dbuser is not None:
         return UserResponse.from_orm(dbuser)
     return None
