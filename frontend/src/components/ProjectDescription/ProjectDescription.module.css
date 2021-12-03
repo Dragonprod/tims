@@ -8,7 +8,7 @@
   background: rgba(37, 34, 44, 0.5);
 }
 
-/* ===== Dark Background ===== */
+/* ===== Project Description Card ===== */
 .projectDescriptionCard {
   position: absolute;
   top: 0;
@@ -19,4 +19,29 @@
   width: 500px;
   height: 100vh;
   overflow-y: auto;
+}
+.projectButtonsContainer {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr;
+  justify-items: end;
+  align-items: center;
+}
+
+/* ===== Buttons ===== */
+.muiShareButton,
+.muiLikeButton {
+  display: block;
+  text-transform: initial !important;
+  font-family: MoscowSans, Roboto, sans-serif !important;
+  width: fit-content;
+  font-weight: 300 !important;
+}
+.muiLikeButton {
+  /* color: var(--accent-clr) !important; */
+  color: #505c6a !important;
+  height: fit-content;
+  border-radius: 12px !important;
+}
+.muiLikeIcon {
+  color: var(--accent-clr) !important;
 }
