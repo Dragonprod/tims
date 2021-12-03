@@ -15,19 +15,27 @@ import StatusProjectTag from '../../components/StatusProjectTag/StatusProjectTag
 import ThemeProjectTag from '../../components/ThemeProjectTag/ThemeProjectTag';
 
 function rebuildData(date) {
-  const dateArray = date.split('-')
-  return `${dateArray[2]}.${dateArray[1]}.${dateArray[0]}`
+  const dateArray = date.split('-');
+  return `${dateArray[2]}.${dateArray[1]}.${dateArray[0]}`;
 }
 
 function renderStatuses(statuses) {
-  return statuses.map((status) => (
-    (statuses === []) ? <StatusProjectTag status={0} /> : <StatusProjectTag status={status.id} />
-  ))
+  return statuses.map(status =>
+    statuses === [] ? (
+      <StatusProjectTag status={0} />
+    ) : (
+      <StatusProjectTag status={status.id} />
+    )
+  );
 }
 
 function renderThemes(categories) {
-  return (categories.id === undefined) ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />] : [<ThemeProjectTag theme={categories[0].id} />, <ThemeProjectTag theme={categories[0].children[0].id} />]
-
+  return categories.id === undefined
+    ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />]
+    : [
+        <ThemeProjectTag theme={categories[0].id} />,
+        <ThemeProjectTag theme={categories[0].children[0].id} />,
+      ];
 }
 export default function ShowCasePage() {
   const [startupData, setstartupData] = useState([]);
@@ -36,9 +44,21 @@ export default function ShowCasePage() {
   const [rowValue, setrowValue] = useState(10);
   const [page, setPage] = useState(1);
 
+  const [solutionTabIsClicked, setSolutionTabIsClicked] = useState(true);
+  const [favouritesTabIsClicked, setFavouritesTabIsClicked] = useState(false);
+
+  const handleSolutionTabIsClicked = () => {
+    setSolutionTabIsClicked(!solutionTabIsClicked);
+    setFavouritesTabIsClicked(favouritesTabIsClicked);
+  };
+  const handleFavouritesTabIsClicked = () => {
+    setSolutionTabIsClicked(solutionTabIsClicked);
+    setFavouritesTabIsClicked(!favouritesTabIsClicked);
+  };
+
   useEffect(() => {
     const getStartupsData = async () => {
-      const startupsResponse = await API.get("/startup");
+      const startupsResponse = await API.get('/startup');
       setstartupData(startupsResponse.data.startups);
     };
 
@@ -63,11 +83,19 @@ export default function ShowCasePage() {
       <h2 className={`${styles.boldHeader} ${styles.filtersHeader}`}>
         Фильтры:
       </h2>
-      <div className={`${styles.boldHeader} ${styles.solutionsHeader}`}>
+      <div
+        className={`${styles.boldHeader} ${styles.solutionsHeader} ${
+          solutionTabIsClicked ? styles.solutionsHeaderActive : ''
+        }`}
+        onClick={handleSolutionTabIsClicked}>
         <h2 className={styles.boldHeader}>Все решения</h2>
         <span className={styles.lightCounter}>{startupData.length}</span>
       </div>
-      <div className={`${styles.boldHeader} ${styles.favouritesHeader}`}>
+      <div
+        className={`${styles.boldHeader} ${styles.favouritesHeader} ${
+          solutionTabIsClicked ? styles.favouritesHeaderActive : ''
+        }`}
+        onClick={handleFavouritesTabIsClicked}>
         <h2 className={styles.boldHeader}>Избранное</h2>
         <span className={styles.lightCounter}>{favouritesStartupsCount}</span>
       </div>
@@ -92,7 +120,7 @@ export default function ShowCasePage() {
       </FormControl>
       <AsideMenu render={true} />
       <div className={styles.projectCardsGrid}>
-        {startupData.map((startup) => (
+        {startupData.map(startup => (
           <ProjectCard
             name={startup.name}
             description={startup.description}
@@ -117,7 +145,9 @@ export default function ShowCasePage() {
       </div>
       <div className={styles.projectCardsPagination}>
         <div className={styles.projectCardsPaginationTextContainer}>
-          <span className={styles.projectCardsAmount}>{startupData.length} результатов</span>
+          <span className={styles.projectCardsAmount}>
+            {startupData.length} результатов
+          </span>
           <div className={styles.selectProjectCardsAmountContainer}>
             <span>Показать:</span>
             <FormControl
@@ -141,7 +171,11 @@ export default function ShowCasePage() {
 
         <Pagination
           className={styles.muiPagination}
-          count={((startupData.length/rowValue) >= 1 ) ? Math.ceil(startupData.length/rowValue) : 1}
+          count={
+            startupData.length / rowValue >= 1
+              ? Math.ceil(startupData.length / rowValue)
+              : 1
+          }
           page={page}
           onChange={handlePageChange}
         />
