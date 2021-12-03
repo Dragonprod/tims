@@ -51,7 +51,8 @@ function AuthPage(props) {
 
     const res = await API.post(`/users/login`, data);
 
-    if (res.data.status_code === 401) setError(true);
+    if (res.data.status_code === 404) setError(true);
+    else if (res.data.status_code === 400) setError(true);
 
     if (!error)
       try {
