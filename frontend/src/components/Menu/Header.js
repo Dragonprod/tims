@@ -16,9 +16,27 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import DefaultAvatar from "../../assets/images/default_avatar.png";
 
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
+const search = [
+  { title: 'Тема 1'},
+  { title: 'Тема 2'},
+  { title: 'Тема 3'},
+  { title: 'Тема 4'},
+  { title: 'Тема 5'},
+  { title: 'Тема 6'},
+  { title: 'Тема 7'},
+  { title: 'Тема 8'},
+  { title: 'Тема 9'},
+  { title: 'Тема 10'},
+  { title: 'Тема 11'},
+  { title: 'Тема 12'},
+  { title: 'Тема 13'},
+  { title: 'Тема 14'},
+  { title: 'Тема 15'},
+  { title: 'Тема 16'},
+  { title: 'Тема 17'},
+  { title: 'Тема 18'},
+  { title: 'Тема 19'},
+  { title: 'Тема 20'},
 ];
 
 export default function Header() {
@@ -44,9 +62,12 @@ export default function Header() {
           className={styles.muiAutocomplete}
           id='free-solo-demo'
           freeSolo
-          options={top100Films.map(option => option.title)}
-          renderInput={params => (
-            <TextField {...params} label='Поиск решения' />
+          options={search.map(option => option.title)}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Поиск решения"
+            />
           )}
         />
       </div>
