@@ -22,9 +22,16 @@ router = APIRouter()
     response_class=ORJSONResponse,
 )
 async def search(search: str, db: Session = Depends(get_db)):
-    print(1)
     startups = await search_startup(name=search, db=db)
-    return StartupList(startups=startups)
+    startups_pydantic = []
+
+    for i in range(0, len(startups)):
+        model = StartupBase.from_orm(startups[i][0])
+        model.average_mark = startups[i][1]
+        model.count_reviewses = startups[i][2]
+        startups_pydantic.append(model)
+
+    return StartupList(startups=startups_pydantic)
 
 
 @router.post(
@@ -51,7 +58,10 @@ async def startup_get(id: int, db: Session = Depends(get_db)):
     startup = await get_startup_by_id(startup_id=id, db=db)
     if startup is None:
         return HTTPException(HTTP_404_NOT_FOUND)
-    return StartupBase.from_orm(startup)
+    startup_model = StartupBase.from_orm(startup[0])
+    startup_model.average_mark = startup[1]
+    startup_model.count_reviewses = startup[2]
+    return startup_model
 
 
 @router.get(
