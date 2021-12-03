@@ -23,17 +23,15 @@ async def create_startup(startup, db: Session):
     dbstarup = Startup(startup)
     dbstarup.date = random_date[random.randint(0, len(random_date)-1)]
     db.add(dbstarup)
-    # response = await Elastic.create(dbstarup.id, body_params={
-    #     'name': dbstarup.name, 'description': dbstarup.description})
-    # print(response.status)
-    # if response is not None:
-    dbstarup.statuses.extend(tags)
-    dbstarup.images.extend(images)
-    dbstarup.categories.extend(categories)
-    print(1)
-    db.commit()
-    # else:
-    #     db.rollback()
+    response = await Elastic.create(dbstarup.id, body_params={
+        'name': dbstarup.name, 'description': dbstarup.description})
+    if response is not None:
+        dbstarup.statuses.extend(tags)
+        dbstarup.images.extend(images)
+        dbstarup.categories.extend(categories)
+        db.commit()
+    else:
+        db.rollback()
     return dbstarup
 
 
@@ -42,7 +40,7 @@ async def search_startup(name: str, db: Session):
     body = {
         "query": {
             "match": {
-                "name": name
+                "name": name,
             }
         }
     }
@@ -80,7 +78,7 @@ async def get_startups(children_categories: List[str], categories: List[str], so
 
         return db.query(Startup).join(Startup.categories).join(Startup.reviewses).join(ChildrenCategory).filter(filter_categries).filter(filter_children_categories).order_by(order_date, order_marks).limit(limit).offset(offset).all()
 
-    return db.query(Startup, func.avg(Reviews.mark).label('average')).join(Startup.categories).join(ChildrenCategory).filter(filter_categries).filter(filter_children_categories).order_by(order_date).limit(limit).offset(offset).all()
+    return db.query(Startup).join(Startup.categories).join(ChildrenCategory).filter(filter_categries).filter(filter_children_categories).order_by(order_date).limit(limit).offset(offset).all()
 
 
 async def like_startup(user_id: int, startup_id: int, db: Session):

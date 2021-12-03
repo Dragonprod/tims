@@ -53,13 +53,14 @@ async def startups_get(children_categories: Optional[List[str]] = Query(None), c
 
 
 @router.get(
-    "/startup/{search}",
+    "/startup/search",
     tags=["Startup"],
     status_code=HTTP_200_OK,
     response_model=StartupList,
     response_class=ORJSONResponse,
 )
-async def get_startup(search: str, db: Session = Depends(get_db)):
+async def search(search: str, db: Session = Depends(get_db)):
+    print(1)
     startups = await search_startup(name=search, db=db)
     return StartupList(startups=startups)
 

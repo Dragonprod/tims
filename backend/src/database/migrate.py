@@ -14,10 +14,45 @@ async def migrate_start():
     await create_roles()
     await create_users()
     await create_company()
+    await update_users()
     await create_statusses()
     await create_categories()
     await create_startup()
     await create_reviews()
+
+
+async def update_users():
+    user1 = {
+        "user_id": 1,
+        "first_name": "Андрей",
+        "second_name": "Зуев",
+        "patronymic": "Сергеевич",
+        "phone": "89005553535",
+        "position": "Директор транспорта",
+        "company_id": 2
+    }
+    user2 = {
+        "user_id": 2,
+        "first_name": "Иван",
+        "second_name": "Букров",
+        "patronymic": "Сергеевич",
+        "phone": "89013213312",
+        "position": "Глава транспорта",
+        "company_id": 5
+    }
+    user3 = {
+        "user_id": 3,
+        "first_name": "Артём",
+        "second_name": "Добрович",
+        "patronymic": "Леонидович",
+        "phone": "89005435345",
+        "position": "Генеральный советник",
+        "company_id": 1
+    }
+    async with aiohttp.ClientSession() as session:
+        await session.put("http://localhost:8080/api/v1/user", json=user1)
+        await session.put("http://localhost:8080/api/v1/user", json=user2)
+        await session.put("http://localhost:8080/api/v1/user", json=user3)
 
 
 async def create_roles():
@@ -167,7 +202,8 @@ async def create_startup():
                 "name": random.choice(name),
                 "author": 2,
                 "statuses": random.choice(statuses),
-                "sertificate": "string",
+                "sertificate": True,
+                "usecases": "usecases",
                 "categories": categories[0],
                 "company_id": random.choice(company_ids),
                 "brief_description": "brief",

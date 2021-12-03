@@ -14,11 +14,12 @@ class StartupBase(BaseModel):
     description: str
     brief_description: str
     usability: str
+    usecases: str
     author: int
     date: date
     company_id: int
     statuses: List[StatusBase]
-    sertificate: str = None
+    sertificate: bool = None
     categories: List[CategoryBase]
     company: CompanyBase = None
     images: List[str] = None
@@ -36,7 +37,8 @@ class StartupCrateorUpdate(BaseModel):
     author: int
     company_id: int
     statuses: List[int]
-    sertificate: str
+    sertificate: bool
+    usecases: str
     categories: List[int]
     images: List[str] = None
 
