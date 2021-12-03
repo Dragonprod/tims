@@ -91,7 +91,16 @@ sudo systemctl status docker
 ### Запуск:
 
 1. Запустите проект - `docker-compose up -d`
-
+2. Выполните миграции проекта:\
+С помощью CURL -
+```sh
+curl -X 'POST' \
+  'http://localhost:8080/api/v1/migrate/start' \
+  -H 'accept: application/json' \
+  -d ''
+```
+Или с помощью документации - [localhost:8080/docs](http://localhost:8080/docs/)
+![Миграции](/docs/migrate.png "Миграции")
 
 ### Установка необходимых пакетов(Windows/Development):
 
@@ -118,7 +127,16 @@ sudo systemctl status docker
 1. Установите зависимости для backend - `cd backend && pip install -r requirements.txt`
 2. Установите зависимости для frontend - `cd frontend && npm install`
 3. Установите зависимости для telegram бота - `cd bot && pip install -r requirements.txt`
-4. Выполните миграции базы данных - `cd backend/database && python3 migrate.py`
+4. Выполните миграции проекта:\
+С помощью CURL - 
+```sh
+curl -X 'POST' \
+  'http://localhost:8080/api/v1/migrate/start' \
+  -H 'accept: application/json' \
+  -d ''
+```
+Или с помощью документации - [localhost:8080/docs](http://localhost:8080/docs/)
+![Миграции](/docs/migrate.png "Миграции")
 
 ### Запуск:
 

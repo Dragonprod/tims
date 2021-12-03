@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
 import styles from './ProjectDescription.module.css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Button from '@mui/material/Button';
@@ -18,24 +17,41 @@ import ThemeProjectTag from '../ThemeProjectTag/ThemeProjectTag';
 import CommentCard from '../CommentCard/CommentCard';
 
 export default function ProjectDescription(props) {
-  const onClick = props.onClick;
+  const onClickOpen = props.onClickOpen;
+  const onClickClose = props.onClickClose
+
   const [isFavourite, setisFavourite] = useState(false);
   const [open, setopen] = useState(false);
 
   const imagesSrc = [StartupImg1, StartupImg2, StartupImg3];
   const [primaryImageSrc, setprimaryImageSrc] = useState(StartupImg1);
 
-  const id = props.id;
-  const name = props.name;
-  const description = props.description;
-  const reviewCount = props.reviewCount;
-  const avgMark = props.avgMark;
-  const createdTime = props.createdTime;
-  const statusTags = props.statusTags;
-  const themeTags = props.themeTags;
+  const [name, setName] = useState('')
+  const [surname, setSurname] = useState('')
+  const [patronymic, setPatronymic] = useState('')
+  const [position, setPosition] = useState('')
+
+  const [reviews, setReviews] = useState([])
+
+  const startup = props.startup;
 
   useEffect(() => {
     setopen(props.open);
+
+    const getStartupData = async () => {
+
+      const reviewsResponse = await API.get(`/startup/${startup.id}/reviews`);
+      setReviews(reviewsResponse.data.reviews);
+      console.log(reviewsResponse.data)
+
+      const ownerDetailsResponse = await API.get(`/user/${startup.author}`)
+      setName(ownerDetailsResponse.data.detail.first_name)
+      setSurname(ownerDetailsResponse.data.detail.second_name)
+      setPatronymic(ownerDetailsResponse.data.detail.patronymic)
+      setPosition(ownerDetailsResponse.data.detail.position)
+    };
+    getStartupData();
+
   }, [props.open]);
 
   const likeProcess = async e => {
@@ -89,13 +105,13 @@ export default function ProjectDescription(props) {
               <IconButton
                 className={styles.muiCloseButton}
                 aria-label='delete'
-                onClick={onClick}>
+                onClick={onClickClose}>
                 <CloseIcon />
               </IconButton>
             </div>
             <div className={styles.imageBoxContainer}>
               <h3 className={`${styles.boldHeader}`}>
-                Обогреваемые остановки наземного транспорта
+                {startup.name}
               </h3>
               <img
                 className={`${styles.startupImg} ${styles.startupImgActive}`}
@@ -146,65 +162,44 @@ export default function ProjectDescription(props) {
             </div>
             <div className={styles.projectTextContainer}>
               <h3 className={`${styles.boldHeader}`}>
-                Сведения о “Warm Stops”
+                Сведения о продукте
               </h3>
               <div className={styles.statsTable}>
                 <div>
-                  Статус: <StatusProjectTag status={6} />{' '}
+                  Статус: <StatusProjectTag status={startup.statuses[0].id} />{' '}
                 </div>
                 <div>
-                  Категория: <ThemeProjectTag theme={4} />{' '}
+                  Категория: <ThemeProjectTag theme={startup.categories[0].id} /> <ThemeProjectTag theme={startup.categories[0].children[0].id} />{' '}
                 </div>
                 <div>
-                  В организации: <span>Менее 20</span>
+                  В организации: <span>{startup.company.count_workers}</span>
                 </div>
                 <div>
-                  Сертификация: <span>Требуется</span>
+                  Сертификация: <span>{startup.sertificate ? "Требуется" : "Не требуется"}</span>
                 </div>
                 <div>Запрос к акселератору и видение пилотного проекта</div>
               </div>
               <h3 className={`${styles.boldHeader}`}>Описание продукта</h3>
               <p className={styles.text}>
-                За последние 7 лет я создал самый передовой в мире разговорный
-                ИИ с открытым доменом для Replika - чат-бота №1 в США с более
-                чем 10 миллионами пользователей. В начале этого года я покинул
-                Replika, чтобы вывести последние достижения в области
-                разговорного ИИ на новый уровень.
-              </p>
-              <p className={styles.text}>
-                Наше новое приложение Botify позволяет пользователям создавать
-                фотореалистичные цифровые персоны для увлекательных бесед. Для
-                каждой цифровой персоны можно настроить индивидуальный персонаж
-                и таким образом создать уникальную личность любого человека.
-                Хотите поговорить с Маском о колонизации Марса? Может быть, вы
-                хотите спросить Иисуса о шумихе вокруг NFT? Вы можете сделать
-                все это в Botify.
+                {startup.description}
               </p>
               <h3 className={`${styles.boldHeader}`}>
                 Кейсы использования продукта
               </h3>
               <p className={styles.text}>
-                За последние 7 лет я создал самый передовой в мире разговорный
-                ИИ с открытым доменом для Replika - чат-бота №1 в США с более
-                чем 10 миллионами пользователей. В начале этого года я покинул
-                Replika, чтобы вывести последние достижения в области
-                разговорного ИИ на новый уровень.
+                {/* {startup.usecases} */}
               </p>
               <h3 className={`${styles.boldHeader}`}>Польза продукта</h3>
               <p className={styles.text}>
-                За последние 7 лет я создал самый передовой в мире разговорный
-                ИИ с открытым доменом для Replika - чат-бота №1 в США с более
-                чем 10 миллионами пользователей. В начале этого года я покинул
-                Replika, чтобы вывести последние достижения в области
-                разговорного ИИ на новый уровень.
+                {startup.usability}
               </p>
               <div className={styles.startuperCard}>
-                <span className={styles.startuperPosition}>Директор</span>
+                <span className={styles.startuperPosition}>{position}</span>
                 <a href='/' className={styles.startuperSite}>
                   www.startaper.ru
                 </a>
                 <span className={styles.startuperName}>
-                  Оксана Валерьевна Савчук
+                  {name} {patronymic} {surname}
                 </span>
                 <Button className={styles.muiRequestButton} variant='contained'>
                   Отправить запрос
@@ -212,7 +207,9 @@ export default function ProjectDescription(props) {
               </div>
               <h3 className={`${styles.boldHeader}`}>Мнения экспертов</h3>
               <div>
-                <CommentCard />
+                {reviews.map((review) => (
+                  <CommentCard _review={review} />
+                ))}
               </div>
             </div>
           </div>
