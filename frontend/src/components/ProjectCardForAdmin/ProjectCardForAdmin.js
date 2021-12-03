@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
-import styles from './ProjectCard.module.css';
+import styles from './ProjectCardForAdmin.module.css';
 import Card from '@mui/material/Card';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
@@ -74,38 +74,40 @@ export default function ProjectCardForAdmin(props) {
         <div className={styles.statusProjectTagContainer}>{statusTags}</div>
         <div className={styles.themeProjectTagContainer}>{themeTags}</div>
       </div>
-      <h1 className={styles.cardHeader}>{name}</h1>
-      <p className={styles.cardText}>{description}</p>
+      <div className={styles.firstLine}>
+        <span className={styles.startupName}>
+          Обогреваемые остановки наземного транспорта
+        </span>
+        <span className={styles.organisationName}>Московский метрополитен</span>
+        <span className={styles.startupName2}>
+          Обогреваемые остановки наземного транспорта
+        </span>
+      </div>
+      <div className={styles.secondLine}>
+        <span className={styles.startuperName}>Оксана Валерьевна Савчук</span>
+        <span className={styles.investorName}>Валерий Михайлович Абрамов</span>
+      </div>
       <div className={styles.cardFooter}>
-        <div className={styles.projectStatsContainer}>
-          <div className={styles.projectComments}>
-            <ChatBubbleOutlineIcon className={styles.iconComment} />
-            <span className={styles.statsAmount}>{reviewCount}</span>
-          </div>
-          <div className={styles.projectRate}>
-            <StarBorderIcon className={styles.iconStar} />
-            <span className={styles.statsAmount}>{avgMark}/10</span>
-          </div>
-          <div className={styles.projectDate}>
-            <CalendarTodayIcon />
-            <span className={styles.statsAmount}>{createdTime}</span>
-          </div>
+        <div className={styles.startuperContactContainer}>
+          +7 (922) 321 0987
+          <br />
+          startup@gmail.com
         </div>
+        <div className={styles.investorContactContainer}>
+          +7 (962) 876 4532
+          <br />
+          abramvaler@mosmetro.com
+        </div>
+
         <div className={styles.projectButtonsContainer}>
-          <Button
-            className={styles.muiLikeButton}
-            variant='text'
-            onClick={likeProcess}
-            startIcon={
-              isFavourite === true ? <FavoriteIcon /> : <FavoriteBorderIcon />
-            }>
-            {isFavourite === true ? 'В избранном' : 'В избранное'}
+          <Button className={styles.muiAboutButton} variant='text'>
+            О проекте
           </Button>
           <Button
             className={styles.muiReadMoreButton}
             variant='contained'
             onClick={onClick}>
-            Подробнее
+            Открыть контакты
           </Button>
         </div>
       </div>

@@ -29,8 +29,8 @@ export default function ProjectCard(props) {
   const onClick = props.onClick
   const inc = props.inc
   const dec = props.dec
-  // const addProjectToFavourites = props.addProjectToFavourites
-  // const deleteProjectToFavourites = props.deleteProjectToFavourites
+  const addProjectToFavourites = props.addProjectToFavourites
+  const deleteProjectToFavourites = props.deleteProjectToFavourites
 
   useEffect(() => {
     setisFavourite(props.isFavourite);
@@ -49,7 +49,7 @@ export default function ProjectCard(props) {
 
       const res = await API.delete(`/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`);
       dec();
-      // deleteProjectToFavourites()
+      deleteProjectToFavourites();
       console.log(res.data.message);
     }
     else {
@@ -61,7 +61,7 @@ export default function ProjectCard(props) {
 
       const res = await API.post(`/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`);
       inc();
-      // addProjectToFavourites()
+      addProjectToFavourites();
       console.log(res.data.message);
     }
 
