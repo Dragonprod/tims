@@ -99,14 +99,16 @@ function AuthPage(props) {
                 onChange={handleChangePassword}
               />
             </div>
-            <p>Забыли пароль?</p>
+            <a href='/' className={styles.forgotPassword}>
+              Забыли пароль?
+            </a>
             <Button
               className={styles.muiLoginButton}
               variant='contained'
               onClick={loginProccess}>
-              Искать
+              Войти
             </Button>
-            <p>или</p>
+            <p className={styles.authFormOrWord}>или</p>
             <Button className={styles.muiGoogleLoginButton} variant='outlined'>
               Войти с помощью Google
             </Button>
@@ -124,7 +126,12 @@ function AuthPage(props) {
               </Alert>
             </Snackbar>
           </form>
-          Возникли проблемы с авторизацией? Обратитесь в службу поддержки
+          <p className={styles.authFormTip}>
+            Возникли проблемы с авторизацией? <br /> Обратитесь в{' '}
+            <a className={styles.authFormSupportReference} href='/'>
+              службу поддержки
+            </a>
+          </p>
         </div>
       </div>
     </div>

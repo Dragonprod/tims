@@ -56,19 +56,43 @@
   border-radius: var(--rounding-lvl-2);
 }
 .forgotPassword {
+  display: inline-block;
   color: var(--accent-clr);
   margin-bottom: 32px;
+  float: left;
 }
 .muiLoginButton,
 .muiGoogleLoginButton {
-  width: 100%;
-  padding: 16px;
-  border-radius: 30px;
+  width: 100% !important;
+  padding: 16px !important;
+  border-radius: 30px !important;
   text-transform: initial !important;
+  font-family: MoscowSans, Roboto, sans-serif !important;
 }
 .authFormOrWord {
   margin: 16px 0;
 }
 .muiLoginButton {
-  background: var(--accent-clr);
+  background: var(--accent-clr) !important;
+  box-shadow: none !important;
+}
+.muiLoginButton:hover {
+  background: hsl(178, 99%, 33%) !important;
+  box-shadow: none !important;
+}
+.muiGoogleLoginButton {
+  color: var(--text-and-icons-clr-primary) !important;
+  border-color: #ccc !important;
+}
+.muiGoogleLoginButton:hover {
+  color: var(--accent-clr) !important;
+  border-color: var(--accent-clr) !important;
+}
+.authFormTip {
+  font-weight: 300;
+  margin-top: 50px;
+  font-size: 15px;
+}
+.authFormSupportReference {
+  color: var(--accent-clr);
 }
