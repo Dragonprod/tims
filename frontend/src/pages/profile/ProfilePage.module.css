@@ -22,6 +22,11 @@
   user-select: none;
   cursor: pointer;
 }
+.profileHeaderActive,
+.myStartupsHeaderActive,
+.mySubscribesHeaderActive {
+  color: var(--text-and-icons-clr-primary);
+}
 
 /* ===== Form ===== */
 .formContainer {
