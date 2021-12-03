@@ -13,7 +13,7 @@ import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 
-function AuthPage() {
+function AuthPage(props) {
   const [error, setError] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -53,6 +53,7 @@ function AuthPage() {
         const jwt = parseJwt(res.data.token);
         if (jwt.is_admin === true) navigate('/admin');
         else if (jwt.is_admin === false) navigate('/showcases');
+        props.setFormData('user_id', jwt.user_id);
       } catch (e) {
         console.log(e);
       }
