@@ -11,10 +11,12 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import StatusProjectTag from '../StatusProjectTag/StatusProjectTag';
 import ThemeProjectTag from '../ThemeProjectTag/ThemeProjectTag';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import API from '../../api/api';
 
 export default function ProjectCard(props) {
   const [isFavourite, setisFavourite] = useState(false)
-
+  
+  const id = props.id
   const name = props.name
   const description = props.description
   const reviewCount = props.reviewCount
@@ -23,6 +25,32 @@ export default function ProjectCard(props) {
   const statusTags = props.statusTags
   const themeTags = props.themeTags
 
+  const likeProcess = async e => {
+    e.preventDefault();
+
+
+    if (isFavourite) {
+      setisFavourite(!isFavourite);
+      const data = {
+        user_id: 1,
+        startup_id: id,
+      };
+
+      const res = await API.post(`/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`);
+      console.log(res.data.message);
+    }
+    else {
+      setisFavourite(!isFavourite);
+      const data = {
+        user_id: 1,
+        startup_id: id,
+      };
+
+      const res = await API.delete(`/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`);
+      console.log(res.data.message);
+    }
+
+  };
   const handleFavourite = () => {
     setisFavourite(!isFavourite);
   }
@@ -63,7 +91,7 @@ export default function ProjectCard(props) {
           <Button
             className={styles.muiLikeButton}
             variant='text'
-            onClick={handleFavourite}
+            onClick={likeProcess}
             startIcon={(isFavourite == true) ? <FavoriteIcon /> : <FavoriteBorderIcon />}>
             {(isFavourite == true) ? "В избранном" : "В избранное"}
           </Button>

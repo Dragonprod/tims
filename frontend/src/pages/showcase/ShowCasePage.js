@@ -4,7 +4,6 @@ import Header from '../../components/Menu/Header';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import styles from './ShowCasePage.module.css';
 import { connect } from 'react-redux';
-import { setFormData } from '../../store/dataStorage/actions';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -45,7 +44,7 @@ function renderStartups(startups, pageSize, pageNumber) {
 function ShowCasePage(props) {
   const userId = props.inputData["user_id"];
   const [startupData, setstartupData] = useState([]);
-  const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0);
+  const [favouriteStartupData, setfavouriteStartupData] = useState([]);
   const [searchValue, setsearchValue] = useState(0);
   const [rowValue, setrowValue] = useState(10);
   const [page, setPage] = useState(1);
@@ -67,6 +66,11 @@ function ShowCasePage(props) {
     const getStartupsData = async () => {
       const startupsResponse = await API.get('/startup?offset=0&limit=2000');
       setstartupData(startupsResponse.data.startups);
+
+      // const favouriteStartupsResponse = await API.get(`/user/favorites/${userId}`);
+      const favouriteStartupsResponse = await API.get(`/user/favorites/1`);
+      setfavouriteStartupData(favouriteStartupsResponse.data.favorites_startup);
+
     };
     getStartupsData();
   }, []);
@@ -83,32 +87,6 @@ function ShowCasePage(props) {
     setPage(value);
   };
 
-  const startupsData = () => {
-    switch (searchValue) {
-      case 0:
-        return
-        break;
-
-      case 1:
-
-        break;
-      case 2:
-
-        break;
-      case 3:
-
-        break;
-      case 4:
-
-        break;
-      case 5:
-
-        break;
-
-      default:
-        break;
-    }
-  }
   return (
     <div className={styles.mainGrid}>
       <Header />
@@ -127,7 +105,7 @@ function ShowCasePage(props) {
           }`}
         onClick={handleFavouriteTabIsClicked}>
         <h2 className={styles.boldHeader}>Избранное</h2>
-        <span className={styles.lightCounter}>{favouritesStartupsCount}</span>
+        <span className={styles.lightCounter}>{favouriteStartupData.length}</span>
       </div>
       <FormControl
         className={`${styles.boldHeader} ${styles.selectHeader}`}
@@ -152,6 +130,7 @@ function ShowCasePage(props) {
       <div className={styles.projectCardsGrid}>
         {solutionTabIsClicked && renderStartups(startupData, rowValue, page).map(startup => (
           <ProjectCard
+            id={startup.id}
             name={startup.name}
             description={startup.description}
             reviewCount={11}
@@ -162,8 +141,9 @@ function ShowCasePage(props) {
           />
         ))}
 
-        {favouritesTabIsClicked && startupData.map(startup => (
+        {favouritesTabIsClicked && favouriteStartupData.map(startup => (
           <ProjectCard
+            id={startup.id}
             name={startup.name}
             description={startup.description}
             reviewCount={11}

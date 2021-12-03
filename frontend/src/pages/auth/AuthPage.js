@@ -39,7 +39,7 @@ function AuthPage(props) {
     setPassword(e.target.value);
   };
 
-  const loginProccess = async e => {
+  const loginProcess = async e => {
     e.preventDefault();
 
     const data = {
@@ -47,7 +47,7 @@ function AuthPage(props) {
       password: password,
     };
 
-    const res = await API.post(`users/login`, data);
+    const res = await API.post(`/users/login`, data);
 
     if (res.data.status_code === 401) setError(true);
 
@@ -113,7 +113,7 @@ function AuthPage(props) {
             <Button
               className={styles.muiLoginButton}
               variant='contained'
-              onClick={loginProccess}>
+              onClick={loginProcess}>
               Войти
             </Button>
             <p className={styles.authFormOrWord}>или</p>
