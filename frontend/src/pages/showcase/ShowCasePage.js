@@ -13,6 +13,7 @@ import Pagination from '@mui/material/Pagination';
 import API from '../../api/api';
 import StatusProjectTag from '../../components/StatusProjectTag/StatusProjectTag';
 import ThemeProjectTag from '../../components/ThemeProjectTag/ThemeProjectTag';
+import ProjectDescription from '../../components/ProjectDescription/ProjectDescription';
 
 function rebuildData(date) {
   const dateArray = date.split('-');
@@ -33,9 +34,9 @@ function renderThemes(categories) {
   return categories.id === undefined
     ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />]
     : [
-      <ThemeProjectTag theme={categories[0].id} />,
-      <ThemeProjectTag theme={categories[0].children[0].id} />,
-    ];
+        <ThemeProjectTag theme={categories[0].id} />,
+        <ThemeProjectTag theme={categories[0].children[0].id} />,
+      ];
 }
 
 function renderStartups(startups, pageSize, pageNumber) {
@@ -43,7 +44,7 @@ function renderStartups(startups, pageSize, pageNumber) {
 }
 
 function ShowCasePage(props) {
-  const userId = props.inputData["user_id"];
+  const userId = props.inputData['user_id'];
   const [startupData, setstartupData] = useState([]);
   const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0);
   const [searchValue, setsearchValue] = useState(0);
@@ -86,29 +87,24 @@ function ShowCasePage(props) {
   const startupsData = () => {
     switch (searchValue) {
       case 0:
-        return
+        return;
         break;
 
       case 1:
-
         break;
       case 2:
-
         break;
       case 3:
-
         break;
       case 4:
-
         break;
       case 5:
-
         break;
 
       default:
         break;
     }
-  }
+  };
   return (
     <div className={styles.mainGrid}>
       <Header />
@@ -116,15 +112,17 @@ function ShowCasePage(props) {
         Фильтры:
       </h2>
       <div
-        className={`${styles.boldHeader} ${styles.solutionsHeader} ${(solutionTabIsClicked === true) ? styles.solutionsHeaderActive : ''
-          }`}
+        className={`${styles.boldHeader} ${styles.solutionsHeader} ${
+          solutionTabIsClicked === true ? styles.solutionsHeaderActive : ''
+        }`}
         onClick={handleSolutionTabIsClicked}>
         <h2 className={styles.boldHeader}>Все решения</h2>
         <span className={styles.lightCounter}>{startupData.length}</span>
       </div>
       <div
-        className={`${styles.boldHeader} ${styles.favouritesHeader} ${(favouritesTabIsClicked === true) ? styles.favouritesHeaderActive : ''
-          }`}
+        className={`${styles.boldHeader} ${styles.favouritesHeader} ${
+          favouritesTabIsClicked === true ? styles.favouritesHeaderActive : ''
+        }`}
         onClick={handleFavouriteTabIsClicked}>
         <h2 className={styles.boldHeader}>Избранное</h2>
         <span className={styles.lightCounter}>{favouritesStartupsCount}</span>
@@ -149,30 +147,33 @@ function ShowCasePage(props) {
         </Select>
       </FormControl>
       <AsideMenu render={true} />
+      <ProjectDescription />
       <div className={styles.projectCardsGrid}>
-        {solutionTabIsClicked && renderStartups(startupData, rowValue, page).map(startup => (
-          <ProjectCard
-            name={startup.name}
-            description={startup.description}
-            reviewCount={11}
-            avgMark={5.6}
-            createdTime={rebuildData(startup.date)}
-            statusTags={renderStatuses(startup.statuses)}
-            themeTags={renderThemes(startup.categories)}
-          />
-        ))}
+        {solutionTabIsClicked &&
+          renderStartups(startupData, rowValue, page).map(startup => (
+            <ProjectCard
+              name={startup.name}
+              description={startup.description}
+              reviewCount={11}
+              avgMark={5.6}
+              createdTime={rebuildData(startup.date)}
+              statusTags={renderStatuses(startup.statuses)}
+              themeTags={renderThemes(startup.categories)}
+            />
+          ))}
 
-        {favouritesTabIsClicked && startupData.map(startup => (
-          <ProjectCard
-            name={startup.name}
-            description={startup.description}
-            reviewCount={11}
-            avgMark={6}
-            createdTime={rebuildData(startup.date)}
-            statusTags={renderStatuses(startup.statuses)}
-            themeTags={renderThemes(startup.categories)}
-          />
-        ))}
+        {favouritesTabIsClicked &&
+          startupData.map(startup => (
+            <ProjectCard
+              name={startup.name}
+              description={startup.description}
+              reviewCount={11}
+              avgMark={6}
+              createdTime={rebuildData(startup.date)}
+              statusTags={renderStatuses(startup.statuses)}
+              themeTags={renderThemes(startup.categories)}
+            />
+          ))}
 
         {/* <ProjectCard
           name='Обогреваемые остановки наземного транспорта'
@@ -227,7 +228,7 @@ function ShowCasePage(props) {
   );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     inputData: state.dataStorage.forms,
   };

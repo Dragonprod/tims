@@ -1,0 +1,22 @@
+/* ===== Dark Background ===== */
+.darkBackground {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 200;
+  background: rgba(37, 34, 44, 0.5);
+}
+
+/* ===== Dark Background ===== */
+.projectDescriptionCard {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: grid;
+  grid-template-rows: 1fr 5fr 5fr;
+  background: var(--bg-clr-lvl-2);
+  width: 500px;
+  height: 100vh;
+  overflow-y: auto;
+}
