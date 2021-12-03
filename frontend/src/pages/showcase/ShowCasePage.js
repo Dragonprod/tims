@@ -88,8 +88,8 @@ function ShowCasePage(props) {
       const favouriteStartupsResponse = await API.get(`/user/favorites/${userIdStorage}`);
       setfavouriteStartupData(favouriteStartupsResponse.data.favorites_startup);
 
-      // const startupsReviewsResponse = await API.get(`/startup/${startup.id}/reviews`)
-      // setstartupReviewsData(response.data.reviews);
+      const startupsReviewsResponse = await API.get(`/reviews`)
+      setstartupReviewsData(startupsReviewsResponse.data.reviews);
 
     };
     getStartupsData();
