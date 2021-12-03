@@ -14,6 +14,20 @@ from fastapi.responses import ORJSONResponse
 router = APIRouter()
 
 
+@router.get(
+    "/startup/search",
+    tags=["Startup"],
+    status_code=HTTP_200_OK,
+    response_model=StartupList,
+    response_class=ORJSONResponse,
+)
+async def search(search: str, db: Session = Depends(get_db)):
+    print(1)
+    startups = await search_startup(name=search, db=db)
+    return StartupList(startups=startups)
+
+
+
 @router.post(
     "/startup/create",
     tags=["Startup"],
@@ -49,19 +63,6 @@ async def startups_get(children_categories: Optional[List[str]] = Query(None), c
 
     startups = await get_startups(children_categories=children_categories, more=more, categories=categories, sort_mark=sort_mark, sort_date=sort_date, offset=offset, limit=limit, db=db)
     print(startups)
-    return StartupList(startups=startups)
-
-
-@router.get(
-    "/startup/search",
-    tags=["Startup"],
-    status_code=HTTP_200_OK,
-    response_model=StartupList,
-    response_class=ORJSONResponse,
-)
-async def search(search: str, db: Session = Depends(get_db)):
-    print(1)
-    startups = await search_startup(name=search, db=db)
     return StartupList(startups=startups)
 
 
