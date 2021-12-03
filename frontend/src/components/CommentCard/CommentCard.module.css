@@ -3,10 +3,8 @@
   display: grid;
   grid-template-columns: 1fr 10fr;
   grid-template-rows: 1fr auto;
-  /* background: var(--bg-clr-lvl-1); */
   padding: 24px;
   margin-bottom: 24px;
-  /* border-radius: 16px; */
   align-items: center;
   font-size: 14px;
 }
