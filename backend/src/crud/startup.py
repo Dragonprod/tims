@@ -59,12 +59,12 @@ async def search_startup(name: str, db: Session):
               for doc in search['hits']['hits']]
         print(id)
         filter = (Startup.id.in_(id))
-        return db.query(Startup).filter(filter).all()
+        return db.query(Startup, func.avg(Reviews.mark), func.count(Reviews.id)).join(Startup.reviewses).group_by(Startup).filter(filter).all()
     return []
 
 
 async def get_startup_by_id(startup_id, db: Session):
-    return db.query(Startup).filter(Startup.id == startup_id).first()
+    return db.query(Startup, func.avg(Reviews.mark), func.count(Reviews.id)).join(Startup.reviewses).group_by(Startup).filter(Startup.id == startup_id).first()
 
 
 async def get_startups(children_categories: List[str], categories: List[str], sort_date: str, offset: int, limit: int, db: Session, sort_mark: str = None, more: bool = None):
