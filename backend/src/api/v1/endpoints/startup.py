@@ -27,7 +27,6 @@ async def search(search: str, db: Session = Depends(get_db)):
     return StartupList(startups=startups)
 
 
-
 @router.post(
     "/startup/create",
     tags=["Startup"],

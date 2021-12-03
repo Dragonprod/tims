@@ -24,13 +24,13 @@ async def create_startup(startup, db: Session):
     dbstarup = Startup(startup)
     dbstarup.date = random_date[random.randint(0, len(random_date)-1)]
     db.add(dbstarup)
+    db.commit()
     response = await Elastic.create(dbstarup.id, body_params={
         'name': dbstarup.name, 'description': dbstarup.description})
     if response is not None:
         dbstarup.statuses.extend(tags)
         dbstarup.images.extend(images)
         dbstarup.categories.extend(categories)
-        db.commit()
     else:
         db.rollback()
     return dbstarup
@@ -40,8 +40,12 @@ async def search_startup(name: str, db: Session):
 
     body = {
         "query": {
-            "match": {
-                "name": name,
+            "multi_match": {
+                "query": name,
+                "fields": [
+                    "name",
+                    "description"
+                ]
             }
         }
     }
@@ -54,6 +58,7 @@ async def search_startup(name: str, db: Session):
         print(id)
         filter = (Startup.id.in_(id))
         return db.query(Startup).filter(filter).all()
+    return []
 
 
 async def get_startup_by_id(startup_id, db: Session):
