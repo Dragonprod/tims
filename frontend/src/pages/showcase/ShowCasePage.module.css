@@ -13,7 +13,7 @@
 }
 .boldHeader {
   align-self: center;
-  color: var(--text-and-icons-clr-primary);
+  /* color: var(--text-and-icons-clr-primary); */
   font-weight: var(--font-weight-headline);
   font-size: var(--font-size-headline);
   display: inline;
