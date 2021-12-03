@@ -4,10 +4,16 @@ from pydantic import BaseModel
 from src.models.startup import StartupBase
 
 
+class RoleBase(BaseModel):
+    id: int
+    role: str
+
+
 class UserBase(BaseModel):
     id: int
     email: str
     is_admin: bool
+    roles: List[RoleBase] = None
 
     class Config:
         orm_mode = True
@@ -20,6 +26,7 @@ class UserInLogin(BaseModel):
 
 class UserInCreate(UserInLogin):
     is_admin: bool
+    roles: List[int]
 
 
 class UserInResponse(BaseModel):

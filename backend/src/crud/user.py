@@ -1,7 +1,7 @@
 from src.helpers.codeGenerator import create_activation_code
 from ..core.security import get_password_hash
 from ..models.user import UserDetailModel, UserActivationCodeModel, UserInCreate, UserInLogin, UserTelegramResponse, UserBase, UserResponse
-from ..database.database import Reviews, User, UserDetail, get_db, Session
+from ..database.database import Reviews, Role, User, UserDetail, get_db, Session
 from ..helpers.exceptions import EntityDoesNotExist
 from fastapi import Depends
 
@@ -11,6 +11,8 @@ async def create_user(user, db: Session):
         user.password = get_password_hash(user.password)
         new_user = User(email=user.email, password=user.password,
                         is_admin=user.is_admin)
+        roles = db.query(Role).filter(Role.id.in_(user.roles))
+        new_user.roles.extend(roles)
         db.add(new_user)
         db.commit()
         return UserBase(id=new_user.id, email=user.email, is_admin=user.is_admin)
