@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import styles from './ProjectCard.module.css';
 import Card from '@mui/material/Card';
@@ -27,6 +27,14 @@ export default function ProjectCard(props) {
   const statusTags = props.statusTags
   const themeTags = props.themeTags
   const onClick = props.onClick
+  const inc = props.inc
+  const dec = props.dec
+  // const addProjectToFavourites = props.addProjectToFavourites
+  // const deleteProjectToFavourites = props.deleteProjectToFavourites
+
+  useEffect(() => {
+    setisFavourite(props.isFavourite);
+  }, [props.isFavourite]);
 
   const likeProcess = async e => {
     e.preventDefault();
@@ -39,7 +47,9 @@ export default function ProjectCard(props) {
         startup_id: id,
       };
 
-      const res = await API.post(`/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`);
+      const res = await API.delete(`/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`);
+      dec();
+      // deleteProjectToFavourites()
       console.log(res.data.message);
     }
     else {
@@ -49,23 +59,21 @@ export default function ProjectCard(props) {
         startup_id: id,
       };
 
-      const res = await API.delete(`/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`);
+      const res = await API.post(`/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`);
+      inc();
+      // addProjectToFavourites()
       console.log(res.data.message);
     }
 
   };
-  const handleFavourite = () => {
-    setisFavourite(!isFavourite);
-  }
+
   return (
     <Card className={styles.card} variant='outlined'>
       <div className={styles.tagsContainer}>
         <div className={styles.statusProjectTagContainer}>
-          {/* <StatusProjectTag status={1} /> */}
           {statusTags}
         </div>
         <div className={styles.themeProjectTagContainer}>
-          {/* <ThemeProjectTag theme={1} /> */}
           {themeTags}
         </div>
       </div>

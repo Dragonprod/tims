@@ -14,20 +14,26 @@
   top: 0;
   right: 0;
   display: grid;
-  grid-template-rows: 1fr 5fr 5fr;
+  grid-template-rows: 1fr 10fr 10fr;
   background: var(--bg-clr-lvl-2);
-  width: 500px;
+  width: 700px;
   height: 100vh;
   overflow-y: auto;
+  padding: 32px;
 }
-.projectButtonsContainer {
+.topButtonsContainer {
   display: grid;
   grid-template-columns: 1fr 0.5fr;
-  justify-items: end;
   align-items: center;
+  margin-bottom: 18px;
+}
+.boldHeader {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 18px;
 }
 
-/* ===== Buttons ===== */
+/* ===== Upper Buttons ===== */
 .muiShareButton,
 .muiLikeButton {
   display: block;
@@ -35,13 +41,69 @@
   font-family: MoscowSans, Roboto, sans-serif !important;
   width: fit-content;
   font-weight: 300 !important;
-}
-.muiLikeButton {
-  /* color: var(--accent-clr) !important; */
   color: #505c6a !important;
-  height: fit-content;
+  color: var(--accent-clr) !important;
   border-radius: 12px !important;
 }
-.muiLikeIcon {
-  color: var(--accent-clr) !important;
+.muiLikeButton {
+  height: fit-content;
+  margin-right: 18px !important;
+}
+.muiCloseButton {
+  justify-self: end;
+}
+
+/* ===== Image Box ===== */
+.startupImg {
+  width: 100px;
+  height: 80px;
+  object-fit: cover;
+  margin-right: 8px;
+  border-radius: 12px;
+}
+.startupImgActive {
+  width: 100%;
+  height: auto;
+  margin: 0 0 18px;
+}
+.attachmentContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 25px;
+}
+.attachmentItemContainer {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  align-items: center;
+  padding: 10px;
+  width: fit-content;
+  margin-right: 17px;
+}
+.attachmentText {
+  font-size: 13px;
+  font-weight: 400;
+}
+.attachmentSize {
+  color: #505c6a;
+}
+.attachIcon {
+  color: var(--accent-clr);
+}
+
+/* ===== Texts ===== */
+.statsTable {
+  margin-bottom: 24px;
+}
+.statsTable div {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.text {
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+/* ===== Startuper Card ===== */
+.startuperCard {
+  background: var(--bg-clr-lvl-1);
 }
