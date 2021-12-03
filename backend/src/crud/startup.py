@@ -33,6 +33,7 @@ async def create_startup(startup, db: Session):
         dbstarup.categories.extend(categories)
     else:
         db.rollback()
+        return None
     return dbstarup
 
 
