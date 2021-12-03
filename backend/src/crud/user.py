@@ -1,7 +1,7 @@
 from src.helpers.codeGenerator import create_activation_code
 from ..core.security import get_password_hash
 from ..models.user import UserDetailModel, UserActivationCodeModel, UserInCreate, UserInLogin, UserTelegramResponse, UserBase, UserResponse
-from ..database.database import Reviews, Role, User, UserDetail, get_db, Session
+from ..database.database import Reviews, Role, Startup, User, UserDetail, get_db, Session, seconadary_applications
 from ..helpers.exceptions import EntityDoesNotExist
 from fastapi import Depends
 
@@ -62,3 +62,8 @@ async def create_review(review, db: Session):
 
 async def get_favorites(user_id: int, db: Session):
     return db.query(User).filter(User.id == user_id).first()
+
+
+async def get_applications(user_id: int, db: Session):
+    startups = db.query(Startup).filter(Startup.author == user_id).all()
+    return startups
