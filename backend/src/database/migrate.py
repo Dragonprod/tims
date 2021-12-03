@@ -104,7 +104,7 @@ async def create_statusses():
 
     async with aiohttp.ClientSession() as session:
         for i in range(0, len(statuses)):
-            await session.post("http://localhost:8080/api/v1/status/create", json={'name': statuses[i+1]})
+            await session.post("http://localhost:8080/api/v1/status/create", json={'name': statuses[i]})
 
 
 async def create_company():
@@ -141,7 +141,7 @@ async def create_startup():
         "Обогреваемые остановки наземного транспорта",
         "Программное обеспечение для анализа транспортных потоков по видео",
     ]
-    statuses = [[1], [1], [5], [4], [2], [3], [4], [2], [4]]
+    statuses = [[1], [1], [1], [5], [4], [2], [3], [4], [2], [4]]
     company_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     async with aiohttp.ClientSession() as session:

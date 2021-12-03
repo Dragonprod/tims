@@ -15,6 +15,14 @@ import StatusProjectTag from '../../components/StatusProjectTag/StatusProjectTag
 import ThemeProjectTag from '../../components/ThemeProjectTag/ThemeProjectTag';
 
 export default function ProfilePage() {
+  
+  const [profileActive, setprofileActive] = useState(true)
+  const [myStartupsActive, setmyStartupsActive] = useState(false)
+  const [mySubsActive, setmySubsActive] = useState(false)
+
+  useEffect(() => {
+    //TODO: Get user data from redux
+  }, [])
 
   return (
     <h1>Profile Page</h1>

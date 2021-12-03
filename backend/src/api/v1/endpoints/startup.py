@@ -80,7 +80,7 @@ async def startup_like(user_id: int, startup_id: int, db: Session = Depends(get_
     status_code=HTTP_200_OK,
     response_class=ORJSONResponse,
 )
-async def startup_like(user_id: int, startup_id: int, db: Session = Depends(get_db)):
+async def startup_like_delete(user_id: int, startup_id: int, db: Session = Depends(get_db)):
     startup = await like_startup(user_id=user_id, startup_id=startup_id, db=db)
     if startup is None:
         return HTTPException(HTTP_404_NOT_FOUND)
@@ -89,12 +89,12 @@ async def startup_like(user_id: int, startup_id: int, db: Session = Depends(get_
 
 
 @router.get(
-    "/startup/reviews",
+    "/startup/{id}/reviews",
     tags=["Startup"],
     status_code=HTTP_200_OK,
     response_model=ReviewList,
     response_class=ORJSONResponse,
 )
-async def reviews_get(startup_id: int, db: Session = Depends(get_db)):
-    reviews = await get_reviews(startup_id=startup_id, db=db)
+async def reviews(id: int, db: Session = Depends(get_db)):
+    reviews = await get_reviews(startup_id=id, db=db)
     return ReviewList(reviews=reviews)
