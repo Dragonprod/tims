@@ -11,6 +11,8 @@ class StartupBase(BaseModel):
     id: int = None
     name: str
     description: str
+    brief_description: str
+    usability: str
     author: int
     date: date
     company_id: int
@@ -27,6 +29,9 @@ class StartupBase(BaseModel):
 
 class StartupCrateorUpdate(BaseModel):
     description: str
+    brief_description: str
+    product_use_cases: str
+    usability: str
     name: str
     author: int
     company_id: int

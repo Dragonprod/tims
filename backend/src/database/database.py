@@ -123,8 +123,10 @@ class Startup(Base):
     name = Column(String(256))
     date = Column(Date)
     description = Column(String(1024))
+    brief_description = Column(String(512))
+    product_use_cases = Column(String(512))
+    usability = Column(String(1024))
     author = Column(Integer, ForeignKey('user.id'))
-    likes = Column(Integer, default=0)
     company_id = Column(Integer, ForeignKey('company.id'))
     sertificate = Column(String(128))
     images = relationship("Image", lazy='joined')
@@ -141,6 +143,9 @@ class Startup(Base):
         self.author = pydantic_model.author
         self.company_id = pydantic_model.company_id
         self.sertificate = pydantic_model.sertificate
+        self.brief_description = pydantic_model.brief_description
+        self.product_use_cases = pydantic_model.product_use_cases
+        self.usability = pydantic_model.usability
 
 
 class Image(Base):

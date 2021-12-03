@@ -143,7 +143,7 @@ async def create_startup():
     ]
     statuses = [[0], [1], [1], [5], [4], [2], [3], [4], [2], [4]]
     company_ids = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    
+
     async with aiohttp.ClientSession() as session:
         for i in range(30):
             await session.post("http://localhost:8080/api/v1/startup/create", json={
@@ -153,6 +153,9 @@ async def create_startup():
                 "statuses": random.choice(statuses),
                 "sertificate": "string",
                 "categories": categories[0],
-                "company_id": random.choice(company_ids)})
+                "company_id": random.choice(company_ids),
+                "brief_description": "brief",
+                "product_use_cases": "product_use_cases",
+                "usability": "usability"})
 
 asyncio.run(migrate_start())
