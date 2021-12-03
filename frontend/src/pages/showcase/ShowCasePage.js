@@ -87,10 +87,12 @@ function ShowCasePage() {
   const [searchValue, setsearchValue] = useState(0);
   const [rowValue, setrowValue] = useState(10);
   const [page, setPage] = useState(1);
-  const [openDesc, setopenDesc] = useState(true);
+  const [openDesc, setopenDesc] = useState(false);
 
   const [solutionTabIsClicked, setsolutionTabIsClicked] = useState(true);
   const [favouritesTabIsClicked, setfavouritesTabIsClicked] = useState(false);
+
+  const [startupForRender, setstartupForRender] = useState([])
 
   const handleSolutionTabIsClicked = () => {
     setsolutionTabIsClicked(true);
@@ -102,9 +104,14 @@ function ShowCasePage() {
     setfavouritesTabIsClicked(true);
   };
 
-  const handleMoreInfo = () => {
+  const handleMoreInfo = (startup) => {
     setopenDesc(!openDesc);
-  };
+    setstartupForRender(startup)
+  };  
+
+  const handleMoreInfoClose = () => {
+    setopenDesc(!openDesc);
+  }
 
   const incrementCounter = () => {
     setfavouriteStartupDataCount((state) => (state + 1));
@@ -221,7 +228,7 @@ function ShowCasePage() {
         </Select>
       </FormControl>
       <AsideMenu render={true} />
-      <ProjectDescription open={openDesc} onClick={handleMoreInfo} />
+      
       <div className={styles.projectCardsGrid}>
         {solutionTabIsClicked &&
           renderStartups(startupData, rowValue, page).map(startup => (
@@ -236,7 +243,7 @@ function ShowCasePage() {
               createdTime={rebuildData(startup.date)}
               statusTags={renderStatuses(startup.statuses)}
               themeTags={renderThemes(startup.categories)}
-              onClick={handleMoreInfo}
+              onClick={() => handleMoreInfo(startup)}
               inc={incrementCounter}
               dec={decrementCounter}
             // addProjectToFavourites={addProjectToFavourites}
@@ -273,6 +280,7 @@ function ShowCasePage() {
           </p>
         )}
       </div>
+      <ProjectDescription open={openDesc} onClickOpen={handleMoreInfo} onClickClose={handleMoreInfoClose} startup={startupForRender}/>
       <div className={styles.projectCardsPagination}>
         <div className={styles.projectCardsPaginationTextContainer}>
           <span className={styles.projectCardsAmount}>
