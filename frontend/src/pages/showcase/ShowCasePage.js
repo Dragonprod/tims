@@ -35,9 +35,9 @@ function renderThemes(categories) {
   return categories.id === undefined
     ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />]
     : [
-        <ThemeProjectTag theme={categories[0].id} />,
-        <ThemeProjectTag theme={categories[0].children[0].id} />,
-      ];
+      <ThemeProjectTag theme={categories[0].id} />,
+      <ThemeProjectTag theme={categories[0].children[0].id} />,
+    ];
 }
 
 function renderStartups(startups, pageSize, pageNumber) {
@@ -104,7 +104,7 @@ function ShowCasePage() {
   const handleMoreInfo = (startup) => {
     setopenDesc(!openDesc);
     setstartupForRender(startup)
-  };  
+  };
 
   const handleMoreInfoClose = () => {
     setopenDesc(!openDesc);
@@ -167,17 +167,12 @@ function ShowCasePage() {
     setPage(value);
   };
 
-  const addProjectToFavourites = id => {
-    console.log(id);
-    setfavouriteStartupData(
-      addFavourites(favouriteStartupData, startupData, 0)
-    );
+  const addProjectToFavourites = (startup) => {
+    setfavouriteStartupData(favouriteStartupData => [...favouriteStartupData, startup]);
   };
 
-  const deleteProjectToFavourites = id => {
-    setfavouriteStartupData(
-      deleteFavourites(favouriteStartupData, startupData, 0)
-    );
+  const deleteProjectToFavourites = (startup) => {
+    setfavouriteStartupData(favouriteStartupData.filter(item => item.id !== startup.id));
   };
 
   useEffect(() => {
@@ -211,17 +206,15 @@ function ShowCasePage() {
         Фильтры:
       </h2>
       <div
-        className={`${styles.boldHeader} ${styles.solutionsHeader} ${
-          solutionTabIsClicked === true ? styles.solutionsHeaderActive : ''
-        }`}
+        className={`${styles.boldHeader} ${styles.solutionsHeader} ${solutionTabIsClicked === true ? styles.solutionsHeaderActive : ''
+          }`}
         onClick={handleSolutionTabIsClicked}>
         <h2 className={styles.boldHeader}>Все решения</h2>
         <span className={styles.lightCounter}>{startupData.length}</span>
       </div>
       <div
-        className={`${styles.boldHeader} ${styles.favouritesHeader} ${
-          favouritesTabIsClicked === true ? styles.favouritesHeaderActive : ''
-        }`}
+        className={`${styles.boldHeader} ${styles.favouritesHeader} ${favouritesTabIsClicked === true ? styles.favouritesHeaderActive : ''
+          }`}
         onClick={handleFavouriteTabIsClicked}>
         <h2 className={styles.boldHeader}>Избранное</h2>
         <span className={styles.lightCounter}>{favouriteStartupDataCount}</span>
@@ -246,7 +239,7 @@ function ShowCasePage() {
         </Select>
       </FormControl>
       <AsideMenu render={true} />
-      
+
       <div className={styles.projectCardsGrid}>
         {solutionTabIsClicked &&
           renderStartups(startupData, rowValue, page).map(startup => (
@@ -264,8 +257,8 @@ function ShowCasePage() {
               onClick={() => handleMoreInfo(startup)}
               inc={incrementCounter}
               dec={decrementCounter}
-              // addProjectToFavourites={addProjectToFavourites}
-              // deleteProjectToFavourites={deleteProjectToFavourites}
+              addProjectToFavourites={() => addProjectToFavourites(startup)}
+              deleteProjectToFavourites={() => deleteProjectToFavourites(startup)}
             />
           ))}
 
@@ -286,8 +279,8 @@ function ShowCasePage() {
               onClick={handleMoreInfo}
               inc={incrementCounter}
               dec={decrementCounter}
-              add={addProjectToFavourites}
-              del={deleteProjectToFavourites}
+              addProjectToFavourites={() => addProjectToFavourites(startup)}
+              deleteProjectToFavourites={() => deleteProjectToFavourites(startup)}
             />
           ))}
 
@@ -298,7 +291,7 @@ function ShowCasePage() {
           </p>
         )}
       </div>
-      <ProjectDescription open={openDesc} onClickOpen={handleMoreInfo} onClickClose={handleMoreInfoClose} startup={startupForRender}/>
+      <ProjectDescription open={openDesc} onClickOpen={handleMoreInfo} onClickClose={handleMoreInfoClose} startup={startupForRender} />
       <div className={styles.projectCardsPagination}>
         <div className={styles.projectCardsPaginationTextContainer}>
           <span className={styles.projectCardsAmount}>
