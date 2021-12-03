@@ -21,46 +21,42 @@ export default function ProjectDescription(props) {
   const [isFavourite, setisFavourite] = useState(false);
   const [open, setopen] = useState(false);
 
-  // const id = props.id
-  // const name = props.name
-  // const description = props.description
-  // const reviewCount = props.reviewCount
-  // const avgMark = props.avgMark
-  // const createdTime = props.createdTime
-  // const statusTags = props.statusTags
-  // const themeTags = props.themeTags
+  const imagesSrc = [StartupImg1, StartupImg2, StartupImg3];
+  const [primaryImageSrc, setprimaryImageSrc] = useState(StartupImg1);
+
+  const id = props.id
+  const name = props.name
+  const description = props.description
+  const reviewCount = props.reviewCount
+  const avgMark = props.avgMark
+  const createdTime = props.createdTime
+  const statusTags = props.statusTags
+  const themeTags = props.themeTags
 
   useEffect(() => {
     setopen(props.open);
   }, [props.open]);
 
-  // const likeProcess = async e => {
-  //   e.preventDefault();
+  const likeProcess = async e => {
+    e.preventDefault();
+    setisFavourite(!isFavourite);
+  };
 
-  //   if (isFavourite) {
-  //     setisFavourite(!isFavourite);
-  //     const data = {
-  //       user_id: 1,
-  //       startup_id: id,
-  //     };
-
-  //     const res = await API.post(
-  //       `/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`
-  //     );
-  //     console.log(res.data.message);
-  //   } else {
-  //     setisFavourite(!isFavourite);
-  //     const data = {
-  //       user_id: 1,
-  //       startup_id: id,
-  //     };
-
-  //     const res = await API.delete(
-  //       `/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`
-  //     );
-  //     console.log(res.data.message);
-  //   }
-  // };
+  const changeImage = (id) => {
+    switch (id) {
+      case 0:
+        setprimaryImageSrc(imagesSrc[0])
+        break;
+      case 1:
+        setprimaryImageSrc(imagesSrc[1])
+        break;
+      case 2:
+        setprimaryImageSrc(imagesSrc[2])
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <>
@@ -72,7 +68,7 @@ export default function ProjectDescription(props) {
                 <Button
                   className={styles.muiLikeButton}
                   variant='text'
-                  // onClick={likeProcess}
+                  onClick={likeProcess}
                   startIcon={
                     isFavourite === true ? (
                       <FavoriteIcon className={styles.muiLikeIcon} />
@@ -102,21 +98,24 @@ export default function ProjectDescription(props) {
               </h3>
               <img
                 className={`${styles.startupImg} ${styles.startupImgActive}`}
-                src={StartupImg1}
+                src={primaryImageSrc}
                 alt='Main'
               />
               <img
                 className={`${styles.startupImg}`}
+                onClick={() => changeImage(0)}
                 src={StartupImg1}
                 alt='1'
               />
               <img
                 className={`${styles.startupImg}`}
+                onClick={() => changeImage(1)}
                 src={StartupImg2}
                 alt='2'
               />
               <img
                 className={`${styles.startupImg}`}
+                onClick={() => changeImage(2)}
                 src={StartupImg3}
                 alt='3'
               />

@@ -105,3 +105,13 @@ async def delete_like_startup(user_id: int, startup_id: int, db: Session):
 
 async def get_reviews(startup_id: int, db: Session):
     return db.query(Reviews).filter(Reviews.startup_id == startup_id).all()
+
+
+async def send_application(user_id: int, startup_id: int, db: Session):
+    startup = db.query(Startup).filter(Startup.id == startup_id).first()
+    user = db.query(User).filter(User.id == user_id).first()
+    if startup is not None and user is not None:
+        startup.applications.append(user)
+        db.commit()
+        return user, startup
+    return None

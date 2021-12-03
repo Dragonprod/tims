@@ -48,6 +48,13 @@ seconadary_favorites = Table("favorites", Base.metadata,
                              )
 
 
+seconadary_applications = Table("applications", Base.metadata,
+                                Column('user_id', ForeignKey(
+                                    'user.id')),
+                                Column('startup_id', ForeignKey('startup.id'))
+                                )
+
+
 class User(Base):
     __tablename__ = "user"
     id = Column(Integer, primary_key=True)
@@ -138,6 +145,8 @@ class Startup(Base):
         "Company", uselist=False)
     reviewses = relationship(
         "Reviews", back_populates="startap")
+    applications = relationship(
+        "User", secondary=seconadary_applications, lazy='dynamic')
 
     def __init__(self, pydantic_model) -> None:
         self.description = pydantic_model.description
