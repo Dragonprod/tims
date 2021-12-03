@@ -31,11 +31,14 @@ async def search(search: str, db: Session = Depends(get_db)):
     "/startup/create",
     tags=["Startup"],
     status_code=HTTP_201_CREATED,
-    response_model=StartupBase,
     response_class=ORJSONResponse,
 )
 async def startup_create(startup: StartupCrateorUpdate = Body(...), db: Session = Depends(get_db)):
-    return await create_startup(startup=startup, db=db)
+    startup = await create_startup(startup=startup, db=db)
+    if startup != None:
+        return HTTPException(HTTP_400_BAD_REQUEST)
+    else:
+        return startup
 
 
 @router.get(
