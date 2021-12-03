@@ -12,6 +12,7 @@ import parseJwt from '../../services/jwt';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
+import {ReactComponent as GoogleIcon} from '../../assets/images/GoogleIcon.svg';
 
 function AuthPage(props) {
   const [error, setError] = useState(false);
@@ -109,7 +110,7 @@ function AuthPage(props) {
               Войти
             </Button>
             <p className={styles.authFormOrWord}>или</p>
-            <Button className={styles.muiGoogleLoginButton} variant='outlined'>
+            <Button className={styles.muiGoogleLoginButton} variant='outlined' startIcon={<GoogleIcon/>}>
               Войти с помощью Google
             </Button>
             <Snackbar
