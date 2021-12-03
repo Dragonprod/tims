@@ -80,6 +80,7 @@ class UserTelegramCreate(BaseModel):
 
 class UserTelegramResponse(BaseModel):
     telegram_id: int = None
+    id: int
 
     class Config:
         orm_mode = True
