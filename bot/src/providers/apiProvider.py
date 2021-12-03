@@ -19,9 +19,9 @@ class API():
         response = requests.post(f'{API_BASE_URL}/user/telegram/add', json = connectData)
 
         if response.status_code == 200:
-            return True
+            return response.json()
         else:
-            return False
+            return response.json()
 
     def checkUpdates(self):
         pass

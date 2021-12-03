@@ -20,8 +20,8 @@ def getDb():
         db.close()
 
 
-class Logs(Base):
-    __tablename__ = "logs"
+class TelegramLogs(Base):
+    __tablename__ = "telegram_logs"
     id = Column(Integer, primary_key=True)
     time = Column(DateTime)
     chatid = Column(String(255))
@@ -29,5 +29,10 @@ class Logs(Base):
     command = Column(String(255))
     isAdmin = Column(Boolean, default=False)
 
+class TelegramUsers(Base):
+    __tablename__ = "telegram_users"
+    id = Column(Integer, primary_key=True)
+    chatid = Column(String(255))
+    userid = Column(String(255))
 
 Base.metadata.create_all(engine_postrgesql)
