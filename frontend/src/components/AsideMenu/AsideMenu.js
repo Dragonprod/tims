@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import styles from './AsideMenu.module.css';
 
@@ -10,63 +11,61 @@ import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Divider } from '@mui/material';
 
-
 const statuses = [
-  "Поиск инвестора",
-  "Уточнение деталей",
-  "Подготовка к тестированию",
-  "Пилотное тестирование",
-  "Формирование отчета",
-  "Готовое решение",
-  "Приостановлен",
-  "Отменён",
-  "Закрыт",
-  "Новый"
+  'Поиск инвестора',
+  'Уточнение деталей',
+  'Подготовка к тестированию',
+  'Пилотное тестирование',
+  'Формирование отчета',
+  'Готовое решение',
+  'Приостановлен',
+  'Отменён',
+  'Закрыт',
+  'Новый',
 ];
 
 const categories = {
-  "Городской транспорт": [
-    "Метрополитен",
-    "Наземный транспорт",
-    "Остановочные пункты",
-    "Обратная связь",
+  'Городской транспорт': [
+    'Метрополитен',
+    'Наземный транспорт',
+    'Остановочные пункты',
+    'Обратная связь',
   ],
-  "Новые виды мобильности": [
-    "Зарядная инфраструктура",
-    "Водный транспорт",
-    "Беспилотный транспорт",
-    "Перевозки",
+  'Новые виды мобильности': [
+    'Зарядная инфраструктура',
+    'Водный транспорт',
+    'Беспилотный транспорт',
+    'Перевозки',
   ],
-  "Безопасность дорожного движения": [
-    "Анализ  ДТП",
-    "Безопасность моторанспорта",
-    "Снижение наездов на пешеходов вне пешеходных переходов, во дворах и вблизи школ(ХЗ)",
-    "Безопасность каршеринга",
-    "Борьба с превышением скорости",
-    "Оптимизация кол-ва транспорта",
-    "Безопасность пешеходов",
-    "Оптимизация парковки",
+  'Безопасность дорожного движения': [
+    'Анализ  ДТП',
+    'Безопасность моторанспорта',
+    'Снижение наездов на пешеходов вне пешеходных переходов, во дворах и вблизи школ(ХЗ)',
+    'Безопасность каршеринга',
+    'Борьба с превышением скорости',
+    'Оптимизация кол-ва транспорта',
+    'Безопасность пешеходов',
+    'Оптимизация парковки',
   ],
-  "Здоровые улицы и экология": [
-    "Велопешеходная инфраструктура",
-    "Электротранспорт",
-    "Пешеходы",
-    "Экологическая ситуация",
+  'Здоровые улицы и экология': [
+    'Велопешеходная инфраструктура',
+    'Электротранспорт',
+    'Пешеходы',
+    'Экологическая ситуация',
   ],
-  "Цифровые технологии в транспорте": [
-    "Оценка парк. мест",
-    "Совместные поездки",
-    "Подписки на поездки",
-    "Планирование маршрута",
-    "MaaS",
-    "Аналитика транспорта",
-    "Беспилотный наземный транспорт",
-    "Эко маршруты"
+  'Цифровые технологии в транспорте': [
+    'Оценка парк. мест',
+    'Совместные поездки',
+    'Подписки на поездки',
+    'Планирование маршрута',
+    'MaaS',
+    'Аналитика транспорта',
+    'Беспилотный наземный транспорт',
+    'Эко маршруты',
   ],
-
-}
+};
 export default function AsideMenu(props) {
-  const renderSubscribeButton = props.render
+  const renderSubscribeButton = props.render;
   const [open0, setOpen0] = useState(false);
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
@@ -108,16 +107,13 @@ export default function AsideMenu(props) {
         component='nav'
         aria-labelledby='nested-list-subheader'>
         <ListItemButton key='0' onClick={event => handleClick(event, 0)}>
-          <ListItemText
-            className={styles.listItemPrimary}
-            primary='Статусы'
-          />
+          <ListItemText className={styles.listItemPrimary} primary='Статусы' />
           {open0 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
         <Divider />
         <Collapse in={open0} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
-            {statuses.map((status) => (
+            {statuses.map(status => (
               <ListItemButton sx={{ pl: 4 }}>
                 <ListItemText primary={status} />
               </ListItemButton>
@@ -134,7 +130,7 @@ export default function AsideMenu(props) {
         <Divider />
         <Collapse in={open1} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
-            {categories['Городской транспорт'].map((category) => (
+            {categories['Городской транспорт'].map(category => (
               <ListItemButton sx={{ pl: 4 }}>
                 <ListItemText primary={category} />
               </ListItemButton>
@@ -151,7 +147,7 @@ export default function AsideMenu(props) {
         <Divider />
         <Collapse in={open2} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
-            {categories['Новые виды мобильности'].map((category) => (
+            {categories['Новые виды мобильности'].map(category => (
               <ListItemButton sx={{ pl: 4 }}>
                 <ListItemText primary={category} />
               </ListItemButton>
@@ -168,7 +164,7 @@ export default function AsideMenu(props) {
         <Divider />
         <Collapse in={open3} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
-            {categories['Безопасность дорожного движения'].map((category) => (
+            {categories['Безопасность дорожного движения'].map(category => (
               <ListItemButton sx={{ pl: 4 }}>
                 <ListItemText primary={category} />
               </ListItemButton>
@@ -185,7 +181,7 @@ export default function AsideMenu(props) {
         <Divider />
         <Collapse in={open4} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
-            {categories['Здоровые улицы и экология'].map((category) => (
+            {categories['Здоровые улицы и экология'].map(category => (
               <ListItemButton sx={{ pl: 4 }}>
                 <ListItemText primary={category} />
               </ListItemButton>
@@ -202,7 +198,7 @@ export default function AsideMenu(props) {
         <Divider />
         <Collapse in={open5} timeout='auto' unmountOnExit>
           <List component='div' disablePadding>
-            {categories['Цифровые технологии в транспорте'].map((category) => (
+            {categories['Цифровые технологии в транспорте'].map(category => (
               <ListItemButton sx={{ pl: 4 }}>
                 <ListItemText primary={category} />
               </ListItemButton>

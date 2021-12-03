@@ -11,10 +11,14 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import StatusProjectTag from '../StatusProjectTag/StatusProjectTag';
 import ThemeProjectTag from '../ThemeProjectTag/ThemeProjectTag';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import API from '../../api/api';
+import localforage from "localforage";
 
 export default function ProjectCard(props) {
   const [isFavourite, setisFavourite] = useState(false)
 
+  const id = props.id
+  const user_id = props.user_id
   const name = props.name
   const description = props.description
   const reviewCount = props.reviewCount
@@ -22,7 +26,34 @@ export default function ProjectCard(props) {
   const createdTime = props.createdTime
   const statusTags = props.statusTags
   const themeTags = props.themeTags
+  const onClick = props.onClick
 
+  const likeProcess = async e => {
+    e.preventDefault();
+
+
+    if (isFavourite) {
+      setisFavourite(!isFavourite);
+      const data = {
+        user_id: user_id,
+        startup_id: id,
+      };
+
+      const res = await API.post(`/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`);
+      console.log(res.data.message);
+    }
+    else {
+      setisFavourite(!isFavourite);
+      const data = {
+        user_id: user_id,
+        startup_id: id,
+      };
+
+      const res = await API.delete(`/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`);
+      console.log(res.data.message);
+    }
+
+  };
   const handleFavourite = () => {
     setisFavourite(!isFavourite);
   }
@@ -63,11 +94,11 @@ export default function ProjectCard(props) {
           <Button
             className={styles.muiLikeButton}
             variant='text'
-            onClick={handleFavourite}
-            startIcon={(isFavourite == true) ? <FavoriteIcon /> : <FavoriteBorderIcon />}>
-            {(isFavourite == true) ? "В избранном" : "В избранное"}
+            onClick={likeProcess}
+            startIcon={(isFavourite === true) ? <FavoriteIcon /> : <FavoriteBorderIcon />}>
+            {(isFavourite === true) ? "В избранном" : "В избранное"}
           </Button>
-          <Button className={styles.muiReadMoreButton} variant='contained'>
+          <Button className={styles.muiReadMoreButton} variant='contained' onClick={onClick}>
             Подробнее
           </Button>
         </div>

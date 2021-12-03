@@ -1,18 +1,20 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import AsideMenu from '../../components/AsideMenu/AsideMenu';
 import Header from '../../components/Menu/Header';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import styles from './ShowCasePage.module.css';
-
+import { connect } from 'react-redux';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
 import Typography from '@mui/material/Typography';
 import Pagination from '@mui/material/Pagination';
 import API from '../../api/api';
 import StatusProjectTag from '../../components/StatusProjectTag/StatusProjectTag';
 import ThemeProjectTag from '../../components/ThemeProjectTag/ThemeProjectTag';
+import ProjectDescription from '../../components/ProjectDescription/ProjectDescription';
+import localforage from 'localforage';
 
 function rebuildData(date) {
   const dateArray = date.split('-');
@@ -33,22 +35,23 @@ function renderThemes(categories) {
   return categories.id === undefined
     ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />]
     : [
-      <ThemeProjectTag theme={categories[0].id} />,
-      <ThemeProjectTag theme={categories[0].children[0].id} />,
-    ];
+        <ThemeProjectTag theme={categories[0].id} />,
+        <ThemeProjectTag theme={categories[0].children[0].id} />,
+      ];
 }
 
 function renderStartups(startups, pageSize, pageNumber) {
   return startups.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
 }
 
-export default function ShowCasePage() {
+function ShowCasePage(props) {
+  const [userId, setuserId] = useState(-1);
   const [startupData, setstartupData] = useState([]);
-  const [favouritesStartupsCount, setfavouritesStartupsCount] = useState(0);
+  const [favouriteStartupData, setfavouriteStartupData] = useState([]);
   const [searchValue, setsearchValue] = useState(0);
   const [rowValue, setrowValue] = useState(10);
   const [page, setPage] = useState(1);
-
+  const [openDesc, setopenDesc] = useState(true);
   const [solutionTabIsClicked, setsolutionTabIsClicked] = useState(true);
   const [favouritesTabIsClicked, setfavouritesTabIsClicked] = useState(false);
 
@@ -62,12 +65,23 @@ export default function ShowCasePage() {
     setfavouritesTabIsClicked(true);
   };
 
+  const handleMoreInfo = () => {
+    setopenDesc(!openDesc);
+  };
+
   useEffect(() => {
     const getStartupsData = async () => {
       const startupsResponse = await API.get('/startup?offset=0&limit=2000');
       setstartupData(startupsResponse.data.startups);
-    };
 
+      // const favouriteStartupsResponse = await API.get(`/user/favorites/${userId}`);
+      const favouriteStartupsResponse = await API.get(`/user/favorites/1`);
+      setfavouriteStartupData(favouriteStartupsResponse.data.favorites_startup);
+
+      localforage.getItem('user_id').then(user_id => {
+        setuserId(user_id);
+      });
+    };
     getStartupsData();
   }, []);
 
@@ -83,32 +97,6 @@ export default function ShowCasePage() {
     setPage(value);
   };
 
-  const startupsData = () => {
-    switch (searchValue) {
-      case 0:
-        return
-        break;
-
-      case 1:
-
-        break;
-      case 2:
-
-        break;
-      case 3:
-
-        break;
-      case 4:
-
-        break;
-      case 5:
-
-        break;
-
-      default:
-        break;
-    }
-  }
   return (
     <div className={styles.mainGrid}>
       <Header />
@@ -116,18 +104,22 @@ export default function ShowCasePage() {
         Фильтры:
       </h2>
       <div
-        className={`${styles.boldHeader} ${styles.solutionsHeader} ${(solutionTabIsClicked === true) ? styles.solutionsHeaderActive : ''
-          }`}
+        className={`${styles.boldHeader} ${styles.solutionsHeader} ${
+          solutionTabIsClicked === true ? styles.solutionsHeaderActive : ''
+        }`}
         onClick={handleSolutionTabIsClicked}>
         <h2 className={styles.boldHeader}>Все решения</h2>
         <span className={styles.lightCounter}>{startupData.length}</span>
       </div>
       <div
-        className={`${styles.boldHeader} ${styles.favouritesHeader} ${(favouritesTabIsClicked === true) ? styles.favouritesHeaderActive : ''
-          }`}
+        className={`${styles.boldHeader} ${styles.favouritesHeader} ${
+          favouritesTabIsClicked === true ? styles.favouritesHeaderActive : ''
+        }`}
         onClick={handleFavouriteTabIsClicked}>
         <h2 className={styles.boldHeader}>Избранное</h2>
-        <span className={styles.lightCounter}>{favouritesStartupsCount}</span>
+        <span className={styles.lightCounter}>
+          {favouriteStartupData.length}
+        </span>
       </div>
       <FormControl
         className={`${styles.boldHeader} ${styles.selectHeader}`}
@@ -149,42 +141,46 @@ export default function ShowCasePage() {
         </Select>
       </FormControl>
       <AsideMenu render={true} />
+      <ProjectDescription open={openDesc} onClick={handleMoreInfo} />
       <div className={styles.projectCardsGrid}>
-        {solutionTabIsClicked && renderStartups(startupData, rowValue, page).map(startup => (
-          <ProjectCard
-            name={startup.name}
-            description={startup.description}
-            reviewCount={11}
-            avgMark={5.6}
-            createdTime={rebuildData(startup.date)}
-            statusTags={renderStatuses(startup.statuses)}
-            themeTags={renderThemes(startup.categories)}
-          />
-        ))}
+        {solutionTabIsClicked &&
+          renderStartups(startupData, rowValue, page).map(startup => (
+            <ProjectCard
+              id={startup.id}
+              user_id={userId}
+              name={startup.name}
+              description={startup.description}
+              reviewCount={11}
+              avgMark={5.6}
+              createdTime={rebuildData(startup.date)}
+              statusTags={renderStatuses(startup.statuses)}
+              themeTags={renderThemes(startup.categories)}
+              onClick={handleMoreInfo}
+            />
+          ))}
 
-        {favouritesTabIsClicked && startupData.map(startup => (
-          <ProjectCard
-            name={startup.name}
-            description={startup.description}
-            reviewCount={11}
-            avgMark={6}
-            createdTime={rebuildData(startup.date)}
-            statusTags={renderStatuses(startup.statuses)}
-            themeTags={renderThemes(startup.categories)}
-          />
-        ))}
+        {favouritesTabIsClicked &&
+          favouriteStartupData.length > 0 &&
+          favouriteStartupData.map(startup => (
+            <ProjectCard
+              id={startup.id}
+              user_id={userId}
+              name={startup.name}
+              description={startup.description}
+              reviewCount={11}
+              avgMark={6}
+              createdTime={rebuildData(startup.date)}
+              statusTags={renderStatuses(startup.statuses)}
+              themeTags={renderThemes(startup.categories)}
+            />
+          ))}
 
-        {/* <ProjectCard
-          name='Обогреваемые остановки наземного транспорта'
-          description='Технология мониторинга может применяться как для учёта транспортных потоков, так и для адаптивного 
-          регулирования перекрёстков. Система способна определять ДТП, занятость парковочных мест, 
-          контролировать соблюдение правил дорожного движения.'
-          reviewCount={11}
-          avgMark={5.6}
-          createdTime='03.13.2021'
-          statusTags={[<StatusProjectTag status={0} />, <StatusProjectTag status={1} />]}
-          themeTags={[<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={1} />]}
-        /> */}
+        {favouritesTabIsClicked && favouriteStartupData.length === 0 && (
+          <p>
+            Вы пока не добавили ничего в избранное. Но это легко исправить, на
+            платформе много новых проектов.
+          </p>
+        )}
       </div>
       <div className={styles.projectCardsPagination}>
         <div className={styles.projectCardsPaginationTextContainer}>
@@ -226,3 +222,11 @@ export default function ShowCasePage() {
     </div>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    inputData: state.dataStorage.forms,
+  };
+};
+
+export default connect(mapStateToProps, null)(ShowCasePage);
