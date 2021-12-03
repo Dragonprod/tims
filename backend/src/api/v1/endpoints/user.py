@@ -1,12 +1,14 @@
+from src.models.application import ApplicationBase, ApplicationList, ApplicationListOwn
 from ....models.review import ReviewBase, ReviewCrateorUpdate
 from ....database.database import User, get_db, Session
 from fastapi import APIRouter, Body, Depends
 
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_202_ACCEPTED
-from ....crud.user import get_favorites, get_user, set_user_telegram_id, update_user, get_user_activation_code, create_review
+from ....crud.user import get_applications, get_category_own, get_favorites, get_user, set_user_telegram_id, update_user, get_user_activation_code, create_review
 from ....models.user import UserDetailModel, UserTelegramCreate, UserFavoritesStartup
 from fastapi.responses import ORJSONResponse
+
 
 router = APIRouter()
 
@@ -74,3 +76,35 @@ async def review_create(review: ReviewCrateorUpdate = Body(...), db: Session = D
 async def favorites_get(user_id: int, db: Session = Depends(get_db)):
     user = await get_favorites(user_id=user_id, db=db)
     return UserFavoritesStartup(favorites_startup=user.favorites_startup)
+
+
+@router.get(
+    "/applications",
+    tags=["User"],
+    status_code=HTTP_200_OK,
+    response_model=ApplicationList,
+    response_class=ORJSONResponse,
+)
+async def application_get(user_id: int, db: Session = Depends(get_db)):
+    startups = await get_applications(user_id=user_id, db=db)
+    applications = []
+    for i in range(0, len(startups)):
+        clients = startups[i].applications.all()
+        for j in range(0, len(clients)):
+            applications.append(ApplicationBase(
+                client=clients[j], startup=startups[i]))
+    return ApplicationList(applications=applications)
+
+
+@router.get(
+    "/subscription/category",
+    tags=["User"],
+    status_code=HTTP_200_OK,
+    response_model=ApplicationListOwn,
+    response_class=ORJSONResponse,
+)
+async def get_subscription_category(user_id: int, db: Session = Depends(get_db)):
+    general_category, children_category = await get_category_own(user_id=user_id, db=db)
+    print(general_category)
+    print(children_category)
+    return ApplicationListOwn(general_category=general_category, children_category=children_category)

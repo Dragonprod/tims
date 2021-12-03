@@ -1,0 +1,88 @@
+/* ===== Card ===== */
+.card {
+  height: fit-content;
+  border: none !important;
+  border-radius: var(--rounding-lvl-1) !important;
+  margin: 10px 0;
+}
+
+/* ===== Tags Container ===== */
+.tagsContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 1em 1em 12px;
+}
+.themeProjectTagContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ===== Card Header ===== */
+.cardHeader {
+  font-size: 18px;
+  margin-bottom: 1.5em;
+  padding-left: 1em;
+  max-width: 75%;
+}
+
+/* ===== Card Text ===== */
+.cardText {
+  font-size: 14px;
+  font-weight: 300;
+  margin-bottom: 1em;
+  padding-left: 1rem;
+  max-width: 75%;
+}
+
+/* ===== Card Footer ===== */
+.cardFooter {
+  font-size: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding-left: 1rem;
+}
+.projectStatsContainer {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  align-items: center;
+  max-width: 350px;
+}
+.projectButtonsContainer {
+  display: grid;
+  grid-template-columns: 1fr 0.5fr;
+  justify-items: end;
+  align-items: center;
+}
+.projectComments,
+.projectRate,
+.projectDate {
+  display: flex;
+  align-items: center;
+}
+.projectStatsContainer svg {
+  width: 20px;
+  height: 20px;
+  margin-right: 14px;
+  color: var(--text-and-icons-clr-tertiary);
+}
+
+/* ===== Buttons ===== */
+.muiReadMoreButton,
+.muiLikeButton {
+  display: block;
+  text-transform: initial !important;
+  font-family: MoscowSans, Roboto, sans-serif !important;
+  width: fit-content;
+  font-weight: 300 !important;
+}
+.muiReadMoreButton {
+  background: var(--accent-clr) !important;
+  padding: 16px !important;
+  border-radius: 16px 0px !important;
+  box-shadow: none !important;
+}
+.muiLikeButton {
+  color: var(--accent-clr) !important;
+  height: fit-content;
+  border-radius: 12px !important;
+}

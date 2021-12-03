@@ -35,33 +35,61 @@ function renderThemes(categories) {
   return categories.id === undefined
     ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />]
     : [
-      <ThemeProjectTag theme={categories[0].id} />,
-      <ThemeProjectTag theme={categories[0].children[0].id} />,
-    ];
+        <ThemeProjectTag theme={categories[0].id} />,
+        <ThemeProjectTag theme={categories[0].children[0].id} />,
+      ];
 }
 
 function renderStartups(startups, pageSize, pageNumber) {
   return startups.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
 }
 
-function averageMark(reviews) {
-  let sum = 0;
+function averageMark(reviews, id) {
+  var sum = 0;
   for (let i = 0; i < reviews.length; i++)
-    sum += reviews[i].mark;
-  return (sum / reviews.length) || 0
+    if (reviews[i].startup_id === id) sum += reviews[i].mark;
+
+  return sum / reviewsCount(reviews, id) || 0;
 }
 
-function ShowCasePage(props) {
+function reviewsCount(reviews, id) {
+  let count = 0;
+  for (let i = 0; i < reviews.length; i++)
+    if (reviews[i].startup_id === id) count++;
+  return count;
+}
+
+function checkIsFavourite(id, favouriteStartups) {
+  for (let j = 0; j < favouriteStartups.length; j++)
+    if (id === favouriteStartups[j].id) return true;
+  return false;
+}
+
+function addFavourites(favouriteStartupData, startupData, id) {
+  return favouriteStartupData.push(startupData[id]);
+}
+
+function deleteFavourites(favouriteStartupData, startupData, id) {
+  return favouriteStartupData.filter(item => item !== startupData[id]);
+}
+
+function ShowCasePage() {
   const [userId, setuserId] = useState(-1);
+
   const [startupData, setstartupData] = useState([]);
   const [favouriteStartupData, setfavouriteStartupData] = useState([]);
+  const [favouriteStartupDataCount, setfavouriteStartupDataCount] = useState(0);
   const [startupReviewsData, setstartupReviewsData] = useState([]);
+
   const [searchValue, setsearchValue] = useState(0);
   const [rowValue, setrowValue] = useState(10);
   const [page, setPage] = useState(1);
-  const [openDesc, setopenDesc] = useState(true);
+  const [openDesc, setopenDesc] = useState(false);
+
   const [solutionTabIsClicked, setsolutionTabIsClicked] = useState(true);
   const [favouritesTabIsClicked, setfavouritesTabIsClicked] = useState(false);
+
+  const [startupForRender, setstartupForRender] = useState([])
 
   const handleSolutionTabIsClicked = () => {
     setsolutionTabIsClicked(true);
@@ -73,30 +101,62 @@ function ShowCasePage(props) {
     setfavouritesTabIsClicked(true);
   };
 
-  const handleMoreInfo = () => {
+  const handleMoreInfo = (startup) => {
     setopenDesc(!openDesc);
+    setstartupForRender(startup)
+  };  
+
+  const handleMoreInfoClose = () => {
+    setopenDesc(!openDesc);
+  }
+
+  const incrementCounter = () => {
+    setfavouriteStartupDataCount(state => state + 1);
   };
 
-  useEffect(() => {
-    const getStartupsData = async () => {
-      const startupsResponse = await API.get('/startup?offset=0&limit=2000');
-      setstartupData(startupsResponse.data.startups);
+  const decrementCounter = () => {
+    setfavouriteStartupDataCount(state => state - 1);
+  };
 
-      const userIdStorage = await localforage.getItem('user_id');
-      setuserId(userIdStorage);
-
-      const favouriteStartupsResponse = await API.get(`/user/favorites/${userIdStorage}`);
-      setfavouriteStartupData(favouriteStartupsResponse.data.favorites_startup);
-
-      const startupsReviewsResponse = await API.get(`/reviews`)
-      setstartupReviewsData(startupsReviewsResponse.data.reviews);
-
-    };
-    getStartupsData();
-  }, []);
-
-  const handleChange = event => {
+  const handleChange = async event => {
     setsearchValue(event.target.value);
+    switch (event.target.value) {
+      case 0:
+        {
+          const startupsResponse = await API.get(
+            '/startup?sort_date=DESC&offset=0&limit=2000'
+          );
+          setstartupData(startupsResponse.data.startups);
+        }
+        break;
+      case 1:
+        {
+          const startupsResponse = await API.get(
+            '/startup?sort_date=ASC&offset=0&limit=2000'
+          );
+          setstartupData(startupsResponse.data.startups);
+        }
+        break;
+      case 2:
+        {
+          const startupsResponse = await API.get(
+            '/startup?sort_mark=DESCC&offset=0&limit=2000'
+          );
+          setstartupData(startupsResponse.data.startups);
+        }
+        break;
+      case 3:
+        {
+          const startupsResponse = await API.get(
+            '/startup?sort_mark=ASC&offset=0&limit=2000'
+          );
+          setstartupData(startupsResponse.data.startups);
+        }
+        break;
+
+      default:
+        break;
+    }
   };
 
   const handleChangeRowValue = event => {
@@ -107,6 +167,43 @@ function ShowCasePage(props) {
     setPage(value);
   };
 
+  const addProjectToFavourites = id => {
+    console.log(id);
+    setfavouriteStartupData(
+      addFavourites(favouriteStartupData, startupData, 0)
+    );
+  };
+
+  const deleteProjectToFavourites = id => {
+    setfavouriteStartupData(
+      deleteFavourites(favouriteStartupData, startupData, 0)
+    );
+  };
+
+  useEffect(() => {
+    const getStartupsData = async () => {
+      const startupsResponse = await API.get(
+        '/startup?sort_mark=DESC&offset=0&limit=2000'
+      );
+      setstartupData(startupsResponse.data.startups);
+
+      const userIdStorage = await localforage.getItem('user_id');
+      setuserId(userIdStorage);
+
+      const favouriteStartupsResponse = await API.get(
+        `/user/favorites/${userIdStorage}`
+      );
+      setfavouriteStartupData(favouriteStartupsResponse.data.favorites_startup);
+      setfavouriteStartupDataCount(
+        favouriteStartupsResponse.data.favorites_startup.length
+      );
+
+      const startupsReviewsResponse = await API.get(`/reviews`);
+      setstartupReviewsData(startupsReviewsResponse.data.reviews);
+    };
+    getStartupsData();
+  }, []);
+
   return (
     <div className={styles.mainGrid}>
       <Header />
@@ -114,20 +211,20 @@ function ShowCasePage(props) {
         Фильтры:
       </h2>
       <div
-        className={`${styles.boldHeader} ${styles.solutionsHeader} ${solutionTabIsClicked === true ? styles.solutionsHeaderActive : ''
-          }`}
+        className={`${styles.boldHeader} ${styles.solutionsHeader} ${
+          solutionTabIsClicked === true ? styles.solutionsHeaderActive : ''
+        }`}
         onClick={handleSolutionTabIsClicked}>
         <h2 className={styles.boldHeader}>Все решения</h2>
         <span className={styles.lightCounter}>{startupData.length}</span>
       </div>
       <div
-        className={`${styles.boldHeader} ${styles.favouritesHeader} ${favouritesTabIsClicked === true ? styles.favouritesHeaderActive : ''
-          }`}
+        className={`${styles.boldHeader} ${styles.favouritesHeader} ${
+          favouritesTabIsClicked === true ? styles.favouritesHeaderActive : ''
+        }`}
         onClick={handleFavouriteTabIsClicked}>
         <h2 className={styles.boldHeader}>Избранное</h2>
-        <span className={styles.lightCounter}>
-          {favouriteStartupData.length}
-        </span>
+        <span className={styles.lightCounter}>{favouriteStartupDataCount}</span>
       </div>
       <FormControl
         className={`${styles.boldHeader} ${styles.selectHeader}`}
@@ -149,7 +246,7 @@ function ShowCasePage(props) {
         </Select>
       </FormControl>
       <AsideMenu render={true} />
-      <ProjectDescription open={openDesc} onClick={handleMoreInfo} />
+      
       <div className={styles.projectCardsGrid}>
         {solutionTabIsClicked &&
           renderStartups(startupData, rowValue, page).map(startup => (
@@ -157,13 +254,18 @@ function ShowCasePage(props) {
               id={startup.id}
               user_id={userId}
               name={startup.name}
+              isFavourite={checkIsFavourite(startup.id, favouriteStartupData)}
               description={startup.description}
-              reviewCount={startupReviewsData.length}
-              avgMark={averageMark(startupReviewsData)}
+              reviewCount={reviewsCount(startupReviewsData, startup.id)}
+              avgMark={averageMark(startupReviewsData, startup.id)}
               createdTime={rebuildData(startup.date)}
               statusTags={renderStatuses(startup.statuses)}
               themeTags={renderThemes(startup.categories)}
-              onClick={handleMoreInfo}
+              onClick={() => handleMoreInfo(startup)}
+              inc={incrementCounter}
+              dec={decrementCounter}
+              // addProjectToFavourites={addProjectToFavourites}
+              // deleteProjectToFavourites={deleteProjectToFavourites}
             />
           ))}
 
@@ -173,24 +275,30 @@ function ShowCasePage(props) {
             <ProjectCard
               id={startup.id}
               user_id={userId}
-              isFavourite={true}
               name={startup.name}
+              isFavourite={checkIsFavourite(startup.id, favouriteStartupData)}
               description={startup.description}
-              reviewCount={startupReviewsData.length}
-              avgMark={averageMark(startupReviewsData)}
+              reviewCount={reviewsCount(startupReviewsData, startup.id)}
+              avgMark={averageMark(startupReviewsData, startup.id)}
               createdTime={rebuildData(startup.date)}
               statusTags={renderStatuses(startup.statuses)}
               themeTags={renderThemes(startup.categories)}
+              onClick={handleMoreInfo}
+              inc={incrementCounter}
+              dec={decrementCounter}
+              add={addProjectToFavourites}
+              del={deleteProjectToFavourites}
             />
           ))}
 
         {favouritesTabIsClicked && favouriteStartupData.length === 0 && (
           <p>
-            Вы пока не добавили ничего в избранное. Но это легко исправить, на
-            платформе много новых проектов.
+            Вы пока не добавили ничего в избранное. <br />
+            Но это легко исправить, на платформе много новых проектов.
           </p>
         )}
       </div>
+      <ProjectDescription open={openDesc} onClickOpen={handleMoreInfo} onClickClose={handleMoreInfoClose} startup={startupForRender}/>
       <div className={styles.projectCardsPagination}>
         <div className={styles.projectCardsPaginationTextContainer}>
           <span className={styles.projectCardsAmount}>

@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Link } from 'react-router-dom';
 import styles from './ProjectDescription.module.css';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Button from '@mui/material/Button';
@@ -12,52 +11,69 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import CloseIcon from '@mui/icons-material/Close';
 import ShareIcon from '@mui/icons-material/Share';
 import IconButton from '@mui/material/IconButton';
+import AttachFileIcon from '@mui/icons-material/AttachFile';
+import StatusProjectTag from '../StatusProjectTag/StatusProjectTag';
+import ThemeProjectTag from '../ThemeProjectTag/ThemeProjectTag';
+import CommentCard from '../CommentCard/CommentCard';
 
 export default function ProjectDescription(props) {
-  const onClick = props.onClick;
+  const onClickOpen = props.onClickOpen;
+  const onClickClose = props.onClickClose
+
   const [isFavourite, setisFavourite] = useState(false);
   const [open, setopen] = useState(false);
 
-  // const id = props.id
-  // const name = props.name
-  // const description = props.description
-  // const reviewCount = props.reviewCount
-  // const avgMark = props.avgMark
-  // const createdTime = props.createdTime
-  // const statusTags = props.statusTags
-  // const themeTags = props.themeTags
+  const imagesSrc = [StartupImg1, StartupImg2, StartupImg3];
+  const [primaryImageSrc, setprimaryImageSrc] = useState(StartupImg1);
+
+  const [name, setName] = useState('')
+  const [surname, setSurname] = useState('')
+  const [patronymic, setPatronymic] = useState('')
+  const [position, setPosition] = useState('')
+
+  const [reviews, setReviews] = useState([])
+
+  const startup = props.startup;
 
   useEffect(() => {
     setopen(props.open);
+
+    const getStartupData = async () => {
+
+      const reviewsResponse = await API.get(`/startup/${startup.id}/reviews`);
+      setReviews(reviewsResponse.data.reviews);
+      console.log(reviewsResponse.data)
+
+      const ownerDetailsResponse = await API.get(`/user/${startup.author}`)
+      setName(ownerDetailsResponse.data.detail.first_name)
+      setSurname(ownerDetailsResponse.data.detail.second_name)
+      setPatronymic(ownerDetailsResponse.data.detail.patronymic)
+      setPosition(ownerDetailsResponse.data.detail.position)
+    };
+    getStartupData();
+
   }, [props.open]);
 
-  // const likeProcess = async e => {
-  //   e.preventDefault();
+  const likeProcess = async e => {
+    e.preventDefault();
+    setisFavourite(!isFavourite);
+  };
 
-  //   if (isFavourite) {
-  //     setisFavourite(!isFavourite);
-  //     const data = {
-  //       user_id: 1,
-  //       startup_id: id,
-  //     };
-
-  //     const res = await API.post(
-  //       `/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`
-  //     );
-  //     console.log(res.data.message);
-  //   } else {
-  //     setisFavourite(!isFavourite);
-  //     const data = {
-  //       user_id: 1,
-  //       startup_id: id,
-  //     };
-
-  //     const res = await API.delete(
-  //       `/startup/like?user_id=${data.user_id}&startup_id=${data.startup_id}`
-  //     );
-  //     console.log(res.data.message);
-  //   }
-  // };
+  const changeImage = id => {
+    switch (id) {
+      case 0:
+        setprimaryImageSrc(imagesSrc[0]);
+        break;
+      case 1:
+        setprimaryImageSrc(imagesSrc[1]);
+        break;
+      case 2:
+        setprimaryImageSrc(imagesSrc[2]);
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <>
@@ -69,7 +85,7 @@ export default function ProjectDescription(props) {
                 <Button
                   className={styles.muiLikeButton}
                   variant='text'
-                  // onClick={likeProcess}
+                  onClick={likeProcess}
                   startIcon={
                     isFavourite === true ? (
                       <FavoriteIcon className={styles.muiLikeIcon} />
@@ -89,45 +105,112 @@ export default function ProjectDescription(props) {
               <IconButton
                 className={styles.muiCloseButton}
                 aria-label='delete'
-                onClick={onClick}>
+                onClick={onClickClose}>
                 <CloseIcon />
               </IconButton>
             </div>
             <div className={styles.imageBoxContainer}>
               <h3 className={`${styles.boldHeader}`}>
-                Обогреваемые остановки наземного транспорта
+                {startup.name}
               </h3>
               <img
                 className={`${styles.startupImg} ${styles.startupImgActive}`}
-                src={StartupImg1}
+                src={primaryImageSrc}
                 alt='Main'
               />
               <img
                 className={`${styles.startupImg}`}
+                onClick={() => changeImage(0)}
                 src={StartupImg1}
                 alt='1'
               />
               <img
                 className={`${styles.startupImg}`}
+                onClick={() => changeImage(1)}
                 src={StartupImg2}
                 alt='2'
               />
               <img
                 className={`${styles.startupImg}`}
+                onClick={() => changeImage(2)}
                 src={StartupImg3}
                 alt='3'
               />
+              <div className={styles.attachmentContainer}>
+                <div className={styles.attachmentItemContainer}>
+                  <AttachFileIcon className={styles.attachIcon} />
+                  <span className={styles.attachmentText}>
+                    Сертификат{' '}
+                    <span className={styles.attachmentSize}>(PDF, 2 Мб)</span>
+                  </span>
+                </div>
+                <div className={styles.attachmentItemContainer}>
+                  <AttachFileIcon className={styles.attachIcon} />
+                  <span className={styles.attachmentText}>
+                    Сертификат{' '}
+                    <span className={styles.attachmentSize}>(PDF, 2 Мб)</span>
+                  </span>
+                </div>
+                <div className={styles.attachmentItemContainer}>
+                  <AttachFileIcon className={styles.attachIcon} />
+                  <span className={styles.attachmentText}>
+                    Сертификат{' '}
+                    <span className={styles.attachmentSize}>(PDF, 2 Мб)</span>
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className={styles.projectContainer}>
+            <div className={styles.projectTextContainer}>
               <h3 className={`${styles.boldHeader}`}>
-                Сведения о “Warm Stops”
+                Сведения о продукте
               </h3>
+              <div className={styles.statsTable}>
+                <div>
+                  Статус: <StatusProjectTag status={startup.statuses[0].id} />{' '}
+                </div>
+                <div>
+                  Категория: <ThemeProjectTag theme={startup.categories[0].id} /> <ThemeProjectTag theme={startup.categories[0].children[0].id} />{' '}
+                </div>
+                <div>
+                  В организации: <span>{startup.company.count_workers}</span>
+                </div>
+                <div>
+                  Сертификация: <span>{startup.sertificate ? "Требуется" : "Не требуется"}</span>
+                </div>
+                <div>Запрос к акселератору и видение пилотного проекта</div>
+              </div>
               <h3 className={`${styles.boldHeader}`}>Описание продукта</h3>
+              <p className={styles.text}>
+                {startup.description}
+              </p>
               <h3 className={`${styles.boldHeader}`}>
                 Кейсы использования продукта
               </h3>
+              <p className={styles.text}>
+                {/* {startup.usecases} */}
+              </p>
               <h3 className={`${styles.boldHeader}`}>Польза продукта</h3>
+              <p className={styles.text}>
+                {startup.usability}
+              </p>
+              <div className={styles.startuperCard}>
+                <span className={styles.startuperPosition}>{position}</span>
+                <a href='/' className={styles.startuperSite}>
+                  www.startaper.ru
+                </a>
+                <span className={styles.startuperName}>
+                  {name} {patronymic} {surname}
+                </span>
+                <Button className={styles.muiRequestButton} variant='contained'>
+                  Отправить запрос
+                </Button>
+              </div>
               <h3 className={`${styles.boldHeader}`}>Мнения экспертов</h3>
+              <div>
+                {reviews.map((review) => (
+                  <CommentCard _review={review} />
+                ))}
+              </div>
             </div>
           </div>
         </div>

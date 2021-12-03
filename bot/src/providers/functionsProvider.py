@@ -6,6 +6,11 @@ def isAdmin(chatid):
         return True
     return False
 
+def getAverage(reviews):
+    sum = 0
+    for i in range(len(reviews)):
+        sum += reviews[i]['mark']
+    return sum / len(reviews)
 
 def getCommand(command):
 

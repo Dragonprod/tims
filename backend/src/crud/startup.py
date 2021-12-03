@@ -2,7 +2,6 @@ from typing import List
 from sqlalchemy import desc, asc
 import random
 from sqlalchemy.orm import joinedload
-from sqlalchemy.sql.functions import func
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_404_NOT_FOUND
 from ..models.startup import StartupBase, StartupList
@@ -10,6 +9,7 @@ from ..database.database import Category, ChildrenCategory, Company, Elastic, Im
 from ..helpers.exceptions import EntityDoesNotExist
 from fastapi import Depends, Body, Depends
 from datetime import date
+from sqlalchemy.sql import func
 
 
 async def create_startup(startup, db: Session):
@@ -23,17 +23,15 @@ async def create_startup(startup, db: Session):
     dbstarup = Startup(startup)
     dbstarup.date = random_date[random.randint(0, len(random_date)-1)]
     db.add(dbstarup)
-    # response = await Elastic.create(dbstarup.id, body_params={
-    #     'name': dbstarup.name, 'description': dbstarup.description})
-    # print(response.status)
-    # if response is not None:
-    dbstarup.statuses.extend(tags)
-    dbstarup.images.extend(images)
-    dbstarup.categories.extend(categories)
-    print(1)
-    db.commit()
-    # else:
-    #     db.rollback()
+    response = await Elastic.create(dbstarup.id, body_params={
+        'name': dbstarup.name, 'description': dbstarup.description})
+    if response is not None:
+        dbstarup.statuses.extend(tags)
+        dbstarup.images.extend(images)
+        dbstarup.categories.extend(categories)
+        db.commit()
+    else:
+        db.rollback()
     return dbstarup
 
 
@@ -42,7 +40,7 @@ async def search_startup(name: str, db: Session):
     body = {
         "query": {
             "match": {
-                "name": name
+                "name": name,
             }
         }
     }
@@ -105,3 +103,13 @@ async def delete_like_startup(user_id: int, startup_id: int, db: Session):
 
 async def get_reviews(startup_id: int, db: Session):
     return db.query(Reviews).filter(Reviews.startup_id == startup_id).all()
+
+
+async def send_application(user_id: int, startup_id: int, db: Session):
+    startup = db.query(Startup).filter(Startup.id == startup_id).first()
+    user = db.query(User).filter(User.id == user_id).first()
+    if startup is not None and user is not None:
+        startup.applications.append(user)
+        db.commit()
+        return user, startup
+    return None
