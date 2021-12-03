@@ -33,9 +33,9 @@ function renderThemes(categories) {
   return categories.id === undefined
     ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />]
     : [
-        <ThemeProjectTag theme={categories[0].id} />,
-        <ThemeProjectTag theme={categories[0].children[0].id} />,
-      ];
+      <ThemeProjectTag theme={categories[0].id} />,
+      <ThemeProjectTag theme={categories[0].children[0].id} />,
+    ];
 }
 export default function ShowCasePage() {
   const [startupData, setstartupData] = useState([]);
@@ -85,17 +85,15 @@ export default function ShowCasePage() {
         Фильтры:
       </h2>
       <div
-        className={`${styles.boldHeader} ${styles.solutionsHeader} ${
-          ( solutionTabIsClicked === true ) ? styles.solutionsHeaderActive : ''
-        }`}
+        className={`${styles.boldHeader} ${styles.solutionsHeader} ${(solutionTabIsClicked === true) ? styles.solutionsHeaderActive : ''
+          }`}
         onClick={handleSolutionTabIsClicked}>
         <h2 className={styles.boldHeader}>Все решения</h2>
         <span className={styles.lightCounter}>{startupData.length}</span>
       </div>
       <div
-        className={`${styles.boldHeader} ${styles.favouritesHeader} ${
-          ( favouritesTabIsClicked === true ) ? styles.favouritesHeaderActive : ''
-        }`}
+        className={`${styles.boldHeader} ${styles.favouritesHeader} ${(favouritesTabIsClicked === true) ? styles.favouritesHeaderActive : ''
+          }`}
         onClick={handleFavouriteTabIsClicked}>
         <h2 className={styles.boldHeader}>Избранное</h2>
         <span className={styles.lightCounter}>{favouritesStartupsCount}</span>
@@ -121,7 +119,7 @@ export default function ShowCasePage() {
       </FormControl>
       <AsideMenu render={true} />
       <div className={styles.projectCardsGrid}>
-        {startupData.map(startup => (
+        {solutionTabIsClicked && startupData.map(startup => (
           <ProjectCard
             name={startup.name}
             description={startup.description}
@@ -132,6 +130,19 @@ export default function ShowCasePage() {
             themeTags={renderThemes(startup.categories)}
           />
         ))}
+
+        {favouritesTabIsClicked && startupData.map(startup => (
+          <ProjectCard
+            name={startup.name}
+            description={startup.description}
+            reviewCount={11}
+            avgMark={6}
+            createdTime={rebuildData(startup.date)}
+            statusTags={renderStatuses(startup.statuses)}
+            themeTags={renderThemes(startup.categories)}
+          />
+        ))}
+
         {/* <ProjectCard
           name='Обогреваемые остановки наземного транспорта'
           description='Технология мониторинга может применяться как для учёта транспортных потоков, так и для адаптивного 
