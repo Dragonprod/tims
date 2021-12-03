@@ -61,10 +61,18 @@ async def startup_get(id: int, db: Session = Depends(get_db)):
     response_model=StartupList,
     response_class=ORJSONResponse,
 )
-async def startups_get(children_categories: Optional[List[str]] = Query(None), categories: Optional[List[str]] = Query(None), more: bool = None,  sort_mark: str = None,  sort_date: str = "DESK",  offset: int = 20, limit: int = 20, db: Session = Depends(get_db)):
+async def startups_get(children_categories: Optional[List[str]] = Query(None), categories: Optional[List[str]] = Query(None), more: bool = None,  sort_mark: str = None,  sort_date: str = None,  offset: int = 20, limit: int = 20, db: Session = Depends(get_db)):
     startups = await get_startups(children_categories=children_categories, more=more, categories=categories, sort_mark=sort_mark, sort_date=sort_date, offset=offset, limit=limit, db=db)
-    print(startups)
-    return StartupList(startups=startups)
+
+    startups_pydantic = []
+
+    for i in range(0, len(startups)):
+        model = StartupBase.from_orm(startups[i][0])
+        model.average_mark = startups[i][1]
+        model.count_reviewses = startups[i][2]
+        startups_pydantic.append(model)
+
+    return StartupList(startups=startups_pydantic)
 
 
 @router.post(

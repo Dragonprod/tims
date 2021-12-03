@@ -6,6 +6,7 @@ from sqlalchemy.sql.sqltypes import Boolean
 from src.models.status import StatusBase
 from src.models.category import CategoryBase
 from src.models.company import CompanyBase
+from src.models.review import ReviewBase
 
 
 class StartupBase(BaseModel):
@@ -23,6 +24,9 @@ class StartupBase(BaseModel):
     categories: List[CategoryBase]
     company: CompanyBase = None
     images: List[str] = None
+    average_mark: int = None
+    count_reviewses: int = None
+    reviewses: List[ReviewBase]
 
     class Config:
         orm_mode = True
@@ -51,3 +55,7 @@ class StartupList(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class UserFavoritesStartup(BaseModel):
+    favorites_startup: List[StartupBase]

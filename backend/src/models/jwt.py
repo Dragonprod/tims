@@ -1,8 +1,7 @@
 from typing import List
 from pydantic import BaseModel
-from datetime import datetime
 
-from src.models.user import RoleBase
+from src.models.role import RoleBase
 
 
 class JWTMeta(BaseModel):
