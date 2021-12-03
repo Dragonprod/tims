@@ -16,7 +16,7 @@ import ThemeProjectTag from '../../components/ThemeProjectTag/ThemeProjectTag';
 
 export default function AdminPage() {
     const [searchValue, setsearchValue] = useState(0);
-    
+
     // useEffect(() => {
     //     const getStartupsData = async () => {
     //         const startupsResponse = await API.get("/startup");
@@ -39,10 +39,6 @@ export default function AdminPage() {
             <div className={`${styles.boldHeader} ${styles.solutionsHeader}`}>
                 <h2 className={styles.boldHeader}>Все решения</h2>
                 <span className={styles.lightCounter}>{9}</span>
-            </div>
-            <div className={`${styles.boldHeader} ${styles.favouritesHeader}`}>
-                <h2 className={styles.boldHeader}>Избранное</h2>
-                <span className={styles.lightCounter}>{34}</span>
             </div>
             <FormControl
                 className={`${styles.boldHeader} ${styles.selectHeader}`}
