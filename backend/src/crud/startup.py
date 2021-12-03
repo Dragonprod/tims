@@ -59,13 +59,18 @@ async def get_startup_by_id(startup_id, db: Session):
     return db.query(Startup).filter(Startup.id == startup_id).first()
 
 
-async def get_startups(categories: List[str], sort_date: str, offset: int, limit: int, db: Session, sort_mark: str = None, more: bool = None):
+async def get_startups(children_categories: List[str], categories: List[str], sort_date: str, offset: int, limit: int, db: Session, sort_mark: str = None, more: bool = None):
 
     filter_categries = (None == None) if categories is None else Category.name.in_(
         categories)
+
+    filter_children_categories = (None == None) if children_categories is None else ChildrenCategory.name.in_(
+        children_categories)
+
     if more is not None:
         order_reviews = asc(
             asc(Reviews.mark)) if sort_mark == "ASC" else desc(Reviews.mark)
+
     order_date = asc(
         Startup.date) if sort_date == "ASC" else desc(Startup.date)
 
@@ -73,9 +78,9 @@ async def get_startups(categories: List[str], sort_date: str, offset: int, limit
         order_marks = asc(Reviews.mark) if sort_mark == "ASC" else desc(
             Reviews.mark)
 
-        return db.query(Startup).join(Startup.categories).join(Startup.reviewses).filter(filter_categries).order_by(order_date, order_marks).limit(limit).offset(offset).all()
+        return db.query(Startup).join(Startup.categories).join(Startup.reviewses).join(ChildrenCategory).filter(filter_categries).filter(filter_children_categories).order_by(order_date, order_marks).limit(limit).offset(offset).all()
 
-    return db.query(Startup).join(Startup.categories).filter(filter_categries).order_by(order_date).limit(limit).offset(offset).all()
+    return db.query(Startup).join(Startup.categories).join(ChildrenCategory).filter(filter_categries).filter(filter_children_categories).order_by(order_date).limit(limit).offset(offset).all()
 
 
 async def like_startup(user_id: int, startup_id: int, db: Session):
