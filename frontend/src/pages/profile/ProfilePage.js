@@ -38,8 +38,25 @@ export default function ProfilePage() {
   const [myStartupsActive, setmyStartupsActive] = useState(false);
   const [mySubsActive, setmySubsActive] = useState(false);
 
+  const [name, setName] = useState('')
+  const [surname, setSurname] = useState('')
+  const [patronymic, setPatronymic] = useState('')
+  const [phone, setPhone] = useState('')
+  const [position, setPosition] = useState('')
+  const [email, setEmail] = useState('')
   useEffect(() => {
-    //TODO: Get user data from redux
+    const getUserDetails = async () => {
+      const userIdStorage = await localforage.getItem('user_id');
+
+      const userDetailResponse = await API.get(`/user/${userIdStorage}`)
+      setName(userDetailResponse.data.detail.first_name)
+      setSurname(userDetailResponse.data.detail.second_name)
+      setPatronymic(userDetailResponse.data.detail.patronymic)
+      setPhone(userDetailResponse.data.detail.phone)
+      setPosition(userDetailResponse.data.detail.position)
+      setEmail(userDetailResponse.data.email)
+    }
+    getUserDetails();
   }, []);
 
   const handleProfileTabIsClicked = () => {
@@ -105,24 +122,28 @@ export default function ProfilePage() {
                 id='outlined-basic'
                 label='Имя'
                 variant='outlined'
+                value={name}
               />
               <TextField
                 className={styles.input}
                 id='outlined-basic'
                 label='Фамилия'
                 variant='outlined'
+                value={surname}
               />
               <TextField
                 className={styles.input}
                 id='outlined-basic'
                 label='Номер телефона'
                 variant='outlined'
+                value={phone}
               />
               <TextField
                 className={styles.input}
                 id='outlined-basic'
                 label='E-mail'
                 variant='outlined'
+                value={email}
               />
               <Button
                 className={styles.muiEditButton}
@@ -138,11 +159,15 @@ export default function ProfilePage() {
                 label='Пароль'
                 variant='outlined'
                 type='password'
+                value={123456}
               />
               <Button
                 className={styles.muiEditButton}
                 variant='text'
-                startIcon={<EditIcon />}>
+                startIcon={<EditIcon />}
+                
+                >
+               
                 Изменить пароль
               </Button>
             </div>
