@@ -1,11 +1,11 @@
-from ....models.message import MessageBase
-from ....database.database import User, get_db, Session
+from src.models.message import MessageBase
+from src.database.database import User, get_db, Session
 from fastapi import APIRouter, Body, Depends
 
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
-from ....crud.category import get_categories, get_category, create_category, subscription_on
-from ....models.category import CategoryBase, CategoryCrateorUpdate, CategoryList
+from src.crud.category import get_categories, get_category, create_category, subscription_on
+from src.models.category import CategoryBase, CategoryCrateorUpdate, CategoryList
 from fastapi.responses import ORJSONResponse
 
 router = APIRouter()

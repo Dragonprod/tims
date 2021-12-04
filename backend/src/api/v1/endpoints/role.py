@@ -1,10 +1,10 @@
-from ....database.database import User, get_db, Session
+from src.database.database import User, get_db, Session
 from fastapi import APIRouter, Body, Depends
 
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
-from ....crud.role import create_role, get_role, get_roles
-from ....models.role import RoleBase, RoleCreateprUpdate, RoleList
+from src.crud.role import create_role, get_role, get_roles
+from src.models.role import RoleBase, RoleCreateprUpdate, RoleList
 from fastapi.responses import ORJSONResponse
 
 router = APIRouter()

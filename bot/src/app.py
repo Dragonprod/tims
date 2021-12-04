@@ -9,7 +9,7 @@ from src.core.config import TELEGRAM_BOT_TOKEN, ADD_TELEGRAM_REGEXP
 from src.core.keyboards import MENU_KEYBOARD_CLIENT, MENU_KEYBOARD_STARTUP, CATEGORIES_KEYBOARD, NOTIFICATIONS_KEYBOARD
 
 from src.crud.logs import createLog, getLogs, getLogsById
-from src.crud.users import disableNotifications, enableNotifications, createUser, getUserById
+from src.crud.users import disableNotifications, enableNotifications, createUser, getUserById, updateUserCategory
 
 from src.providers.functionsProvider import getAverage
 from src.providers.apiProvider import API
@@ -86,15 +86,34 @@ class Bot():
             text=self.projectsData[page - 1], reply_markup=paginator.markup)
 
     def categoriesHandler(self, update: Update, context: CallbackContext) -> None:
-        update.message.reply_html("Список доступных категорий", reply_markup=ReplyKeyboardMarkup(
-            CATEGORIES_KEYBOARD, resize_keyboard=True, one_time_keyboard=False))
+        message = "Список доступных категорий:\n"
+        message += "1. Городской транспорт\n"
+        message += "2. Новые виды мобильности\n"
+        message += "3. Безопасноть дорожного движения\n"
+        message += "4. Здоровые улицы и экология\n"
+        message += "5. Цифровые технологии в транспорте\n\n"
+        message += "Введите <code>/add номер категории</code> чтобы подписаться на уведомления"
+        update.message.reply_html(message)    
         createLog(update)
 
     def addHandler(self, update: Update, context: CallbackContext) -> None:
-        if len(context.args) > 0:
-            searchRequest = ' '.join(context.args)
-            message = f"<b>Вы успешно подписались на новые проекты по запросу:</b> {searchRequest}\n"
-            update.message.reply_html(message)
+        if len(context.args) == 1:
+            id = context.args[0]
+            projectsMapper = {
+                1: "Городской транспорт",
+                2: "Новые виды мобильности",
+                3: "Безопасноть дорожного движения",
+                4: "Здоровые улицы и экология",
+                5: "Цифровые технологии в транспорте"
+            }
+            if (getUserById(str(update.message.chat.id))):
+                self.api.addProjectToWatchList(str(update.message.chat.id), id)
+                updateUserCategory(str(update.message.chat.id), projectsMapper[id])
+                message = f"<b>Вы успешно подписались на новые проекты по запросу:</b> {projectsMapper[id]}\n"
+
+                update.message.reply_html(message)
+            else:
+                update.message.reply_html("Ваш аккаунт не найден в базе.")
 
         elif len(context.args) > 1:
             update.message.reply_html(
@@ -226,8 +245,10 @@ class Bot():
             text=self.logsData[page - 1], reply_markup=paginator.markup)
 
     def checkUpdatesJobCallback(self, context: CallbackContext) -> None:
-        pass
-
+        data = self.api.checkUpdates()
+        if data['startups'][0]['id'] != getLatestIdUser(2):
+            users = getUsers()
+            context.bot.send_message(chat_id = user.chatid, text = "Появился новый стартап по вашей подписке")
     def run(self):
         updater = Updater(token=TELEGRAM_BOT_TOKEN, use_context=True)
         updater.job_queue.run_repeating(

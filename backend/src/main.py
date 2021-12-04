@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from .core.config import PROJECT_NAME, API_V1_PREFIX
-from .api.v1.routes import router as api_router
+from src.core.config import PROJECT_NAME, API_V1_PREFIX
+from src.api.v1.routes import router as api_router
 app = FastAPI(title=PROJECT_NAME)
 
 app.add_middleware(
