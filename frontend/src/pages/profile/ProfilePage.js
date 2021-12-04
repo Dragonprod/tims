@@ -26,10 +26,14 @@ import AddIcon from '@mui/icons-material/Add';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import Card from '@mui/material/Card';
 
 import localforage from 'localforage';
 
@@ -174,7 +178,45 @@ export default function ProfilePage() {
                 <MenuItem value={30}>Thirty</MenuItem>
               </Select>
             </div>
-            <div className={`${styles.ProjectCardsContainer}`}></div>
+            <div className={`${styles.ProjectCardsContainer}`}>
+              <Card className={styles.card} variant='outlined'>
+                <div className={styles.tagsContainer}>
+                  <div className={styles.statusProjectTagContainer}></div>
+                  <div className={styles.themeProjectTagContainer}></div>
+                </div>
+                <h1 className={styles.cardHeader}>
+                  Обогреваемые остановки наземного транспорта
+                </h1>
+                <p className={styles.cardText}>
+                  За последние 7 лет я создал самый передовой в мире разговорный
+                  ИИ с открытым доменом для Replika - чат-бота №1 в США с более
+                  чем 10 миллионами пользователей.
+                </p>
+                <div className={styles.cardFooter}>
+                  <div className={styles.projectStatsContainer}>
+                    <div className={styles.projectComments}>
+                      <ChatBubbleOutlineIcon className={styles.iconComment} />
+                      <span className={styles.statsAmount}>10</span>
+                    </div>
+                    <div className={styles.projectRate}>
+                      <StarBorderIcon className={styles.iconStar} />
+                      <span className={styles.statsAmount}>9/10</span>
+                    </div>
+                    <div className={styles.projectDate}>
+                      <CalendarTodayIcon />
+                      <span className={styles.statsAmount}>10.11.2021</span>
+                    </div>
+                  </div>
+                  <div className={styles.projectButtonsContainer}>
+                    <Button
+                      className={styles.muiReadMoreButton}
+                      variant='contained'>
+                      Подробнее
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            </div>
           </>
         )}
         {mySubsActive && (
