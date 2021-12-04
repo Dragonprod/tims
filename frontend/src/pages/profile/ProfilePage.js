@@ -81,36 +81,29 @@ export default function ProfilePage() {
     setmySubsActive(true);
   };
 
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
-  const [age, setAge] = React.useState('');
-
-  const handleChange = event => {
-    setAge(event.target.value);
-  };
+  const [defaultData, setdefaultData] = useState([1,2,3,4,5,6])
 
   return (
     <div className={styles.mainGrid}>
       <Header />
       <div className={styles.headerContainer}>
         <h2
-          className={`${styles.boldHeader} ${styles.profileHeader} ${
-            profileActive === true ? styles.profileHeaderActive : ''
-          }`}
+          className={`${styles.boldHeader} ${styles.profileHeader} ${profileActive === true ? styles.profileHeaderActive : ''
+            }`}
           onClick={handleProfileTabIsClicked}>
           Профиль
         </h2>
         <h2
-          className={`${styles.boldHeader} ${styles.myStartupsHeader} ${
-            myStartupsActive === true ? styles.myStartupsHeaderActive : ''
-          }`}
+          className={`${styles.boldHeader} ${styles.myStartupsHeader} ${myStartupsActive === true ? styles.myStartupsHeaderActive : ''
+            }`}
           onClick={handleStartupsTabIsClicked}>
           Мои стартапы
         </h2>
         <h2
-          className={`${styles.boldHeader} ${styles.mySubscribesHeader} ${
-            mySubsActive === true ? styles.mySubscribesHeaderActive : ''
-          }`}
+          className={`${styles.boldHeader} ${styles.mySubscribesHeader} ${mySubsActive === true ? styles.mySubscribesHeaderActive : ''
+            }`}
           onClick={handleSubsTabIsClicked}>
           Мои подписки
         </h2>
@@ -169,9 +162,9 @@ export default function ProfilePage() {
                 className={styles.muiEditButton}
                 variant='text'
                 startIcon={<EditIcon />}
-                
-                >
-               
+
+              >
+
                 Изменить пароль
               </Button>
             </div>
@@ -179,68 +172,51 @@ export default function ProfilePage() {
         )}
         {myStartupsActive && (
           <>
-            <div className={`${styles.selectsContainer}`}>
-              <Select
-                className={`${styles.startupSelect}`}
-                labelId='demo-simple-select-label'
-                id='demo-simple-select'
-                value={age}
-                label='Age'
-                onChange={handleChange}>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-              <Select
-                className={`${styles.startupSelect}`}
-                labelId='demo-simple-select-label'
-                id='demo-simple-select'
-                value={age}
-                label='Age'
-                onChange={handleChange}>
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </div>
             <div className={`${styles.ProjectCardsContainer}`}>
-              <Card className={styles.card} variant='outlined'>
-                <div className={styles.tagsContainer}>
-                  <div className={styles.statusProjectTagContainer}></div>
-                  <div className={styles.themeProjectTagContainer}></div>
-                </div>
-                <h1 className={styles.cardHeader}>
-                  Обогреваемые остановки наземного транспорта
-                </h1>
-                <p className={styles.cardText}>
-                  За последние 7 лет я создал самый передовой в мире разговорный
-                  ИИ с открытым доменом для Replika - чат-бота №1 в США с более
-                  чем 10 миллионами пользователей.
-                </p>
-                <div className={styles.cardFooter}>
-                  <div className={styles.projectStatsContainer}>
-                    <div className={styles.projectComments}>
-                      <ChatBubbleOutlineIcon className={styles.iconComment} />
-                      <span className={styles.statsAmount}>10</span>
+              {defaultData.map(() => (
+                <Card className={styles.card} variant='outlined'>
+                  <div className={styles.tagsContainer}>
+                    <div className={styles.statusProjectTagContainer}>
+                      {<StatusProjectTag status={3} />}
                     </div>
-                    <div className={styles.projectRate}>
-                      <StarBorderIcon className={styles.iconStar} />
-                      <span className={styles.statsAmount}>9/10</span>
-                    </div>
-                    <div className={styles.projectDate}>
-                      <CalendarTodayIcon />
-                      <span className={styles.statsAmount}>10.11.2021</span>
+                    <div className={styles.themeProjectTagContainer}>
+                      {<ThemeProjectTag theme={1} />}
                     </div>
                   </div>
-                  <div className={styles.projectButtonsContainer}>
-                    <Button
-                      className={styles.muiReadMoreButton}
-                      variant='contained'>
-                      Подробнее
-                    </Button>
+                  <h1 className={styles.cardHeader}>
+                    Обогреваемые остановки наземного транспорта
+                  </h1>
+                  <p className={styles.cardText}>
+                    За последние 7 лет я создал самый передовой в мире разговорный
+                    ИИ с открытым доменом для Replika - чат-бота №1 в США с более
+                    чем 10 миллионами пользователей.
+                  </p>
+                  <div className={styles.cardFooter}>
+                    <div className={styles.projectStatsContainer}>
+                      <div className={styles.projectComments}>
+                        <ChatBubbleOutlineIcon className={styles.iconComment} />
+                        <span className={styles.statsAmount}>10</span>
+                      </div>
+                      <div className={styles.projectRate}>
+                        <StarBorderIcon className={styles.iconStar} />
+                        <span className={styles.statsAmount}>9/10</span>
+                      </div>
+                      <div className={styles.projectDate}>
+                        <CalendarTodayIcon />
+                        <span className={styles.statsAmount}>10.11.2021</span>
+                      </div>
+                    </div>
+                    <div className={styles.projectButtonsContainer}>
+                      <Button
+                        className={styles.muiReadMoreButton}
+                        variant='contained'>
+                        Подробнее
+                      </Button>
+                    </div>
                   </div>
-                </div>
-              </Card>
+                </Card>
+              ))}
+
             </div>
           </>
         )}
