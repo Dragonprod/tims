@@ -80,30 +80,31 @@ async def get_startup_by_id(startup_id, db: Session):
     return db.query(Startup, func.avg(Reviews.mark), func.count(Reviews.id)).join(Startup.reviewses).group_by(Startup).filter(Startup.id == startup_id).first()
 
 
-async def get_startups(children_categories: List[str], categories: List[str], sort_date: str, offset: int, limit: int, db: Session, sort_mark: str = None, more: bool = None):
+async def get_startups(status: str, children_categories: List[str], categories: List[str], sort_date: str, offset: int, limit: int, db: Session, sort_mark: str = None, more: bool = None):
 
     filter_categries = (None == None) if categories is None else Category.name.in_(
         categories)
 
     filter_children_categories = (None == None) if children_categories is None else ChildrenCategory.name.in_(
         children_categories)
-
+    filter_statuses = (
+        None == None) if status is None else Status.name == status
     if more is not None:
         order_reviews = asc(
             "count") if more else desc("count")
-        return db.query(Startup, func.avg(Reviews.mark), func.count(Reviews.id).label('count')).join(Startup.categories).join(ChildrenCategory).join(Startup.reviewses).group_by(
-            Startup).filter(filter_categries).filter(filter_children_categories).order_by(order_reviews).limit(limit).offset(offset).all()
+        return db.query(Startup, func.avg(Reviews.mark), func.count(Reviews.id).label('count')).join(Startup.categories).join(ChildrenCategory).join(Startup.reviewses).join(Startup.statuses).group_by(
+            Startup).filter(filter_categries).filter(filter_statuses, filter_categries, filter_children_categories).order_by(order_reviews).limit(limit).offset(offset).all()
 
     order_date = asc(
         Startup.date) if sort_date == "ASC" else desc(Startup.date)
 
     if sort_mark is not None:
         order_marks = asc('average') if sort_mark == "ASC" else desc('average')
-        return db.query(Startup, func.avg(Reviews.mark).label('average'), func.count(Reviews.id)).join(Startup.categories).join(ChildrenCategory).join(Startup.reviewses).group_by(
-            Startup).filter(filter_categries).filter(filter_children_categories).order_by(order_marks).limit(limit).offset(offset).all()
+        return db.query(Startup, func.avg(Reviews.mark).label('average'), func.count(Reviews.id)).join(Startup.categories).join(ChildrenCategory).join(Startup.reviewses).join(Startup.statuses).group_by(
+            Startup).filter(filter_statuses, filter_categries, filter_children_categories).order_by(order_marks).limit(limit).offset(offset).all()
 
-    return db.query(Startup, func.avg(Reviews.mark), func.count(Reviews.id)).join(Startup.categories).join(ChildrenCategory).join(Startup.reviewses).group_by(
-        Startup).filter(filter_categries).filter(filter_children_categories).order_by(order_date).limit(limit).offset(offset).all()
+    return db.query(Startup, func.avg(Reviews.mark), func.count(Reviews.id)).join(Startup.statuses).join(Startup.categories).join(ChildrenCategory).join(Startup.reviewses).group_by(
+        Startup).filter(filter_statuses, filter_categries, filter_children_categories, filter_statuses).order_by(order_date).limit(limit).offset(offset).all()
 
 
 async def like_startup(user_id: int, startup_id: int, db: Session):

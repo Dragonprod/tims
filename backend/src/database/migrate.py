@@ -140,15 +140,10 @@ async def create_categories():
 
 
 async def create_statusses():
-    statuses = ["Поиск инвестора",
-                "Уточнение деталей",
-                "Подготовка к тестированию",
-                "Пилотное тестирование",
-                "Формирование отчета",
-                "Готовое решение",
-                "Приостановлен",
-                "Отменён",
-                "Закрыт"]
+    statuses = [
+        "Уточнение деталей",
+        "Подготовка к тестированию",
+        "Пилотное тестирование"]
 
     async with aiohttp.ClientSession() as session:
         for i in range(0, len(statuses)):
@@ -227,7 +222,7 @@ async def create_startup():
         "Система плавного торможения для безопасного вождения"
     ]
 
-    statuses = [[1], [1], [1], [5], [4], [2], [3], [4], [2], [4]]
+    statuses = [[1], [1], [1], [1], [2], [2], [3], [2], [2], [4]]
     company_ids = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     async with aiohttp.ClientSession() as session:
