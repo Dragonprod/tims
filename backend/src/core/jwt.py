@@ -3,8 +3,8 @@ import jwt
 from datetime import datetime, timedelta
 from typing import Dict
 
-from ..models.jwt import JWTUser, JWTMeta
-from ..core.config import JWT_ACCESS_TOKEN_EXPIRE_MINUTES
+from src.models.jwt import JWTUser, JWTMeta
+from src.core.config import JWT_ACCESS_TOKEN_EXPIRE_MINUTES
 
 from pydantic import ValidationError
 

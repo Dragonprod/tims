@@ -1,11 +1,11 @@
 from typing import Optional
-from ....database.database import User, get_db, Session
+from src.database.database import User, get_db, Session
 from fastapi import APIRouter, Body, Depends
 
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
-from ....crud.status import create_tag, get_statuses, get_tag
-from ....models.status import StatusBase, StatusCrateorUpdate, StatusList
+from src.crud.status import create_tag, get_statuses, get_tag
+from src.models.status import StatusBase, StatusCrateorUpdate, StatusList
 from fastapi.responses import ORJSONResponse
 
 router = APIRouter()

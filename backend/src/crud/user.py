@@ -1,8 +1,8 @@
 from src.helpers.codeGenerator import create_activation_code
-from ..core.security import get_password_hash
-from ..models.user import UserDetailModel, UserActivationCodeModel, UserTelegramResponse, UserBase, UserResponse
-from ..database.database import Reviews, Role, Startup, User, UserDetail, get_db, Session, seconadary_applications
-from ..helpers.exceptions import EntityDoesNotExist
+from src.core.security import get_password_hash
+from src.models.user import UserDetailModel, UserActivationCodeModel, UserTelegramResponse, UserBase, UserResponse
+from src.database.database import Reviews, Role, Startup, User, UserDetail, get_db, Session, seconadary_applications
+from src.helpers.exceptions import EntityDoesNotExist
 from fastapi import Depends
 
 

@@ -118,6 +118,11 @@ function ShowCasePage() {
     setfavouriteStartupDataCount(state => state - 1);
   };
 
+  const handleSearchChange = async e => {
+    const startupsResponse = await API.get(`/search?search=${e.target.value}`);
+    setstartupData(startupsResponse.data.startups);
+  };
+
   const handleChange = async event => {
     setsearchValue(event.target.value);
     switch (event.target.value) {
@@ -216,7 +221,7 @@ function ShowCasePage() {
 
   return (
     <div className={styles.mainGrid}>
-      <Header />
+      <Header/>
       <h2 className={`${styles.boldHeader} ${styles.filtersHeader}`}>
         Фильтры:
       </h2>

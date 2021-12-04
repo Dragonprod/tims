@@ -35,5 +35,7 @@ class TelegramUsers(Base):
     chatid = Column(String(255))
     userid = Column(String(255))
     notifications = Column(Boolean, default = True)
+    lastStartupId = Column(Integer, default = -1)
+    category = Column(String(255))
 
 Base.metadata.create_all(engine_postrgesql)

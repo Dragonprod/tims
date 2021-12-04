@@ -1,16 +1,14 @@
 from typing import List, Optional
-
-from ....core.config import TELEGRAM_BOT_TOKEN
-from ....models.review import ReviewList
-from ....database.database import User, get_db, Session
+from src.models.review import ReviewList
+from src.database.database import User, get_db, Session
 from fastapi import APIRouter, Body, Depends, Query
 
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
-from ....crud.startup import create_startup, get_startup_by_id, get_startups, like_startup, search_startup, get_reviews, delete_like_startup, send_application
-from ....models.startup import StartupBase, StartupCrateorUpdate, StartupList
-from ....models.message import MessageBase
-from ....models.application import ApplicationBase
+from src.crud.startup import create_startup, get_startup_by_id, get_startups, like_startup, search_startup, get_reviews, delete_like_startup, send_application
+from src.models.startup import StartupBase, StartupCrateorUpdate, StartupList
+from src.models.message import MessageBase
+from src.models.application import ApplicationBase
 from fastapi.responses import ORJSONResponse
 import aiohttp
 
