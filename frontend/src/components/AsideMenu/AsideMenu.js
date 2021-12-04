@@ -13,10 +13,8 @@ import { Divider } from '@mui/material';
 
 const statuses = [
   'Поиск инвестора',
-  'Уточнение деталей',
   'Подготовка к тестированию',
   'Пилотное тестирование',
-  'Новый',
 ];
 
 const categories = {
@@ -35,7 +33,7 @@ const categories = {
   'Безопасность дорожного движения': [
     'Анализ  ДТП',
     'Безопасность моторанспорта',
-    'Снижение наездов на пешеходов вне пешеходных переходов, во дворах и вблизи школ(ХЗ)',
+    'Снижение наездов на пешеходов вне пешеходных переходов, во дворах и вблизи школ',
     'Безопасность каршеринга',
     'Борьба с превышением скорости',
     'Оптимизация кол-ва транспорта',
@@ -61,6 +59,7 @@ const categories = {
 };
 export default function AsideMenu(props) {
   const renderSubscribeButton = props.render;
+  const handleSearch = props.handleSearch
   const [open0, setOpen0] = useState(false);
   const [open1, setOpen1] = useState(false);
   const [open2, setOpen2] = useState(false);
@@ -69,6 +68,7 @@ export default function AsideMenu(props) {
   const [open5, setOpen5] = useState(false);
 
   const handleClick = (event, value) => {
+    console.log(event.target.innerText)
     switch (value) {
       case 0:
         setOpen0(!open0);
@@ -101,7 +101,7 @@ export default function AsideMenu(props) {
         sx={{ width: '100%', maxWidth: 500, bgcolor: 'transparent' }}
         component='nav'
         aria-labelledby='nested-list-subheader'>
-        <ListItemButton key='0' onClick={event => handleClick(event, 0)}>
+        <ListItemButton key='0' onClick={event => {handleClick(event, 0);}}>
           <ListItemText className={styles.listItemPrimary} primary='Статусы' />
           {open0 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>

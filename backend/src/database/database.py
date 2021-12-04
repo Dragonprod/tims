@@ -85,9 +85,9 @@ class User(Base):
     favorites_startup = relationship(
         "Startup", secondary=seconadary_favorites)
     subscription_general = relationship(
-        "Category", secondary=seconadary_subscriptions)
+        "Category", secondary=seconadary_subscriptions, backref=backref("user", lazy="dynamic"))
     subscription_children = relationship(
-        "ChildrenCategory", secondary=seconadary_subscriptions_children)
+        "ChildrenCategory", secondary=seconadary_subscriptions_children, backref="user")
 
 
 class UserDetail(Base):
@@ -156,7 +156,7 @@ class Startup(Base):
     author = Column(Integer, ForeignKey('user.id'))
     company_id = Column(Integer, ForeignKey('company.id'))
     sertificate = Column(Boolean)
-    images = relationship("Image")
+    images = relationship("Image", lazy='joined')
     statuses = relationship("Status",
                             secondary=seconadary_status)
     categories = relationship(

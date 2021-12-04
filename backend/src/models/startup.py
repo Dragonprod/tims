@@ -9,6 +9,14 @@ from src.models.company import CompanyBase
 from src.models.review import ReviewBase
 
 
+class ImageBase(BaseModel):
+    id: int
+    name: str
+
+    class Config:
+        orm_mode = True
+
+
 class StartupBase(BaseModel):
     id: int = None
     name: str
@@ -23,7 +31,7 @@ class StartupBase(BaseModel):
     sertificate: bool = None
     categories: List[CategoryBase]
     company: CompanyBase = None
-    images: List[str] = None
+    images: List[ImageBase] = None
     average_mark: int = None
     count_reviewses: int = None
     reviewses: List[ReviewBase]

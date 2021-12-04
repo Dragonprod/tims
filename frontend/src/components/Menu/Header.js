@@ -12,13 +12,14 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import DefaultAvatar from "../../assets/images/default_avatar.png";
+import DefaultAvatar from '../../assets/images/default_avatar.png';
 
-export default function Header() {
+export default function Header(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const onChange = props.onChange
 
-  const handleClick = (event) => {
+  const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -33,17 +34,7 @@ export default function Header() {
       </Link>
       <div className={styles.searchContainer}>
         <SearchIcon className={styles.muiSearchIcon} />
-        <Autocomplete
-          className={styles.muiAutocomplete}
-          id='free-solo-demo'
-          freeSolo
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Поиск решения"
-            />
-          )}
-        />
+        <input className={styles.muiAutocomplete} type='text' onChange={onChange}/>
       </div>
       <div className={styles.userContainer}>
         <IconButton
@@ -61,16 +52,11 @@ export default function Header() {
           <Avatar src={DefaultAvatar} />
         </IconButton>
 
-        <Menu
-          keepMounted
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-        >
-          <Link className={styles.upperMenuLogo} to='/subscriptions'>
+        <Menu keepMounted anchorEl={anchorEl} open={open} onClose={handleClose}>
+          <Link className={styles.upperMenuLogo} to='/profile'>
             <MenuItem onClick={handleClose}>Мои подписки</MenuItem>
           </Link>
-          <Link className={styles.upperMenuLogo} to='/startups'>
+          <Link className={styles.upperMenuLogo} to='/profile'>
             <MenuItem onClick={handleClose}>Мои стартапы</MenuItem>
           </Link>
           <Link className={styles.upperMenuLogo} to='/profile'>

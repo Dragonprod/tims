@@ -32,11 +32,12 @@ function renderStatuses(statuses) {
 }
 
 function renderThemes(categories) {
-  return categories.id === undefined
+  const randoid = Math.round(Math.random())
+  return categories[0].id === undefined
     ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />]
     : [
-      <ThemeProjectTag theme={categories[0].id} />,
-      <ThemeProjectTag theme={categories[0].children[0].id} />,
+      <ThemeProjectTag theme={categories[randoid].id} child={false}/>,
+      <ThemeProjectTag theme={categories[randoid].id} parent={categories[randoid].name} child={true}/>,
     ];
 }
 
@@ -90,6 +91,7 @@ function ShowCasePage() {
   const [favouritesTabIsClicked, setfavouritesTabIsClicked] = useState(false);
 
   const [startupForRender, setstartupForRender] = useState([])
+  const [defaultStartups, setdefaultStartups] = useState([])
 
   const handleSolutionTabIsClicked = () => {
     setsolutionTabIsClicked(true);
@@ -118,9 +120,15 @@ function ShowCasePage() {
     setfavouriteStartupDataCount(state => state - 1);
   };
 
-  const handleSearchChange = async e => {
-    const startupsResponse = await API.get(`/search?search=${e.target.value}`);
-    setstartupData(startupsResponse.data.startups);
+  const handleSearch = async e => {
+    if(e.target.value.length === 0) {
+      setstartupData(defaultStartups);
+    }
+    else{
+      const startupsResponse = await API.get(`/startup/search?search=${e.target.value}`);
+      setstartupData(startupsResponse.data.startups);
+    }
+
   };
 
   const handleChange = async event => {
@@ -201,7 +209,7 @@ function ShowCasePage() {
         '/startup?sort_mark=DESC&offset=0&limit=2000'
       );
       setstartupData(startupsResponse.data.startups);
-
+      setdefaultStartups(startupsResponse.data.startups)
       const userIdStorage = await localforage.getItem('user_id');
       setuserId(userIdStorage);
 
@@ -221,7 +229,7 @@ function ShowCasePage() {
 
   return (
     <div className={styles.mainGrid}>
-      <Header/>
+      <Header onChange={handleSearch}/>
       <h2 className={`${styles.boldHeader} ${styles.filtersHeader}`}>
         Фильтры:
       </h2>
@@ -258,7 +266,7 @@ function ShowCasePage() {
           <MenuItem value={5}>Отзывы: Больше 10</MenuItem>
         </Select>
       </FormControl>
-      <AsideMenu render={true} />
+      <AsideMenu handleSearch={handleSearch} render={true} />
 
       <div className={styles.projectCardsGrid}>
         {solutionTabIsClicked &&

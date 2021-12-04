@@ -93,7 +93,7 @@ class Bot():
         message += "4. Здоровые улицы и экология\n"
         message += "5. Цифровые технологии в транспорте\n\n"
         message += "Введите <code>/add номер категории</code> чтобы подписаться на уведомления"
-        update.message.reply_html(message)    
+        update.message.reply_html(message)
         createLog(update)
 
     def addHandler(self, update: Update, context: CallbackContext) -> None:
@@ -108,7 +108,8 @@ class Bot():
             }
             if (getUserById(str(update.message.chat.id))):
                 self.api.addProjectToWatchList(str(update.message.chat.id), id)
-                updateUserCategory(str(update.message.chat.id), projectsMapper[id])
+                updateUserCategory(
+                    str(update.message.chat.id), projectsMapper[id])
                 message = f"<b>Вы успешно подписались на новые проекты по запросу:</b> {projectsMapper[id]}\n"
 
                 update.message.reply_html(message)
@@ -195,7 +196,7 @@ class Bot():
                 'delete':   '<b>Команда:</b> <code>delete</code>\n\n<b>Параметры:</b> <code>id</code>\n<b>Описание:</b> <b>удалить тему из подписок</b>',
                 'projects': '<b>Команда:</b> <code>projects</code>\n\n<b>Параметры:</b> <code>нет</code>\n<b>Описание:</b> <b>посмотреть список всех проектов на платформе</b>',
                 'notifications': '<b>Команда:</b> <code>notifications</code>\n\n<b>Параметры:</b> <code>on/off</code>\n<b>Описание:</b> <b>включение/выключение уведомлений</b>',
-                'menu': '<b>Команда:</b> <code>menu</code>\n\n<b>Параметры:</b> <code>нет</code>\n<b>Описание:</b> <b>вызов меню</b>',    
+                'menu': '<b>Команда:</b> <code>menu</code>\n\n<b>Параметры:</b> <code>нет</code>\n<b>Описание:</b> <b>вызов меню</b>',
             }
 
             update.message.reply_html(helpDict[context.args[0]])
@@ -244,15 +245,8 @@ class Bot():
         query.edit_message_text(
             text=self.logsData[page - 1], reply_markup=paginator.markup)
 
-    def checkUpdatesJobCallback(self, context: CallbackContext) -> None:
-        data = self.api.checkUpdates()
-        if data['startups'][0]['id'] != getLatestIdUser(2):
-            users = getUsers()
-            context.bot.send_message(chat_id = user.chatid, text = "Появился новый стартап по вашей подписке")
     def run(self):
         updater = Updater(token=TELEGRAM_BOT_TOKEN, use_context=True)
-        updater.job_queue.run_repeating(
-            self.checkUpdatesJobCallback, interval=3, context=None)
 
         dispatcher = updater.dispatcher
         dispatcher.add_handler(CommandHandler(

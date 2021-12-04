@@ -6,7 +6,7 @@ load_dotenv(os.path.abspath(__file__ + "/../../../../.env"))
 PRODUCTION = os.environ.get('PRODUCTION', False)
 
 API_V1_PREFIX = os.environ.get('API_V1_PREFIX', '/api/v1')
-PROJECT_NAME = os.environ.get('PROJECT_NAME', 'Hack Template Backend')
+PROJECT_NAME = os.environ.get('PROJECT_NAME', '2021 Final Backend')
 
 DATABASE_HOST = os.environ.get('DATABASE_HOST')
 DATABASE_NAME = os.environ.get('DATABASE_NAME')
@@ -19,8 +19,10 @@ ELASTIC_PORT = os.environ.get('ELASTIC_PORT')
 
 JWT_SECRET = os.environ.get('JWT_SECRET')
 JWT_ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7
-
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 ROLES = {
     0: 'ROLE_ADMIN',
     1: 'ROLE_USER'
 }
+
+MIGRATION_PASSWORD = os.environ.get('MIGRATION_PASSWORD')
