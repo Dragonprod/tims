@@ -53,10 +53,10 @@ export default function Header(props) {
         </IconButton>
 
         <Menu keepMounted anchorEl={anchorEl} open={open} onClose={handleClose}>
-          <Link className={styles.upperMenuLogo} to='/subscriptions'>
+          <Link className={styles.upperMenuLogo} to='/profile'>
             <MenuItem onClick={handleClose}>Мои подписки</MenuItem>
           </Link>
-          <Link className={styles.upperMenuLogo} to='/startups'>
+          <Link className={styles.upperMenuLogo} to='/profile'>
             <MenuItem onClick={handleClose}>Мои стартапы</MenuItem>
           </Link>
           <Link className={styles.upperMenuLogo} to='/profile'>
