@@ -24,3 +24,5 @@ ROLES = {
     0: 'ROLE_ADMIN',
     1: 'ROLE_USER'
 }
+
+MIGRATION_PASSWORD = os.environ.get('MIGRATION_PASSWORD')
