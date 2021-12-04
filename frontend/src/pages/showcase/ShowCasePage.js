@@ -32,11 +32,12 @@ function renderStatuses(statuses) {
 }
 
 function renderThemes(categories) {
-  return categories.id === undefined
+  const randoid = Math.round(Math.random())
+  return categories[0].id === undefined
     ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />]
     : [
-      <ThemeProjectTag theme={categories[0].id} />,
-      <ThemeProjectTag theme={categories[0].children[0].id} />,
+      <ThemeProjectTag theme={categories[randoid].id} child={false}/>,
+      <ThemeProjectTag theme={categories[randoid].id} parent={categories[randoid].name} child={true}/>,
     ];
 }
 
@@ -119,7 +120,7 @@ function ShowCasePage() {
   };
 
   const handleSearch = async e => {
-    const startupsResponse = await API.get(`/search?search=${e.target.innerText}`);
+    const startupsResponse = await API.get(`/startup?categories=${e.target.innerText}&offset=0&limit=2000`);
     setstartupData(startupsResponse.data.startups);
   };
 
