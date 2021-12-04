@@ -48,6 +48,8 @@
 ```sh
 PRODUCTION=True/False ИСПОЛЬЗОВАНИЕ_ПРОДА
 
+MIGRATION_PASSWORD=ПАРОЛЬ_ДЛЯ_МИГРАЦИЙ
+
 API_V1_PREFIX=ПРЕФИКС_АПИ
 PROJECT_NAME=ИМЯ_ПРОЕКТА
 
