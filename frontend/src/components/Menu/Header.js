@@ -12,13 +12,13 @@ import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import DefaultAvatar from "../../assets/images/default_avatar.png";
+import DefaultAvatar from '../../assets/images/default_avatar.png';
 
 export default function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
-  const handleClick = (event) => {
+  const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -33,7 +33,8 @@ export default function Header() {
       </Link>
       <div className={styles.searchContainer}>
         <SearchIcon className={styles.muiSearchIcon} />
-        <Autocomplete
+        <input className={styles.muiAutocomplete} type='text' />
+        {/* <Autocomplete
           className={styles.muiAutocomplete}
           id='free-solo-demo'
           freeSolo
@@ -42,8 +43,8 @@ export default function Header() {
               {...params}
               label="Поиск решения"
             />
-          )}
-        />
+          )} 
+        />*/}
       </div>
       <div className={styles.userContainer}>
         <IconButton
@@ -61,12 +62,7 @@ export default function Header() {
           <Avatar src={DefaultAvatar} />
         </IconButton>
 
-        <Menu
-          keepMounted
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-        >
+        <Menu keepMounted anchorEl={anchorEl} open={open} onClose={handleClose}>
           <Link className={styles.upperMenuLogo} to='/subscriptions'>
             <MenuItem onClick={handleClose}>Мои подписки</MenuItem>
           </Link>

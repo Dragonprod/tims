@@ -31,7 +31,13 @@
   color: rgba(37, 34, 44, 0.5);
 }
 .muiAutocomplete {
+  color: var(--text-and-icons-clr-secondary);
+  font-size: 14px;
+  padding: 6px;
+  background: transparent;
   width: 100%;
+  border: none;
+  outline: none;
 }
 .muiAutocomplete fieldset {
   border: none;
