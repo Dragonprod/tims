@@ -115,7 +115,7 @@ export default function AsideMenu(props) {
             ))}
           </List>
         </Collapse>
-        <ListItemButton onClick={event => {handleClick(event, 1); handleSearch(event)}}>
+        <ListItemButton onClick={event => handleClick(event, 1)}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Городской транспорт'
@@ -132,7 +132,7 @@ export default function AsideMenu(props) {
             ))}
           </List>
         </Collapse>
-        <ListItemButton onClick={event => {handleClick(event, 2); handleSearch(event)}}>
+        <ListItemButton onClick={event => handleClick(event, 2)}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Новые виды мобильности'
@@ -149,7 +149,7 @@ export default function AsideMenu(props) {
             ))}
           </List>
         </Collapse>
-        <ListItemButton onClick={event => {handleClick(event, 3); handleSearch(event)}}>
+        <ListItemButton onClick={event => handleClick(event, 3)}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Безопасность дорожного движения'
@@ -166,7 +166,7 @@ export default function AsideMenu(props) {
             ))}
           </List>
         </Collapse>
-        <ListItemButton onClick={event => {handleClick(event, 4); handleSearch(event)}}>
+        <ListItemButton onClick={event => handleClick(event, 4)}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Здоровые улицы и экология'
@@ -183,7 +183,7 @@ export default function AsideMenu(props) {
             ))}
           </List>
         </Collapse>
-        <ListItemButton onClick={event => {handleClick(event, 5); handleSearch(event)}}>
+        <ListItemButton onClick={event => handleClick(event, 5)}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Цифровые технологии в транспорте'

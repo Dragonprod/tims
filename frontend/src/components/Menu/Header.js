@@ -14,9 +14,10 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import DefaultAvatar from '../../assets/images/default_avatar.png';
 
-export default function Header() {
+export default function Header(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const onChange = props.onChange
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -33,18 +34,7 @@ export default function Header() {
       </Link>
       <div className={styles.searchContainer}>
         <SearchIcon className={styles.muiSearchIcon} />
-        <input className={styles.muiAutocomplete} type='text' />
-        {/* <Autocomplete
-          className={styles.muiAutocomplete}
-          id='free-solo-demo'
-          freeSolo
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label="Поиск решения"
-            />
-          )} 
-        />*/}
+        <input className={styles.muiAutocomplete} type='text' onChange={onChange}/>
       </div>
       <div className={styles.userContainer}>
         <IconButton

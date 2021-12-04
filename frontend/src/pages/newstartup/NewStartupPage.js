@@ -18,6 +18,35 @@ import ThemeProjectTag from '../../components/ThemeProjectTag/ThemeProjectTag';
 import Button from '@mui/material/Button';
 
 export default function NewStartupPage() {
+
+  const [companyDescriptionActive, setrcompanyDescriptionActive] = useState(true);
+  const [projectDescriptionActive, setrprojectDescriptionActive] = useState(false);
+  const [accRequestActive, seaccRequestActive] = useState(false);
+
+  const handleCompanyDescriptionTabIsClicked = () => {
+    setrcompanyDescriptionActive(true);
+    setrprojectDescriptionActive(false);
+    seaccRequestActive(false);
+  };
+
+  const handleProjectDescriptionTabIsClicked = () => {
+    setrcompanyDescriptionActive(false);
+    setrprojectDescriptionActive(true);
+    seaccRequestActive(false);
+  };
+
+  const handleAccRequestTabIsClicked = () => {
+    setrcompanyDescriptionActive(false);
+    setrprojectDescriptionActive(false);
+    seaccRequestActive(true);
+  };
+
+  useEffect(() => {
+    const getUserDetails = async () => {
+    }
+    getUserDetails();
+  }, []);
+
   return (
     <div className={styles.mainGrid}>
       <Header />
@@ -27,13 +56,13 @@ export default function NewStartupPage() {
       </div>
       <div className={styles.requestFormContainer}>
         <div className={styles.upperHeaderTabs}>
-          <h3 className={`${styles.boldHeader} ${styles.profileHeader}`}>
+          <h3 className={`${styles.boldHeader} ${styles.profileHeader} ${companyDescriptionActive === true ? styles.profileHeaderActive : ''}`} onClick={handleCompanyDescriptionTabIsClicked}>
             Описание организации
           </h3>
-          <h3 className={`${styles.boldHeader} ${styles.myStartupsHeader}`}>
+          <h3 className={`${styles.boldHeader} ${styles.myStartupsHeader} ${projectDescriptionActive === true ? styles.myStartupsHeaderActive : ''}`} onClick={handleProjectDescriptionTabIsClicked}>
             Описание проекта
           </h3>
-          <h3 className={`${styles.boldHeader} ${styles.mySubscribesHeader}`}>
+          <h3 className={`${styles.boldHeader} ${styles.mySubscribesHeader} ${accRequestActive === true ? styles.mySubscribesHeaderActive : ''}`} onClick={handleAccRequestTabIsClicked}>
             Запрос к акселератору
           </h3>
         </div>
