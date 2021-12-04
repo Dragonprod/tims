@@ -62,6 +62,12 @@ export default function ProfilePage() {
 
   useEffect(() => {}, []);
 
+  const [age, setAge] = React.useState('');
+
+  const handleChange = event => {
+    setAge(event.target.value);
+  };
+
   return (
     <div className={styles.mainGrid}>
       <Header />
@@ -144,53 +150,31 @@ export default function ProfilePage() {
         )}
         {myStartupsActive && (
           <>
-            <div className={`${styles.firstLine}`}>
-              <TextField
-                className={styles.input}
-                id='outlined-basic'
-                label='Имя'
-                variant='outlined'
-              />
-              <TextField
-                className={styles.input}
-                id='outlined-basic'
-                label='Фамилия'
-                variant='outlined'
-              />
-              <TextField
-                className={styles.input}
-                id='outlined-basic'
-                label='Номер телефона'
-                variant='outlined'
-              />
-              <TextField
-                className={styles.input}
-                id='outlined-basic'
-                label='E-mail'
-                variant='outlined'
-              />
-              <Button
-                className={styles.muiEditButton}
-                variant='text'
-                startIcon={<EditIcon />}>
-                Редактировать данные
-              </Button>
+            <div className={`${styles.selectsContainer}`}>
+              <Select
+                className={`${styles.startupSelect}`}
+                labelId='demo-simple-select-label'
+                id='demo-simple-select'
+                value={age}
+                label='Age'
+                onChange={handleChange}>
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
+              <Select
+                className={`${styles.startupSelect}`}
+                labelId='demo-simple-select-label'
+                id='demo-simple-select'
+                value={age}
+                label='Age'
+                onChange={handleChange}>
+                <MenuItem value={10}>Ten</MenuItem>
+                <MenuItem value={20}>Twenty</MenuItem>
+                <MenuItem value={30}>Thirty</MenuItem>
+              </Select>
             </div>
-            <div className={`${styles.secondLine}`}>
-              <TextField
-                className={styles.input}
-                id='outlined-basic'
-                label='Пароль'
-                variant='outlined'
-                type='password'
-              />
-              <Button
-                className={styles.muiEditButton}
-                variant='text'
-                startIcon={<EditIcon />}>
-                Изменить пароль
-              </Button>
-            </div>
+            <div className={`${styles.ProjectCardsContainer}`}></div>
           </>
         )}
         {mySubsActive && (

@@ -102,4 +102,21 @@
   background: var(--accent-clr) !important;
   padding: 10px 16px !important;
   border-radius: 12px !important;
+  box-shadow: none !important;
+}
+.muiSaveButton:hover {
+  box-shadow: none !important;
+}
+
+/* ===== Sliding Card ===== */
+
+/* ===== My Startups Section ===== */
+.selectsContainer {
+  grid-column: 5 / 10;
+  display: flex;
+  justify-content: end;
+}
+.startupSelect {
+  width: 180px;
+  margin-left: 24px !important;
 }
