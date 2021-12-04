@@ -91,6 +91,7 @@ function ShowCasePage() {
   const [favouritesTabIsClicked, setfavouritesTabIsClicked] = useState(false);
 
   const [startupForRender, setstartupForRender] = useState([])
+  const [defaultStartups, setdefaultStartups] = useState([])
 
   const handleSolutionTabIsClicked = () => {
     setsolutionTabIsClicked(true);
@@ -120,8 +121,14 @@ function ShowCasePage() {
   };
 
   const handleSearch = async e => {
-    const startupsResponse = await API.get(`/startup?categories=${e.target.innerText}&offset=0&limit=2000`);
-    setstartupData(startupsResponse.data.startups);
+    if(e.target.value.length === 0) {
+      setstartupData(defaultStartups);
+    }
+    else{
+      const startupsResponse = await API.get(`/startup/search?search=${e.target.value}`);
+      setstartupData(startupsResponse.data.startups);
+    }
+
   };
 
   const handleChange = async event => {
@@ -202,7 +209,7 @@ function ShowCasePage() {
         '/startup?sort_mark=DESC&offset=0&limit=2000'
       );
       setstartupData(startupsResponse.data.startups);
-
+      setdefaultStartups(startupsResponse.data.startups)
       const userIdStorage = await localforage.getItem('user_id');
       setuserId(userIdStorage);
 
@@ -222,7 +229,7 @@ function ShowCasePage() {
 
   return (
     <div className={styles.mainGrid}>
-      <Header/>
+      <Header onChange={handleSearch}/>
       <h2 className={`${styles.boldHeader} ${styles.filtersHeader}`}>
         Фильтры:
       </h2>
