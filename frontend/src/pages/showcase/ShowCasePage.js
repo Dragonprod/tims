@@ -118,8 +118,8 @@ function ShowCasePage() {
     setfavouriteStartupDataCount(state => state - 1);
   };
 
-  const handleSearchChange = async e => {
-    const startupsResponse = await API.get(`/search?search=${e.target.value}`);
+  const handleSearch = async e => {
+    const startupsResponse = await API.get(`/search?search=${e.target.innerText}`);
     setstartupData(startupsResponse.data.startups);
   };
 
@@ -258,7 +258,7 @@ function ShowCasePage() {
           <MenuItem value={5}>Отзывы: Больше 10</MenuItem>
         </Select>
       </FormControl>
-      <AsideMenu render={true} />
+      <AsideMenu handleSearch={handleSearch} render={true} />
 
       <div className={styles.projectCardsGrid}>
         {solutionTabIsClicked &&
