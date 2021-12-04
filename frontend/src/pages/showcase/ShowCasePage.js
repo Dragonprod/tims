@@ -26,16 +26,16 @@ function renderStatuses(statuses) {
     statuses === [] ? (
       <StatusProjectTag status={0} />
     ) : (
-      <StatusProjectTag status={status.id} />
+      <StatusProjectTag status={1} />
     )
   );
 }
 
 function renderThemes(categories) {
-  return categories.id === undefined
+  return categories[0].id === undefined
     ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />]
     : [
-      <ThemeProjectTag theme={categories[0].id} />,
+      <ThemeProjectTag theme={categories[0].name} />,
       <ThemeProjectTag theme={categories[0].children[0].id} />,
     ];
 }
@@ -119,7 +119,7 @@ function ShowCasePage() {
   };
 
   const handleSearch = async e => {
-    const startupsResponse = await API.get(`/search?search=${e.target.innerText}`);
+    const startupsResponse = await API.get(`/startup?categories=${e.target.innerText}&offset=0&limit=2000`);
     setstartupData(startupsResponse.data.startups);
   };
 

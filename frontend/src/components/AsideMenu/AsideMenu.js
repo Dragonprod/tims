@@ -13,10 +13,8 @@ import { Divider } from '@mui/material';
 
 const statuses = [
   'Поиск инвестора',
-  'Уточнение деталей',
   'Подготовка к тестированию',
   'Пилотное тестирование',
-  'Новый',
 ];
 
 const categories = {
@@ -103,7 +101,7 @@ export default function AsideMenu(props) {
         sx={{ width: '100%', maxWidth: 500, bgcolor: 'transparent' }}
         component='nav'
         aria-labelledby='nested-list-subheader'>
-        <ListItemButton key='0' onClick={event => {handleClick(event, 0); handleSearch(event)}}>
+        <ListItemButton key='0' onClick={event => {handleClick(event, 0);}}>
           <ListItemText className={styles.listItemPrimary} primary='Статусы' />
           {open0 ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
@@ -117,7 +115,7 @@ export default function AsideMenu(props) {
             ))}
           </List>
         </Collapse>
-        <ListItemButton onClick={event => handleClick(event, 1)}>
+        <ListItemButton onClick={event => {handleClick(event, 1); handleSearch(event)}}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Городской транспорт'
@@ -134,7 +132,7 @@ export default function AsideMenu(props) {
             ))}
           </List>
         </Collapse>
-        <ListItemButton onClick={event => handleClick(event, 2)}>
+        <ListItemButton onClick={event => {handleClick(event, 2); handleSearch(event)}}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Новые виды мобильности'
@@ -151,7 +149,7 @@ export default function AsideMenu(props) {
             ))}
           </List>
         </Collapse>
-        <ListItemButton onClick={event => handleClick(event, 3)}>
+        <ListItemButton onClick={event => {handleClick(event, 3); handleSearch(event)}}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Безопасность дорожного движения'
@@ -168,7 +166,7 @@ export default function AsideMenu(props) {
             ))}
           </List>
         </Collapse>
-        <ListItemButton onClick={event => handleClick(event, 4)}>
+        <ListItemButton onClick={event => {handleClick(event, 4); handleSearch(event)}}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Здоровые улицы и экология'
@@ -185,7 +183,7 @@ export default function AsideMenu(props) {
             ))}
           </List>
         </Collapse>
-        <ListItemButton onClick={event => handleClick(event, 5)}>
+        <ListItemButton onClick={event => {handleClick(event, 5); handleSearch(event)}}>
           <ListItemText
             className={styles.listItemPrimary}
             primary='Цифровые технологии в транспорте'
