@@ -2,7 +2,6 @@ from enum import Enum
 from typing import List, Optional
 from pydantic import BaseModel
 from src.models.status import StatusBase
-from src.models.status import StatusBase
 
 
 class ChildrenCategoryBase(BaseModel):
@@ -32,9 +31,6 @@ class CategoryCrateorUpdate(BaseModel):
 
 class CategoryList(BaseModel):
     categories: List[CategoryBase]
-
-    class Config:
-        orm_mode = True
 
 
 class SubscriptionCategory(BaseModel):

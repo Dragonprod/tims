@@ -4,6 +4,8 @@ import random
 from sqlalchemy.orm import joinedload
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_404_NOT_FOUND
+
+from ..core.config import TELEGRAM_BOT_TOKEN
 from ..models.startup import StartupBase, StartupList
 from ..database.database import Category, ChildrenCategory, Company, Elastic, Image, Reviews, Startup, Status, User, get_db, Session
 from ..helpers.exceptions import EntityDoesNotExist
@@ -11,6 +13,7 @@ from fastapi import Depends, Body, Depends
 from datetime import date
 from sqlalchemy.sql import func
 import json
+import aiohttp
 
 
 async def create_startup(startup, db: Session):
@@ -18,9 +21,9 @@ async def create_startup(startup, db: Session):
         2005, 9, 12), date(2016, 9, 13), date(2017, 9, 14), date(2020, 9, 15)]
     tags = db.query(Status).filter(Status.id.in_(startup.statuses)).all()
     images = [Image(name=name)
-              for name in startup.images] if startup.images is not None else []
+              for name in startup.images]
     categories = db.query(Category).filter(
-        Category.id.in_(startup.statuses)).all()
+        Category.id.in_(startup.categories)).all()
     dbstarup = Startup(startup)
     dbstarup.date = random_date[random.randint(0, len(random_date)-1)]
     db.add(dbstarup)
@@ -32,9 +35,21 @@ async def create_startup(startup, db: Session):
         dbstarup.images.extend(images)
         dbstarup.categories.extend(categories)
         db.commit()
+
     else:
         db.rollback()
         return None
+    categories = dbstarup.categories
+
+    users_ids = []
+
+    for i in range(0, len(categories)):
+        for sub in categories[i].user:
+            users_ids.append(sub.telegram_id)
+
+    async with aiohttp.ClientSession() as session:
+        for id in users_ids:
+            await session.post(f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage?chat_id={id}&text={dbstarup.name}")
     return dbstarup
 
 

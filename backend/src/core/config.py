@@ -19,7 +19,7 @@ ELASTIC_PORT = os.environ.get('ELASTIC_PORT')
 
 JWT_SECRET = os.environ.get('JWT_SECRET')
 JWT_ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7
-
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 ROLES = {
     0: 'ROLE_ADMIN',
     1: 'ROLE_USER'

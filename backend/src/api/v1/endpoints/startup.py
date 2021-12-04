@@ -1,4 +1,6 @@
 from typing import List, Optional
+
+from ....core.config import TELEGRAM_BOT_TOKEN
 from ....models.review import ReviewList
 from ....database.database import User, get_db, Session
 from fastapi import APIRouter, Body, Depends, Query
@@ -10,6 +12,7 @@ from ....models.startup import StartupBase, StartupCrateorUpdate, StartupList
 from ....models.message import MessageBase
 from ....models.application import ApplicationBase
 from fastapi.responses import ORJSONResponse
+import aiohttp
 
 router = APIRouter()
 
@@ -42,10 +45,10 @@ async def search(search: str, db: Session = Depends(get_db)):
 )
 async def startup_create(startup: StartupCrateorUpdate = Body(...), db: Session = Depends(get_db)):
     startup = await create_startup(startup=startup, db=db)
-    if startup != None:
+    if startup == None:
         return HTTPException(HTTP_400_BAD_REQUEST)
     else:
-        return startup
+        return StartupBase.from_orm(startup)
 
 
 @router.get(
