@@ -4,9 +4,9 @@ import random
 from sqlalchemy.orm import joinedload
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_404_NOT_FOUND
-from ..models.startup import StartupBase, StartupList
-from ..database.database import Category, ChildrenCategory, Company, Elastic, Image, Reviews, Startup, Status, User, get_db, Session
-from ..helpers.exceptions import EntityDoesNotExist
+from src.models.startup import StartupBase, StartupList
+from src.database.database import Category, ChildrenCategory, Company, Elastic, Image, Reviews, Startup, Status, User, get_db, Session
+from src.helpers.exceptions import EntityDoesNotExist
 from fastapi import Depends, Body, Depends
 from datetime import date
 from sqlalchemy.sql import func

@@ -5,9 +5,9 @@ from fastapi import APIRouter, Body, Depends
 
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_202_ACCEPTED
-from ....crud.user import get_applications, get_category_own, get_favorites, get_user, set_user_telegram_id, update_user, get_user_activation_code, create_review
-from ....models.user import UserDetailModel, UserTelegramCreate
-from ....models.startup import UserFavoritesStartup
+from src.crud.user import get_applications, get_category_own, get_favorites, get_user, set_user_telegram_id, update_user, get_user_activation_code, create_review
+from src.models.user import UserDetailModel, UserTelegramCreate
+from src.models.startup import UserFavoritesStartup
 from fastapi.responses import ORJSONResponse
 
 

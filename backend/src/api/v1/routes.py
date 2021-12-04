@@ -1,14 +1,14 @@
 from fastapi import APIRouter
 
-from .endpoints.auth import router as auth_router
-from .endpoints.startup import router as startup_router
-from .endpoints.status import router as status_router
-from .endpoints.user import router as user_router
-from .endpoints.category import router as category_router
-from .endpoints.company import router as company_router
-from .endpoints.role import router as roles_router
-from .endpoints.reviews import router as reviews__router
-from .endpoints.migrate import router as migrate_router
+from src.api.v1.endpoints.auth import router as auth_router
+from src.api.v1.endpoints.startup import router as startup_router
+from src.api.v1.endpoints.status import router as status_router
+from src.api.v1.endpoints.user import router as user_router
+from src.api.v1.endpoints.category import router as category_router
+from src.api.v1.endpoints.company import router as company_router
+from src.api.v1.endpoints.role import router as roles_router
+from src.api.v1.endpoints.reviews import router as reviews__router
+from src.api.v1.endpoints.migrate import router as migrate_router
 
 router = APIRouter()
 router.include_router(auth_router)

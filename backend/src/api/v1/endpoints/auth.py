@@ -1,15 +1,15 @@
-from ....core.security import get_password_hash, verify_password
-from ....core.config import JWT_SECRET
-from ....helpers.exceptions import EntityDoesNotExist
-from ....core.jwt import create_access_token
-from ....database.database import User, get_db, Session
+from src.core.security import get_password_hash, verify_password
+from src.core.config import JWT_SECRET
+from src.helpers.exceptions import EntityDoesNotExist
+from src.core.jwt import create_access_token
+from src.database.database import User, get_db, Session
 from fastapi import APIRouter, Body, Depends
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
 from fastapi.responses import ORJSONResponse
 
-from ....crud.user import create_user
-from ....models.user import UserInCreate, UserInLogin, UserInResponse
+from src.crud.user import create_user
+from src.models.user import UserInCreate, UserInLogin, UserInResponse
 from fastapi.responses import JSONResponse
 
 router = APIRouter()
