@@ -143,7 +143,7 @@ async def create_statusses():
     statuses = ["Поиск инвестора",
                 "Подготовка к тестированию",
                 "Пилотное тестирование",
-    ]
+                ]
 
     async with aiohttp.ClientSession() as session:
         for i in range(0, len(statuses)):
