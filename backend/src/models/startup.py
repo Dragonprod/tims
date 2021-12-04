@@ -52,7 +52,7 @@ class StartupCrateorUpdate(BaseModel):
     sertificate: bool
     usecases: str
     categories: List[int]
-    images: List[str]
+    images: List[str] = None
 
     class Config:
         orm_mode = True

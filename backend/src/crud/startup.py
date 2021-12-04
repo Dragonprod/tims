@@ -19,7 +19,7 @@ async def create_startup(startup, db: Session):
         2005, 9, 12), date(2016, 9, 13), date(2017, 9, 14), date(2020, 9, 15)]
     tags = db.query(Status).filter(Status.id.in_(startup.statuses)).all()
     images = [Image(name=name)
-              for name in startup.images]
+              for name in startup.images] if startup.images is not None else []
     categories = db.query(Category).filter(
         Category.id.in_(startup.categories)).all()
     dbstarup = Startup(startup)
