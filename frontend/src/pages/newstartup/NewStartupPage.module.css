@@ -26,13 +26,14 @@
 .profileHeaderActive,
 .myStartupsHeaderActive,
 .mySubscribesHeaderActive {
-  color: var(--text-and-icons-clr-primary);
+  color: var(--accent-clr);
 }
 
 /* ===== Form ===== */
 .requestFormContainer {
   grid-column: 4 / 10;
   grid-row: 3;
+  padding-bottom: 4em;
 }
 
 .requestFormHeader {
@@ -72,6 +73,13 @@
   border-color: var(--accent-clr) !important;
 }
 
+.inputBig {
+  width: 100%;
+}
+.inputBig fieldset {
+  /* padding: 4em; */
+}
+
 .muiNextButton {
   text-transform: initial !important;
   background: var(--accent-clr) !important;
@@ -90,4 +98,24 @@
 .lowerStepButtons {
   display: flex;
   justify-content: space-between;
+}
+
+.warning {
+  color: var(--text-and-icons-clr-tertiary) !important;
+}
+.secondLine {
+  display: grid;
+  /* grid-template-columns: auto 1.5fr 2.5fr 3fr;
+  width: 75%; */
+}
+.muiAddFileButton {
+  text-transform: initial !important;
+  color: var(--accent-clr) !important;
+}
+.smallImg {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-right: 10px;
 }
