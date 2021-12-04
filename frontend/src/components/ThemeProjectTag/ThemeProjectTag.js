@@ -56,6 +56,8 @@ const projectThemesDict = {
 
 export default function ThemeProjectTag(props) {
   const themeId = props.theme;
-  const themeText = projectThemes[themeId];
+  const parent = props.parent
+  const child = props.child;
+  const themeText = child === true ? projectThemesDict[parent][0] : projectThemes[themeId];
   return <span className={styles.themeProjectTag}>{themeText}</span>;
 }

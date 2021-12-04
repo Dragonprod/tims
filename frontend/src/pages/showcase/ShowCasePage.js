@@ -26,17 +26,18 @@ function renderStatuses(statuses) {
     statuses === [] ? (
       <StatusProjectTag status={0} />
     ) : (
-      <StatusProjectTag status={1} />
+      <StatusProjectTag status={status.id} />
     )
   );
 }
 
 function renderThemes(categories) {
+  const randoid = Math.round(Math.random())
   return categories[0].id === undefined
     ? [<ThemeProjectTag theme={0} />, <ThemeProjectTag theme={0} />]
     : [
-      <ThemeProjectTag theme={categories[0].name} />,
-      <ThemeProjectTag theme={categories[0].children[0].id} />,
+      <ThemeProjectTag theme={categories[randoid].id} child={false}/>,
+      <ThemeProjectTag theme={categories[randoid].id} parent={categories[randoid].name} child={true}/>,
     ];
 }
 
