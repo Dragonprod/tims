@@ -6,7 +6,7 @@ load_dotenv(os.path.abspath(__file__ + "/../../../../.env"))
 PRODUCTION = os.environ.get('PRODUCTION', False)
 
 API_V1_PREFIX = os.environ.get('API_V1_PREFIX', '/api/v1')
-PROJECT_NAME = os.environ.get('PROJECT_NAME', 'Hack Template Backend')
+PROJECT_NAME = os.environ.get('PROJECT_NAME', '2021 Final Backend')
 
 DATABASE_HOST = os.environ.get('DATABASE_HOST')
 DATABASE_NAME = os.environ.get('DATABASE_NAME')
