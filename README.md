@@ -185,7 +185,8 @@ python3 main.py
 
 ## Документация
 
-Проект запускается по адресу - [http://localhost:8000](http://localhost:8000 "url запуска")
+Frontend запускается по адресу - [http://localhost:3001](http://localhost:3001 "url запуска frontend")
+Backend запускается по адресу - [http://localhost:8000](http://localhost:8000 "url запуска backend")
 
 ### Endpoints
 
