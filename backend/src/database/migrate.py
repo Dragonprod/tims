@@ -4,13 +4,6 @@ import random
 
 
 async def migrate_start():
-    # L = await asyncio.gather(asyncio.create_task(create_users(db, session=session)),
-    #                          asyncio.create_task(
-    #                              create_categories(db, session=session)),
-    #                          asyncio.create_task(
-    #                              create_statusses(db, session=session)),
-    #                          asyncio.create_task(create_company(db, session=session)))
-
     await create_roles()
     await create_users()
     await create_company()

@@ -4,11 +4,9 @@ from requests.exceptions import HTTPError
 from sqlalchemy import create_engine
 from sqlalchemy.orm import backref, sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, String, Integer, Date, ForeignKey, Float, Boolean, Table
-from sqlalchemy.util.langhelpers import public_factory
-from src.core.config import DATABASE_HOST, DATABASE_PORT, DATABASE_USER, DATABASE_NAME, DATABASE_PASSWORD, PRODUCTION, ELASTIC_HOST, ELASTIC_PORT
-import os
-import datetime
+from sqlalchemy import Column, String, Integer, Date, ForeignKey, Boolean, Table
+from src.core.config import DATABASE_HOST, DATABASE_PORT, DATABASE_USER, DATABASE_NAME, DATABASE_PASSWORD, BACKEND_DEBUG_MODE, ELASTIC_HOST, ELASTIC_PORT
+
 
 engine_postrgesql = create_engine(
     f'postgresql+psycopg2://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST}:{DATABASE_PORT}/{DATABASE_NAME}')
@@ -23,6 +21,11 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+def init_db():
+    """Initialize database on startup"""
+    Base.metadata.create_all(engine_postrgesql)
 
 
 secondary_role = Table('user_roles', Base.metadata,
@@ -222,9 +225,6 @@ class ChildrenCategory(Base):
     parent_category_id = Column(Integer, ForeignKey('category.id'))
     parent_category = relationship(
         "Category")
-
-
-Base.metadata.create_all(engine_postrgesql)
 
 
 class Elastic():

@@ -12,7 +12,6 @@ from fastapi.responses import ORJSONResponse
 
 router = APIRouter()
 
-
 @router.post(
     "/migrate/start",
     tags=["Migrate"],

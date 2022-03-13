@@ -29,13 +29,15 @@ class TelegramLogs(Base):
     command = Column(String(255))
     isAdmin = Column(Boolean, default=False)
 
+
 class TelegramUsers(Base):
     __tablename__ = "telegram_users"
     id = Column(Integer, primary_key=True)
     chatid = Column(String(255))
     userid = Column(String(255))
-    notifications = Column(Boolean, default = True)
-    lastStartupId = Column(Integer, default = -1)
+    notifications = Column(Boolean, default=True)
+    lastStartupId = Column(Integer, default=-1)
     category = Column(String(255))
+
 
 Base.metadata.create_all(engine_postrgesql)

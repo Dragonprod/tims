@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  database:
+    image: postgres:12.2-alpine
+    restart: "no"
+    container_name: tims-database
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
+    volumes:
+      - tims-postgres-db:/var/lib/postgresql
+
+  database-es:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.1
+    container_name: tims-database-es
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ports:
+      - "${ELASTIC_PORT}:${ELASTIC_PORT}"
+
+volumes:
+  tims-postgres-db:

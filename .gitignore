@@ -255,3 +255,7 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Presentation files
+Null_Safety_Final.pdf
+Speach Text.docx

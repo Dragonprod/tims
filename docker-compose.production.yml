@@ -1,0 +1,109 @@
+version: '3.9'
+
+services:
+  proxy:
+    container_name: tims-proxy
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ssl_data:/etc/resty-auto-ssl
+    environment:
+      ALLOWED_DOMAINS: "${PROXY_ALLOWED_DOMAINS}"
+      SITES: "${PROXY_ALLOWED_DOMAINS}=backend:8000"
+
+  bot:
+    build:
+      context: ./bot
+      dockerfile: Dockerfile
+    container_name: tims-bot
+    environment:
+      TELEGRAM_DEBUG_MODE: ${TELEGRAM_DEBUG_MODE}
+      TELEGRAM_BOT_API_ENDPOINT: ${TELEGRAM_BOT_API_ENDPOINT}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_ADMIN_CHAT_IDS: ${TELEGRAM_ADMIN_CHAT_IDS}
+
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_PORT: ${DATABASE_PORT}
+    command: python3 main.py
+    depends_on:
+      - backend
+    restart: always
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tims-backend
+    environment:
+      BACKEND_DEBUG_MODE: ${BACKEND_DEBUG_MODE}
+      BACKEND_API_V1_PREFIX: ${BACKEND_API_V1_PREFIX}
+      BACKEND_JWT_SECRET: ${BACKEND_JWT_SECRET}
+
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_PORT: ${DATABASE_PORT}
+      
+      ELASTIC_HOST: ${ELASTIC_HOST}
+      ELASTIC_PORT: ${ELASTIC_PORT}
+    depends_on:
+      - database
+      - database-es
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: tims-frontend
+    volumes:
+      - './:/app'
+      - '/app/node_modules'
+    ports:
+      - 3000:3000
+    stdin_open: true
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+      NODE_ENV: production
+      PUBLIC_URL: ${PUBLIC_URL}
+      PRODUCTION_URL: ${PRODUCTION_URL}
+    depends_on:
+      - backend
+    command: npm start
+
+  database:
+    image: postgres:12.2-alpine
+    restart: "no"
+    container_name: tims-database
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
+    volumes:
+      - tims-postgres-db:/var/lib/postgresql
+
+  database-es:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.1
+    container_name: tims-database-es
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=single-node
+    ports:
+      - "${ELASTIC_PORT}:${ELASTIC_PORT}"
+
+volumes:
+  tims-postgres-db:
+  ssl_data:
