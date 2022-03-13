@@ -1,162 +1,224 @@
-## Основная информация
+# Витрина решений для акселератора Транспортных инноваций Москвы
 
-### Функционал:
+## Навигация
 
-- Витрина стартапов
-- Контекстный поиск решений
-- Telegram bot
+- [Описание проекта](#desc)
+- [Стек технологий](#stack)
+- [Функционал](#functionality)
+- [Сборка проекта](#launch)
+- [Документация](#docs)
+- [Команда](#team)
+- [Лицензия](#license)
 
-### Особенности проекта:
+<a name="desc"></a>
 
-- Telegram Bot, присылающий уведомления если появились новые проекты по определнному запросу или обновились статусы
-- Обширные параметры фильтрации
-- Добавление проектов в избранное
-- Генерация отчета по стартапу
-- Лёгкая интеграция через API
+## Описание проекта
 
-### Стек исользуемых технологий:
+Витрина инновационных решений – система, с помощью которой сотрудники организаций транспортного комплекса (потенциальные/функциональные заказчики) смогут ознакомиться с существующими решениями и командами ТИМ и получить доступ к выборке решений под свой запрос.
 
-1. Backend: Python(FastAPI).
-2. Frontend: React JS.
-3. Work: Docker, Figma, Git.
+<a name="stack"></a>
 
-### Демо:
+## Стек технологий
 
-Демоверсия проекта находится по адресу: [89.223.65.211](http://89.223.65.211:3000/)
-Документация проекта находится по адресу: [89.223.65.211:8080/docs](http://89.223.65.211:8080/docs)
+- Frontend:
+  [![React.js](https://img.shields.io/badge/React.js-61DAFB?logo=react&logoColor=black)](https://reactjs.org/)
+  [![Redux.js](https://img.shields.io/badge/Redux.js-764ABC?logo=redux&logoColor=white)](https://redux.js.org/)
+  [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+- Backend:
+  [![Fast API](https://img.shields.io/badge/FastAPI-009485?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+  [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+  [![ElasticSearch](https://img.shields.io/badge/ElasticSearch-009485?logo=elasticsearch&logoColor=white)](https://www.elastic.co/)
+- Bot:
+  [![Telegram API](https://img.shields.io/badge/Telegram-555555.svg?logo=telegram&logoColor=white)](https://core.telegram.org/)
+- Proxy:
+  [![Nginx](https://img.shields.io/badge/Nginx-009639.svg?logo=nginx&logoColor=white)](https://nginx.org/)
+- Work:
+  [![Figma](https://img.shields.io/badge/Figma-F24E1E?logo=figma&logoColor=white)](https://www.figma.com/)
+  [![Docker](https://img.shields.io/badge/Docker-%230db7ed.svg?logo=docker&logoColor=white)](https://www.docker.com/)
 
-**Тестовые аккаунты:**\
-**Администратор:**\
-Почта - `admin@example.com`\
-Пароль - `admin`
+<a name="functionality"></a>
 
-**Стартапер**"\
-Почта - `startup@example.com`\
-Пароль - `startup`
+## Функционал
 
-**Заказчик:**\
-Почта - `client@example.com`\
-Пароль - `client`
+- Сотрудник ТИМ
+  - Просмотр заявок
+  - Просмотр логов
+- Владелец проекта
+  - Добавление проекта на платформу
+  - Подписка на уведомления через Telegram бота или почту
+- Руководитель отдела Дептранс
+  - Просмотр доступных проектов на платформе
+  - Фильтрация и поиск
+  - Генерация отчёта в PDF формате по проекту
+  - Подписка на уведомления через Telegram бота или почту
+  - Добавление проекта в избранное
 
-## Установка и запуск:
+<a name="launch"></a>
 
-### Настройка окружения:
+## Сборка проекта
 
-0. Склонируйте репозиторий - `git clone https://github.com/Dragonprod/fb67bba6.git`
-1. Переименуйте файл `.env.example` в `.env`
-2. Настройте переменные среды:
-```sh
-PRODUCTION=True/False ИСПОЛЬЗОВАНИЕ_ПРОДА
+### Production
 
-MIGRATION_PASSWORD=ПАРОЛЬ_ДЛЯ_МИГРАЦИЙ
-
-API_V1_PREFIX=ПРЕФИКС_АПИ
-PROJECT_NAME=ИМЯ_ПРОЕКТА
-
-DATABASE_HOST=ХОСТ_БД
-DATABASE_NAME=ИМЯ_БД
-DATABASE_USER=ЮЗЕР_БД
-DATABASE_PASSWORD=ПАРОЛЬ_БД
-DATABASE_HOST=ПОРТ_БД
-
-ELASTIC_HOST=ХОСТ_ЭЛАСТИКА
-ELASTIC_PORT=ПОРТ_ЭЛАСТИКА
-
-ADMIN_DEFAULT_EMAIL=АДМИНПОЧТА_АДМИНКИ_БД
-ADMIN_DEFAULT_PASSWORD=АДМИНПАРОЛЬ_АДМИНКИ_БД
-
-JWT_SECRET=КЛЮЧ_JWT
-
-TELEGRAM_BOT_TOKEN=ТОКЕН_ТЕЛЕГРАМ_БОТА
-ADMINS_CHAT_IDS=0,0,0 АЙДИ_АДМИНИСТРАЦИИ_БОТА_ЧЕРЕЗ_ЗАПЯТУЮ
-```
-
-### Установка необходимых пакетов(Windows/Production):
-
-1. Скачайте и установите **Docker** - [docker.com](https://docs.docker.com/desktop/windows/install/)
-
-### Установка необходимых пакетов(Linux/Production):
-
-1. Обновите указатель локальных пакетов - `sudo apt update`
-2. Выполните установку Node.Js - `sudo apt install nodejs`
-3. Выполните установку git - `sudo apt install git`
-4. Выполните установку Docker:
+1. Склонируйте данный репозиторий:
 
 ```sh
-sudo apt install apt-transport-https ca-certificates curl software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo apt update
-apt-cache policy docker-ce
-sudo apt install docker-ce
-sudo systemctl status docker
+git clone https://github.com/Dragonprod/tims.git tims
+cd tims
 ```
 
-### Запуск:
-
-1. Запустите проект - `docker-compose up -d`. Подождите 60-120 секунд для запуска `Elastic`
-2. Выполните миграции проекта:\
-С помощью CURL -
-```sh
-curl -X 'POST' \
-  'http://localhost:8080/api/v1/migrate/start' \
-  -H 'accept: application/json' \
-  -d ''
-```
-Или с помощью документации - [localhost:8080/docs](http://localhost:8080/docs/)
-![Миграции](/docs/migrate.png "Миграции")
-
-### Установка необходимых пакетов(Windows/Development):
-
-1. Скачайте и установите **Docker** - [docker.com](https://docs.docker.com/desktop/windows/install/)
-
-### Установка необходимых пакетов(Linux/Development):
-
-1. Обновите указатель локальных пакетов - `sudo apt update`
-2. Выполните установку Node.Js - `sudo apt install nodejs`
-3. Выполните установку git - `sudo apt install git`
-4. Выполните установку Docker:
+2. Отредактируйте `.env.example`:
 
 ```sh
-sudo apt install apt-transport-https ca-certificates curl software-properties-common
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-sudo apt update
-apt-cache policy docker-ce
-sudo apt install docker-ce
-sudo systemctl status docker
+PROXY_ALLOWED_DOMAINS=YOUR_PROXY_ALLOWED_DOMAINS
+
+BACKEND_DEBUG_MODE=Fasle
+BACKEND_API_V1_PREFIX=YOUR_BACKEND_API_V1_PREFIX
+BACKEND_JWT_SECRET=YOUR_BACKEND_JWT_SECRET
+
+DATABASE_HOST=YOUR_DATABASE_HOST
+DATABASE_NAME=YOUR_DATABASE_NAME
+DATABASE_USER=YOUR_DATABASE_USER
+DATABASE_PASSWORD=YOUR_DATABASE_PASSWORD
+DATABASE_PORT=YOUR_DATABASE_PORT
+
+ELASTIC_HOST=YOUR_ELASTIC_HOST
+ELASTIC_PORT=YOUR_ELASTIC_PORT
+
+FRONTEND_DEBUG_MODE=Fasle
+FRONTEND_PRODUCTION_URL=YOUR_FRONTEND_PRODUCTION_URL
+
+TELEGRAM_BOT_TOKEN=YOUR_TELEGRAM_BOT_TOKEN
+TELEGRAM_ADMIN_CHAT_IDS=0,0,0
 ```
 
-### Установка необходимых зависимостей:
+3. Переименуйте `.env.example` в `.env`
+4. Запустите проект с помощь Docker Compose:
 
-1. Установите зависимости для backend - `cd backend && pip install -r requirements.txt`
-2. Установите зависимости для frontend - `cd frontend && npm install`
-3. Установите зависимости для telegram бота - `cd bot && pip install -r requirements.txt`
-4. Выполните миграции проекта:\
-С помощью CURL - 
 ```sh
-curl -X 'POST' \
-  'http://localhost:8080/api/v1/migrate/start' \
-  -H 'accept: application/json' \
-  -d ''
+docker-compose -f docker-compose.production.yml up --build -d
 ```
-Или с помощью документации - [localhost:8080/docs](http://localhost:8080/docs/)
-![Миграции](/docs/migrate.png "Миграции")
 
-### Запуск:
+### Development
 
-1. Запустите базу данных и PGAdmin - `docker-compose up -d`. Подождите 60-120 секунд для запуска `Elastic`
-2. Запустите backend - `cd backend && uvicorn src.main:app --reload`
-3. Запустите frontend - `cd frontend && npm start`
-4. Запустите telegram бота - `cd bot && python3 main.py`
+1. Склонируйте данный репозиторий:
 
-### Пути:
+```sh
+git clone https://github.com/Dragonprod/tims.git tims
+cd tims
+```
 
-**Frontend part** - [http://localhost:3000/](http://localhost:3000/)\
-**Backend part** - [http://localhost:8080/](http://localhost:8080/)\
-**Backend docs part** - [http://localhost:8080/docs](http://localhost:8080/)\
-**Database admin part** - [http://localhost:5050/](http://localhost:5050/)
+2. Отредактируйте `.env.example`:
 
-## Разработчики:
+```sh
+PROXY_ALLOWED_DOMAINS=YOUR_PROXY_ALLOWED_DOMAINS
 
-**Васечкин Артём FullStack** - [@DragonProd](https://t.me/DragonProd)\
-**Шевченко Артём Backend** - [@Shmyaks](https://t.me/Shmyaks)\
-**Коробов Артём Frontend** - [@maxcore25](https://t.me/maxcore25)
+BACKEND_DEBUG_MODE=Fasle
+BACKEND_API_V1_PREFIX=YOUR_BACKEND_API_V1_PREFIX
+BACKEND_JWT_SECRET=YOUR_BACKEND_JWT_SECRET
+
+DATABASE_HOST=YOUR_DATABASE_HOST
+DATABASE_NAME=YOUR_DATABASE_NAME
+DATABASE_USER=YOUR_DATABASE_USER
+DATABASE_PASSWORD=YOUR_DATABASE_PASSWORD
+DATABASE_PORT=YOUR_DATABASE_PORT
+
+ELASTIC_HOST=YOUR_ELASTIC_HOST
+ELASTIC_PORT=YOUR_ELASTIC_PORT
+
+FRONTEND_DEBUG_MODE=Fasle
+FRONTEND_PRODUCTION_URL=YOUR_FRONTEND_PRODUCTION_URL
+
+TELEGRAM_BOT_TOKEN=YOUR_TELEGRAM_BOT_TOKEN
+TELEGRAM_ADMIN_CHAT_IDS=0,0,0
+```
+
+3. Переименуйте `.env.example` to `.env`
+4. Установите зависимости Backend части:
+
+```sh
+cd backend
+pip install -r requirements.txt
+```
+
+5. Установите зависимости Frontend части:
+
+```sh
+cd frontend
+npm install
+```
+
+6. Установите зависимости Telegram бота:
+
+```sh
+cd bot
+pip install -r requirements.txt
+```
+
+7. Запустите базу данных и Elastic Search с помощью Docker Compose:
+
+```sh
+docker-compose -f docker-compose.development.yml up --build -d
+```
+
+8. Запустите Backend часть:
+
+```sh
+cd backend
+python3 main.py
+```
+
+9. Запустите Frontend часть:
+
+```sh
+cd frontend
+npm start
+```
+
+10. Запустите Telegram бота:
+
+```sh
+cd bot
+python3 main.py
+```
+
+<a name="docs"></a>
+
+## Документация
+
+Проект запускается по адресу - [http://localhost:8000](http://localhost:8000 "url запуска")
+
+### Endpoints
+
+- Swagger - [/docs](http://localhost:8000/docs "url запуска Swagger")
+
+### Тестовые аккаунты
+
+- Сотрудник ТИМС
+
+  - Логин - `admin@example.com`
+  - Пароль - `admin`
+
+- Клиент ТИМС
+
+  - Логин - `client@example.com`
+  - Пароль - `client`
+
+- Владелец проекта
+  - Логин - `startup@example.com`
+  - Пароль - `startup`
+
+<a name="team"></a>
+
+## Команда
+
+Проект был разработан командой [Mirea Ninja](https://github.com/Ninja-Official)
+
+- [Васечкин Артём](https://t.me/DragonProd) - FullStack разработчик
+- [Шевченко Максим](https://t.me/Shmyaks) – Backend разработчик
+- [Коробов Максим](https://t.me/maxcore25) – Frontend разработчик
+
+<a name="license"></a>
+
+## Лицезия
+
+- [MIT](LICENSE)
