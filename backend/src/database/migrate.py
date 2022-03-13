@@ -43,9 +43,9 @@ async def update_users():
         "company_id": 1
     }
     async with aiohttp.ClientSession() as session:
-        await session.put("http://localhost:8080/api/v1/user", json=user1)
-        await session.put("http://localhost:8080/api/v1/user", json=user2)
-        await session.put("http://localhost:8080/api/v1/user", json=user3)
+        await session.put("http://localhost:8000/api/v1/user", json=user1)
+        await session.put("http://localhost:8000/api/v1/user", json=user2)
+        await session.put("http://localhost:8000/api/v1/user", json=user3)
 
 
 async def create_roles():
@@ -54,9 +54,9 @@ async def create_roles():
     role3 = {"role": "startup"}
 
     async with aiohttp.ClientSession() as session:
-        await session.post("http://localhost:8080/api/v1/role/create", json=role1)
-        await session.post("http://localhost:8080/api/v1/role/create", json=role2)
-        await session.post("http://localhost:8080/api/v1/role/create", json=role3)
+        await session.post("http://localhost:8000/api/v1/role/create", json=role1)
+        await session.post("http://localhost:8000/api/v1/role/create", json=role2)
+        await session.post("http://localhost:8000/api/v1/role/create", json=role3)
 
 
 async def create_users():
@@ -67,9 +67,9 @@ async def create_users():
     user3 = {"email": "startup@example.com",
              "password": "startup", "is_admin": "false", "roles": [3]}
     async with aiohttp.ClientSession() as session:
-        await session.post("http://localhost:8080/api/v1/users/create", json=user1)
-        await session.post("http://localhost:8080/api/v1/users/create", json=user2)
-        await session.post("http://localhost:8080/api/v1/users/create", json=user3)
+        await session.post("http://localhost:8000/api/v1/users/create", json=user1)
+        await session.post("http://localhost:8000/api/v1/users/create", json=user2)
+        await session.post("http://localhost:8000/api/v1/users/create", json=user3)
 
 
 async def create_categories():
@@ -125,11 +125,11 @@ async def create_categories():
     category5 = {'name': parent_categories[4],
                  "children": children_category5}
     async with aiohttp.ClientSession() as session:
-        await session.post("http://localhost:8080/api/v1/category/create", json=category1)
-        await session.post("http://localhost:8080/api/v1/category/create", json=category2)
-        await session.post("http://localhost:8080/api/v1/category/create", json=category3)
-        await session.post("http://localhost:8080/api/v1/category/create", json=category4)
-        await session.post("http://localhost:8080/api/v1/category/create", json=category5)
+        await session.post("http://localhost:8000/api/v1/category/create", json=category1)
+        await session.post("http://localhost:8000/api/v1/category/create", json=category2)
+        await session.post("http://localhost:8000/api/v1/category/create", json=category3)
+        await session.post("http://localhost:8000/api/v1/category/create", json=category4)
+        await session.post("http://localhost:8000/api/v1/category/create", json=category5)
 
 
 async def create_statusses():
@@ -140,7 +140,7 @@ async def create_statusses():
 
     async with aiohttp.ClientSession() as session:
         for i in range(0, len(statuses)):
-            await session.post("http://localhost:8080/api/v1/status/create", json={'name': statuses[i]})
+            await session.post("http://localhost:8000/api/v1/status/create", json={'name': statuses[i]})
 
 
 async def create_company():
@@ -159,7 +159,7 @@ async def create_company():
 
     async with aiohttp.ClientSession() as session:
         for i in range(0, len(companies)):
-            await session.post("http://localhost:8080/api/v1/company/create", json={'name': companies[i], "inn": "21321321", "count_workers": random.randint(0, 30)})
+            await session.post("http://localhost:8000/api/v1/company/create", json={'name': companies[i], "inn": "21321321", "count_workers": random.randint(0, 30)})
 
 
 async def create_startup():
@@ -220,7 +220,7 @@ async def create_startup():
 
     async with aiohttp.ClientSession() as session:
         for i in range(40):
-            await session.post("http://localhost:8080/api/v1/startup/create", json={
+            await session.post("http://localhost:8000/api/v1/startup/create", json={
                 "description": random.choice(description),
                 "name": random.choice(name),
                 "author": author,
@@ -246,7 +246,7 @@ async def create_reviews():
     async with aiohttp.ClientSession() as session:
         for i in range(40):
             for j in range(random.randint(1, 15)):
-                await session.post("http://localhost:8080/api/v1/user/review/add", json={
+                await session.post("http://localhost:8000/api/v1/user/review/add", json={
                     "review": random.choice(review),
                     "user_id": 2,
                     "startup_id": i + 1,

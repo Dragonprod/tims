@@ -17,4 +17,4 @@ app.add_middleware(
 
 app.include_router(api_router, prefix=BACKEND_API_V1_PREFIX)
 app.add_event_handler("startup", init_db)
-app.add_event_handler("startup", migrate_start)
+#app.add_event_handler("startup", migrate_start)

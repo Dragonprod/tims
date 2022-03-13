@@ -1,16 +1,15 @@
 from src.core.security import get_password_hash, verify_password
-from src.core.config import JWT_SECRET
+from src.core.config import BACKEND_JWT_SECRET
 from src.helpers.exceptions import EntityDoesNotExist
 from src.core.jwt import create_access_token
 from src.database.database import User, get_db, Session
 from fastapi import APIRouter, Body, Depends
 from starlette.exceptions import HTTPException
 from starlette.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND
-from fastapi.responses import ORJSONResponse
 
 from src.crud.user import create_user
 from src.models.user import UserInCreate, UserInLogin, UserInResponse
-from fastapi.responses import JSONResponse
+
 
 router = APIRouter()
 
@@ -23,7 +22,7 @@ router = APIRouter()
 async def register_user(user: UserInCreate = Body(...), db: Session = Depends(get_db)):
     dbuser = await create_user(user, db)
     if dbuser is not None:
-        token = create_access_token(dbuser, JWT_SECRET)
+        token = create_access_token(dbuser, BACKEND_JWT_SECRET)
         return UserInResponse(
             id=dbuser.id,
             email=dbuser.email,
@@ -47,7 +46,7 @@ async def login_user(user: UserInLogin = Body(...), db: Session = Depends(get_db
     if not verify_password(user.password, user_finded.password):
         return HTTPException(HTTP_400_BAD_REQUEST)
 
-    token = create_access_token(user_finded, JWT_SECRET)
+    token = create_access_token(user_finded, BACKEND_JWT_SECRET)
 
     return UserInResponse(
         id=user_finded.id,

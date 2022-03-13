@@ -1,8 +1,8 @@
-from src.core.config import ADMINS_CHAT_IDS
+from src.core.config import TELEGRAM_ADMIN_CHAT_IDS
 
 
 def isAdmin(chatid):
-    if str(chatid) in ADMINS_CHAT_IDS:
+    if str(chatid) in TELEGRAM_ADMIN_CHAT_IDS:
         return True
     return False
 

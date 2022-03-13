@@ -14,7 +14,7 @@ services:
       - ssl_data:/etc/resty-auto-ssl
     environment:
       ALLOWED_DOMAINS: "${PROXY_ALLOWED_DOMAINS}"
-      SITES: "${PROXY_ALLOWED_DOMAINS}=backend:8000"
+      SITES: "${PROXY_ALLOWED_DOMAINS}=backend:8000;${PROXY_ALLOWED_DOMAINS}=frontend:3000"
 
   bot:
     build:
@@ -65,20 +65,11 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
     container_name: tims-frontend
-    volumes:
-      - './:/app'
-      - '/app/node_modules'
-    ports:
-      - 3000:3000
-    stdin_open: true
     environment:
-      CHOKIDAR_USEPOLLING: "true"
-      NODE_ENV: production
-      PUBLIC_URL: ${PUBLIC_URL}
-      PRODUCTION_URL: ${PRODUCTION_URL}
+      FRONTEND_DEBUG_MODE: ${FRONTEND_DEBUG_MODE}
+      FRONTEND_PRODUCTION_URL: ${FRONTEND_PRODUCTION_URL}
     depends_on:
       - backend
-    command: npm start
 
   database:
     image: postgres:12.2-alpine
