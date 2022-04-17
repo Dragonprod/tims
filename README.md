@@ -212,8 +212,6 @@ Backend запускается по адресу - [http://localhost:8000](http:
 
 ## Команда
 
-Проект был разработан командой [Mirea Ninja](https://github.com/Ninja-Official)
-
 - [Васечкин Артём](https://t.me/DragonProd) - FullStack разработчик
 - [Шевченко Максим](https://t.me/Shmyaks) – Backend разработчик
 - [Коробов Максим](https://t.me/maxcore25) – Frontend разработчик
